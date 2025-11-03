@@ -1,3 +1,5 @@
 credentials.py
 data/
 .vscode/
+sample.json
+csv_extract.py
