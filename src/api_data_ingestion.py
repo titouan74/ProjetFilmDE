@@ -186,7 +186,7 @@ def get_movie_production(movie_id, headers):
         return None
 
 # Process and save movie data to CSV    
-def process_movie_data():
+def process_movie_data(headers):
     start_time = time.time()
 
     movie_ids = get_movie_ids("2025-10-01", "2025-10-31", headers)
@@ -210,7 +210,7 @@ def process_movie_data():
     print(f"Temps d'exécution : {execution_time:.4f} secondes")
 
 # Process and save movie actors data to CSV
-def process_movie_actors():
+def process_movie_actors(headers):
     start_time = time.time()
 
     # Récupérer la liste de acteurs des films présents dans la base de données (fichier movie_data.csv)
@@ -279,7 +279,7 @@ def get_production_details(production_id, headers):
         return None
 
 # Process and save actor data to CSV
-def process_actor_data():
+def process_actor_data(headers):
     csv_path = "data/movie_actors.csv"
     df_movie_actors = pd.read_csv(csv_path)
 
@@ -317,7 +317,7 @@ def save_data_to_csv(csv_path, data):
         data.to_csv(csv_path, index=False, encoding="utf-8-sig")
         print(f"✅ Fichier CSV créé et données ajoutées : {csv_path} ({len(data)} lignes)")
 
-def process_movie_genres():
+def process_movie_genres(headers):
     csv_path = "data/movies_data.csv"
     df = pd.read_csv(csv_path)
 
@@ -351,7 +351,8 @@ def production_exists_in_db(production_id, csv_path):
     df = pd.read_csv(csv_path)
     return production_id in df['production_id'].values
 
-def process_movie_productions():
+# Process and save movie productions data to CSV
+def process_movie_productions(headers):
     csv_path = "data/movies_data.csv"
     df = pd.read_csv(csv_path)
 
@@ -370,7 +371,8 @@ def process_movie_productions():
     movie_productions_df.to_csv("data/movie_productions.csv", index=False)
     print(f"✅ Fichier CSV sauvegardé : data/movie_productions.csv ({len(movie_productions_df)} entrées)")
 
-def process_production_data():
+# Process and save production company data to CSV
+def process_production_data(headers):
     csv_path = "data/movie_productions.csv"
     df_movie_productions = pd.read_csv(csv_path)
 
@@ -391,13 +393,99 @@ def process_production_data():
     production_df.to_csv("data/productions_data.csv", index=False)
     print(f"✅ Fichier CSV sauvegardé : data/productions_data.csv ({len(production_df)} acteurs)")
 
-if __name__ == "__main__":
+# Get movie keywords by movie ID ==> table MovieKeywords
+def get_movie_keywords(movie_id, headers):
+    url = f"https://api.themoviedb.org/3/movie/{movie_id}/keywords"
 
-    api_key = credentials.api_key
+    response = requests.get(url, headers=headers)
 
-    headers = {
-        "accept": "application/json",
-        "Authorization": f"Bearer {api_key}"
-    }
+    try:
+        content = response.json()
+        keywords = content.get("keywords", [])
 
-    get_movie_ids("2025-01-01", headers)
+        movie_keywords = [
+            {"movie_id": movie_id, "keyword_id": keyword.get("id")} 
+            for keyword in keywords
+        ]
+
+        print(f"Les mots-clés du film {movie_id} ont bien été récupérées.")
+        return movie_keywords
+    except Exception as e:
+        print(f"Erreur lors de la récupération des mots-clés du film {movie_id} : {e}")
+        return None
+
+# Get keyword details by keyword ID ==> table Keywords    
+def get_keywords_details(keyword_id, headers):
+    url = f"https://api.themoviedb.org/3/keyword/{keyword_id}"
+
+    response = requests.get(url, headers=headers)
+
+    try:
+        content = response.json()
+        keyword_details = {
+            "keyword_id": content.get("id"),
+            "name": content.get("name")
+        }
+        return keyword_details
+    except Exception as e:
+        print(f"Erreur lors de la récupération des données du mot-clé {keyword_id} : {e}")
+        return None
+    
+# Get movie people (cast and crew) by movie ID ==> table MoviePeople
+def get_movie_people(movie_id, headers):
+    url = f"https://api.themoviedb.org/3/movie/{movie_id}/credits"
+
+    response = requests.get(url, headers=headers)
+
+    try:
+        content = response.json()
+        cast = [actor for actor in content.get("cast", []) if actor.get("order", 0) < 10]
+
+        movie_people = [
+            {"movie_id": movie_id, "people_id": person.get("id"), "role": 1} 
+            for person in cast
+        ]
+
+        directors = [crew_member for crew_member in content.get("crew", []) if crew_member.get("job") == "Director"]
+        for director in directors:
+            movie_people.append({"movie_id": movie_id, "people_id": director.get("id"), "role": 2})
+
+        producers = [crew_member for crew_member in content.get("crew", []) if crew_member.get("job") == "Producer"]
+        for producer in producers:
+            movie_people.append({"movie_id": movie_id, "people_id": producer.get("id"), "role": 3})
+
+        screenwriters = [crew_member for crew_member in content.get("crew", []) if crew_member.get("job") in ["Screenplay"]]
+        for screenwriter in screenwriters:
+            movie_people.append({"movie_id": movie_id, "people_id": screenwriter.get("id"), "role": 4})
+
+        print(f"Les membres de l'équipe du film {movie_id} ont bien été récupérées.")
+        
+        return movie_people
+    except Exception as e:
+        print(f"Erreur lors de la récupération des membres de l'équipe du film {movie_id} : {e}")
+        return None
+    
+# Get person details by people ID ==> table People
+def get_people_details(people_id, headers):
+    url = f"https://api.themoviedb.org/3/person/{people_id}"
+
+    response = requests.get(url, headers=headers)
+
+    try:
+        content = response.json()
+
+        people_details = {
+            "person_id": content.get("id"),
+            "gender": content.get("gender"),
+            "name": content.get("name"),
+            "popularity": content.get("popularity"),
+            "birthday": content.get("birthday"),
+            "deathday": content.get("deathday"),
+            "place_of_birth": content.get("place_of_birth")
+        }
+        print(f"✅ Les données de la personne {people_id} ont bien été récupérées.")
+        return people_details
+
+    except Exception as e:
+        print(f"⚠️ Erreur lors de la récupération des détails de la personne {people_id} : {e}")
+        return None
