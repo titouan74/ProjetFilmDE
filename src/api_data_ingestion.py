@@ -351,6 +351,38 @@ def production_exists_in_db(production_id, csv_path):
     df = pd.read_csv(csv_path)
     return production_id in df['production_id'].values
 
+# Define if a person exists in the database
+def people_exists_in_db(people_id, people_path):
+    try:
+        if not os.path.exists(people_path):
+            return False
+        df = pd.read_csv(people_path)
+        if df.empty or 'person_id' not in df.columns:
+            return False
+        return people_id in df['person_id'].values
+    except Exception:
+        return False
+
+# Define if a keyword exists in the database
+def keyword_exists_in_db(keyword_id, keywords_path):
+    try:
+        if not os.path.exists(keywords_path):
+            return False
+        df = pd.read_csv(keywords_path)
+        if df.empty or 'keyword_id' not in df.columns:
+            return False
+        return keyword_id in df['keyword_id'].values
+    except Exception:
+        return False
+
+
+
+
+
+
+
+
+
 # Process and save movie productions data to CSV
 def process_movie_productions(headers):
     csv_path = "data/movies_data.csv"
