@@ -25,3 +25,11 @@ MISE A JOUR DE LA BASE EXISTANTE
 1. Récupère les movie_ids de la base
 2. On récupère via la route Movie / Details les valeurs à jours (votes, note)
 3. On insert les nouvelles valeurs dans la base
+
+DESCRIPTION DES FICHIERS:
+- 'recovery_keywords' et 'recovery_people' --> utilisés une fois pour récupérer des données sur des films existants dans la base (suite au changement de schéma de la base)
+- 'api_data_ingestion' --> fonctions pour l'ingestion des données depuis l'API TheMovieDB
+- 'main_ingestion_csv' --> processus d'ingestion des nouveaux films avec sauvegarde au format csv
+- 'main_ingestion_postgre' --> processus d'ingestion des nouveaux films avec sauvegarde dans la base postgre
+- 'instertion_csv' --> fonctions pour l'insertion des données dans des fichiers csv
+- 'instertion_postgre' --> fonctions pour l'insertion des données dans la base postgre

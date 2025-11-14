@@ -3,6 +3,7 @@ import pandas as pd
 import credentials
 import time
 import api_data_ingestion as api
+import csv_insertion as csv
 import os
 
 os.makedirs("data", exist_ok=True) #si le dossier "data" n'existe pas préalablement au main
@@ -36,7 +37,7 @@ if __name__ == "__main__":
     print(f"Nombre de films dans la base de données : {len(bdd_movie_ids)}")
 
     # Étape 2 : Récupérer des films via l'API en définissant une période temporelle
-    start_date = "2037-11-04"
+    start_date = "2024-12-01"
     api_movie_ids = api.get_movie_ids(start_date, headers)
 
     # Étape 3 : Identifier les movie_ids qui ne sont pas encore dans la BDD
