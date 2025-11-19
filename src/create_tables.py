@@ -83,11 +83,11 @@ CREATE TABLE IF NOT EXISTS movie_productions (
 
 CREATE TABLE IF NOT EXISTS movie_people (
     movie_id INTEGER,
-    people_id INTEGER,
+    person_id INTEGER,
     role TEXT,
-    PRIMARY KEY (movie_id, people_id, role),
+    PRIMARY KEY (movie_id, person_id, role),
     FOREIGN KEY (movie_id) REFERENCES movies(movie_id),
-    FOREIGN KEY (people_id) REFERENCES people(person_id)
+    FOREIGN KEY (person_id) REFERENCES people(person_id)
 );
 
 CREATE TABLE IF NOT EXISTS movie_keywords (
