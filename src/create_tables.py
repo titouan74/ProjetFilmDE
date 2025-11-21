@@ -2,10 +2,10 @@ import psycopg2
 
 # Connexion à la base de données PostgreSQL
 conn = psycopg2.connect(
-    dbname="movies_db",
-    user="movie_user",
-    password="your_password",
-    host="localhost",
+    dbname="movie_db",
+    user="cynthia",
+    password="datascientest",
+    host="34.243.141.140",
     port="5432"
 )
 cursor = conn.cursor()
@@ -13,6 +13,7 @@ cursor = conn.cursor()
 schema = """
 
 -- table de faits:
+
 CREATE TABLE IF NOT EXISTS movies (
     movie_id INTEGER PRIMARY KEY,
     title TEXT,
@@ -30,21 +31,22 @@ CREATE TABLE IF NOT EXISTS movies (
 );
 
 -- tables de dimensions: 
+
 CREATE TABLE IF NOT EXISTS genres (
     genre_id INTEGER PRIMARY KEY,
-    name TEXT UNIQUE
+    genre_name TEXT UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS productions (
     production_id INTEGER PRIMARY KEY,
-    name TEXT,
+    production_name TEXT,
     origin_country TEXT
 );
 
 CREATE TABLE IF NOT EXISTS people (
     person_id INTEGER PRIMARY KEY,
     gender INTEGER,
-    name TEXT,
+    person_name TEXT,
     popularity NUMERIC,
     birthday DATE,
     deathday DATE,
@@ -53,14 +55,12 @@ CREATE TABLE IF NOT EXISTS people (
 
 CREATE TABLE IF NOT EXISTS keywords (
     keyword_id INTEGER PRIMARY KEY,
-    name TEXT UNIQUE
+    keyword_name TEXT UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS actors (
-    actor_id INTEGER PRIMARY KEY,
-    gender INTEGER,
-    name TEXT,
-    popularity NUMERIC
+CREATE TABLE IF NOT EXISTS roles (
+    role_id INTEGER PRIMARY KEY,
+    role_name TEXT UNIQUE
 );
 
 -- Tables intermédiaires:
@@ -84,10 +84,11 @@ CREATE TABLE IF NOT EXISTS movie_productions (
 CREATE TABLE IF NOT EXISTS movie_people (
     movie_id INTEGER,
     person_id INTEGER,
-    role TEXT,
-    PRIMARY KEY (movie_id, person_id, role),
+    role_id INTEGER,
+    PRIMARY KEY (movie_id, person_id, role_id),
     FOREIGN KEY (movie_id) REFERENCES movies(movie_id),
-    FOREIGN KEY (person_id) REFERENCES people(person_id)
+    FOREIGN KEY (person_id) REFERENCES people(person_id),
+    FOREIGN KEY (role_id) REFERENCES roles(role_id)
 );
 
 CREATE TABLE IF NOT EXISTS movie_keywords (
@@ -96,14 +97,6 @@ CREATE TABLE IF NOT EXISTS movie_keywords (
     PRIMARY KEY (movie_id, keyword_id),
     FOREIGN KEY (movie_id) REFERENCES movies(movie_id),
     FOREIGN KEY (keyword_id) REFERENCES keywords(keyword_id)
-);
-
-CREATE TABLE IF NOT EXISTS movie_actors (
-    movie_id INTEGER,
-    actor_id INTEGER,
-    PRIMARY KEY (movie_id, actor_id),
-    FOREIGN KEY (movie_id) REFERENCES movies(movie_id),
-    FOREIGN KEY (actor_id) REFERENCES actors(actor_id)
 );
 """
 

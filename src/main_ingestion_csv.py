@@ -3,7 +3,7 @@ import pandas as pd
 import credentials
 import time
 import api_data_ingestion as api
-import csv_insertion as csv
+import db_insertion_csv as csv
 import os
 
 os.makedirs("data", exist_ok=True) #si le dossier "data" n'existe pas préalablement au main

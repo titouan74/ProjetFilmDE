@@ -5,15 +5,15 @@ import time
 import api_data_ingestion as api
 import os
 import psycopg2
-import db_insertion as db
+import db_insertion_postgre as db
 
 if __name__ == "__main__":
     # Connexion à la base de données PostgreSQL
     conn = psycopg2.connect(
         dbname="movies_db",
-        user="movie_user",
-        password="your_password",
-        host="localhost",
+        user="cynthia",
+        password="datascientest",
+        host="34.243.141.140",
         port="5432"
     )
     cursor = conn.cursor()
