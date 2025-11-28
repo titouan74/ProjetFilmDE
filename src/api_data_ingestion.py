@@ -19,7 +19,7 @@ def get_genres(headers):
         name = genre['name']
         genres.append((id, name))
 
-    genresDF = pd.DataFrame(genres, columns=['id', 'name'])
+    genresDF = pd.DataFrame(genres, columns=['genre_id', 'genre_name'])
 
     return genresDF
 
@@ -56,14 +56,14 @@ def get_movies_count(start_date, end_date, country, headers):
     return movies_id
 
 # Get movie IDs released between start_date and end_date
-def get_movie_ids(start_date, headers):
-    print(f"Recherche en cours des films sortis après le {start_date}...")
+def get_movie_ids(start_date, end_date, headers):
+    print(f"Recherche en cours des films sortis entre le {start_date} et le {end_date}...")
     url_discover_movies = "https://api.themoviedb.org/3/discover/movie"
     movies_id = []
 
     # Requête initiale pour connaître le nombre total de pages
     response = requests.get(
-        f"{url_discover_movies}?page=1&release_date.gte={start_date}",
+        f"{url_discover_movies}?page=1&release_date.gte={start_date}&release_date.lte={end_date}",
         headers=headers
     )
     total_pages = response.json().get("total_pages", 1)
@@ -71,7 +71,7 @@ def get_movie_ids(start_date, headers):
     # Boucle sur toutes les pages
     for page in range(1, total_pages + 1):
         try:
-            url = f"{url_discover_movies}?page={page}&release_date.gte={start_date}"
+            url = f"{url_discover_movies}?page={page}&release_date.gte={start_date}&release_date.lte={end_date}"
             response = requests.get(url, headers=headers)
             content = response.json()
             
@@ -96,18 +96,18 @@ def get_movie_details(movie_id, headers):
         content = response.json()
         movie_details = {
             "movie_id": movie_id,
-            "title": content.get("title"),
-            "overview": content.get("overview"),
-            "original_language": content.get("original_language"),
-            "popularity": content.get("popularity"),
-            "budget": content.get("budget"),
-            "imdb_id": content.get("imdb_id"),
-            "revenue": content.get("revenue"),
-            "runtime": content.get("runtime"),
-            "status": content.get("status"),
-            "vote_average": content.get("vote_average"),
-            "vote_count": content.get("vote_count"),
-            "release_date": content.get("release_date")
+            "title": content.get("title", None),
+            "overview": content.get("overview", None),
+            "original_language": content.get("original_language", None),
+            "popularity": content.get("popularity", None),
+            "budget": content.get("budget", None),
+            "imdb_id": content.get("imdb_id", None),
+            "revenue": content.get("revenue", None),
+            "runtime": content.get("runtime", None),
+            "status": content.get("status", None),
+            "vote_average": content.get("vote_average", None),
+            "vote_count": content.get("vote_count", None),
+            "release_date": content.get("release_date", None)
         }
 
         print(f"Les données du film {movie_id} ont bien été récupérées.")
@@ -150,10 +150,10 @@ def get_actor_details(actor_id, headers):
         content = response.json()
 
         actor_details = {
-            "actor_id": content.get("id"),
-            "gender": content.get("gender"),
-            "name": content.get("name"),
-            "popularity": content.get("popularity")
+            "actor_id": content.get("id", None),
+            "gender": content.get("gender", None),
+            "name": content.get("name", None),
+            "popularity": content.get("popularity", None)
         }
 
         print(f"Les données de l'acteur {actor_id} ont bien été récupérées.")
@@ -269,7 +269,7 @@ def get_production_details(production_id, headers):
         content = response.json()
         production_details = {
             "production_id": content.get("id"),
-            "name": content.get("name"),
+            "production_name": content.get("name"),
             "origin_country": content.get("origin_country")
         }
         print(f"Les données de la société de production {production_id} ont bien été récupérées.")
@@ -392,7 +392,7 @@ def get_keywords_details(keyword_id, headers):
         content = response.json()
         keyword_details = {
             "keyword_id": content.get("id"),
-            "name": content.get("name")
+            "keyword_name": content.get("name")
         }
         return keyword_details
     except Exception as e:
@@ -410,21 +410,21 @@ def get_movie_people(movie_id, headers):
         cast = [actor for actor in content.get("cast", []) if actor.get("order", 0) < 10]
 
         movie_people = [
-            {"movie_id": movie_id, "people_id": person.get("id"), "role": 1} 
+            {"movie_id": movie_id, "person_id": person.get("id"), "role_id": 1} 
             for person in cast
         ]
 
         directors = [crew_member for crew_member in content.get("crew", []) if crew_member.get("job") == "Director"]
         for director in directors:
-            movie_people.append({"movie_id": movie_id, "people_id": director.get("id"), "role": 2})
+            movie_people.append({"movie_id": movie_id, "person_id": director.get("id"), "role_id": 2})
 
         producers = [crew_member for crew_member in content.get("crew", []) if crew_member.get("job") == "Producer"]
         for producer in producers:
-            movie_people.append({"movie_id": movie_id, "people_id": producer.get("id"), "role": 3})
+            movie_people.append({"movie_id": movie_id, "person_id": producer.get("id"), "role_id": 3})
 
         screenwriters = [crew_member for crew_member in content.get("crew", []) if crew_member.get("job") in ["Screenplay"]]
         for screenwriter in screenwriters:
-            movie_people.append({"movie_id": movie_id, "people_id": screenwriter.get("id"), "role": 4})
+            movie_people.append({"movie_id": movie_id, "person_id": screenwriter.get("id"), "role_id": 4})
 
         print(f"Les membres de l'équipe du film {movie_id} ont bien été récupérées.")
         
@@ -444,16 +444,41 @@ def get_people_details(people_id, headers):
 
         people_details = {
             "person_id": content.get("id"),
-            "gender": content.get("gender"),
-            "name": content.get("name"),
-            "popularity": content.get("popularity"),
-            "birthday": content.get("birthday"),
-            "deathday": content.get("deathday"),
-            "place_of_birth": content.get("place_of_birth")
+            "gender": content.get("gender", None),
+            "person_name": content.get("name", None),
+            "popularity": content.get("popularity", None),
+            "birthday": content.get("birthday", None),
+            "deathday": content.get("deathday", None),
+            "place_of_birth": content.get("place_of_birth", None)
         }
         print(f"✅ Les données de la personne {people_id} ont bien été récupérées.")
         return people_details
 
     except Exception as e:
         print(f"⚠️ Erreur lors de la récupération des détails de la personne {people_id} : {e}")
+        return None
+
+
+def update_movie_details(movie_id, headers):
+    url = f"https://api.themoviedb.org/3/movie/{movie_id}?language=en-US"
+
+    response = requests.get(url, headers=headers)
+
+    try:
+        content = response.json()
+        movie_details = {
+            "movie_id": movie_id,
+            "popularity": content.get("popularity"),
+            "revenue": content.get("revenue"),
+            "status": content.get("status"),
+            "vote_average": content.get("vote_average"),
+            "vote_count": content.get("vote_count"),
+            "release_date": content.get("release_date")
+        }
+
+        print(f"Les données à mettre à jour du film {movie_id} ont bien été récupérées.")
+        return movie_details
+
+    except Exception as e:
+        print(f"Erreur lors de la récupération des données du film {movie_id} : {e}")
         return None

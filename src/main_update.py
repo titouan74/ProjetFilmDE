@@ -10,10 +10,10 @@ import db_insertion_postgre as db
 if __name__ == "__main__":
     # Connexion à la base de données PostgreSQL
     conn = psycopg2.connect(
-        dbname="movie_db",
+        dbname="movies_db",
         user="cynthia",
         password="datascientest",
-        host="3.252.192.123",
+        host="34.243.141.140",
         port="5432"
     )
     cursor = conn.cursor()
@@ -36,9 +36,8 @@ if __name__ == "__main__":
 
     # Étape 2 : Récupérer les ids de films à ingérer via l'API en définissant une période temporelle
     print(f"⏳ Recherche des nouveaux films depuis l'API...")
-    start_date = "2024-11-01"
-    end_date = "2024-11-30"
-    api_movie_ids = api.get_movie_ids(start_date, end_date, headers)
+    start_date = "2025-01-01"
+    api_movie_ids = api.get_movie_ids(start_date, headers)
 
     # Étape 3 : Identifier les movie_ids qui ne sont pas encore dans la base postgreSQL
     new_movie_ids = list(set(api_movie_ids) - set(bdd_movie_ids))
@@ -69,7 +68,7 @@ if __name__ == "__main__":
             continue
 
         # Récupérer et stocker les acteurs du film puis récupérer la liste des nouveaux acteurs
-        movie_people = api.get_movie_people(movie_id, headers)
+        movie_people = api.get_movie_actor(movie_id, headers)
         if movie_people:
             new_movie_people_df.extend(movie_people)
             for person in movie_people:
@@ -83,7 +82,7 @@ if __name__ == "__main__":
 
                 # Ajoute le nouvel acteur
                 else:
-                    person_details = api.get_people_details(person['person_id'], headers)
+                    person_details = api.get_actor_details(person['person_id'], headers)
                     if person_details:
                         new_people_df.append(person_details)
 
@@ -146,28 +145,25 @@ if __name__ == "__main__":
         print(f"Progression : {count}/{len(new_movie_ids)} films.")
 
         # Sauvegarde partielle pour éviter la perte de données en cas de rupture de connexion
-        if count % 10 == 0:
+        if count % 100 == 0:
             db.insert_movies_to_db(conn, new_movies_df); new_movies_df.clear()
             db.insert_people_to_db(conn, new_people_df); new_people_df.clear()
-            db.insert_productions_to_db(conn, new_productions_df); new_productions_df.clear()
-            db.insert_keywords_to_db(conn, new_keywords_df); new_keywords_df.clear()
             db.insert_movie_people_to_db(conn, new_movie_people_df); new_movie_people_df.clear()
             db.insert_movie_productions_to_db(conn, new_movie_productions_df); new_movie_productions_df.clear()
+            db.insert_productions_to_db(conn, new_productions_df); new_productions_df.clear()
             db.insert_movie_genres_to_db(conn, new_movie_genres_df); new_movie_genres_df.clear()
             db.insert_movie_keywords_to_db(conn, new_movie_keywords_df); new_movie_keywords_df.clear()
-            
-            print("💾 Sauvegarde partielle effectuée dans la base de données.")
+            db.insert_keywords_to_db(conn, new_keywords_df); new_keywords_df.clear()
 
     # Étape 5 : Insertion des données collectées dans la base de données
     db.insert_movies_to_db(conn, new_movies_df)
     db.insert_people_to_db(conn, new_people_df)
-    db.insert_productions_to_db(conn, new_productions_df)
-    db.insert_keywords_to_db(conn, new_keywords_df)
     db.insert_movie_people_to_db(conn, new_movie_people_df)
     db.insert_movie_productions_to_db(conn, new_movie_productions_df)
+    db.insert_productions_to_db(conn, new_productions_df)
     db.insert_movie_genres_to_db(conn, new_movie_genres_df)
     db.insert_movie_keywords_to_db(conn, new_movie_keywords_df)
-    
+    db.insert_keywords_to_db(conn, new_keywords_df)
     print("\n✅ Ingestion des données terminée. Données sauvegardées avec succès dans la base de données !")
 
     end_time = time.time()
