@@ -13,7 +13,7 @@ if __name__ == "__main__":
         dbname="movie_db",
         user="cynthia",
         password="datascientest",
-        host="3.252.192.123",
+        host="54.217.63.2",
         port="5432"
     )
     cursor = conn.cursor()
@@ -29,6 +29,18 @@ if __name__ == "__main__":
     start_time = time.time()
     print("Démarrage de l'ingestion des données depuis l'API TMDB...")
 
+    # Récupérer tous les genres depuis l'API
+    all_genres_df = api.get_genres(headers)
+
+    # Insérer dans la table genres
+    for row in all_genres_df.itertuples(index=False):
+        cursor.execute("""
+            INSERT INTO genres (genre_id, genre_name)
+            VALUES (%s, %s)
+            ON CONFLICT (genre_id) DO NOTHING;
+        """, (row.genre_id, row.genre_name))
+    conn.commit()
+
     # Étape 1 : Récupérer les movie_ids depuis la base PostgreSQL
     cursor.execute("SELECT movie_id FROM movies")
     bdd_movie_ids = [row[0] for row in cursor.fetchall()]   
@@ -36,8 +48,8 @@ if __name__ == "__main__":
 
     # Étape 2 : Récupérer les ids de films à ingérer via l'API en définissant une période temporelle
     print(f"⏳ Recherche des nouveaux films depuis l'API...")
-    start_date = "2024-11-01"
-    end_date = "2024-11-30"
+    start_date = "2024-10-01"
+    end_date = "2024-10-31"
     api_movie_ids = api.get_movie_ids(start_date, end_date, headers)
 
     # Étape 3 : Identifier les movie_ids qui ne sont pas encore dans la base postgreSQL

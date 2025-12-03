@@ -5,7 +5,7 @@ conn = psycopg2.connect(
     dbname="movie_db",
     user="cynthia",
     password="datascientest",
-    host="34.243.141.140",
+    host="3.250.109.42",
     port="5432"
 )
 cursor = conn.cursor()
@@ -101,6 +101,17 @@ CREATE TABLE IF NOT EXISTS movie_keywords (
 """
 
 cursor.execute(schema)
+
+cursor.execute("""
+    INSERT INTO roles (role_id, role_name)
+    VALUES
+        (1, 'Writer'),
+        (2, 'Director'),
+        (3, 'Actor'),
+        (4, 'Producer')
+    ON CONFLICT (role_id) DO NOTHING;
+""")
+
 conn.commit()
 cursor.close()
 conn.close()

@@ -75,11 +75,19 @@ def insert_movies_to_db(conn, movies_df):
         release_date = row.release_date if pd.notnull(row.release_date) else None
 
         cursor.execute("""
-            INSERT INTO Movies (movie_id, imdb_id, budget, title, overview, original_language, release_date, runtime, vote_average, vote_count, popularity)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            INSERT INTO Movies (
+                movie_id, imdb_id, budget, revenue, title, overview, original_language, 
+                release_date, runtime, status, vote_average, vote_count, popularity
+            )
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             ON CONFLICT (movie_id) DO NOTHING;
-        """, (row.movie_id, row.imdb_id, row.budget, row.title, row.overview, row.original_language, release_date, row.runtime, row.vote_average, row.vote_count, row.popularity))
+        """, (
+            row.movie_id, row.imdb_id, row.budget, row.revenue, row.title, row.overview,
+            row.original_language, release_date, row.runtime, row.status,
+            row.vote_average, row.vote_count, row.popularity
+        ))
     conn.commit()
+    cursor.close()
 
 def insert_movie_genres_to_db(conn, movie_genres_df):
 
