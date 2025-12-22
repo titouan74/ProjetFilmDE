@@ -110,11 +110,11 @@ def get_movie_details(movie_id, headers):
             "release_date": content.get("release_date", None)
         }
 
-        print(f"Les données du film {movie_id} ont bien été récupérées.")
+        print(f"✅ Les données du film {movie_id} ont bien été récupérées.")
         return movie_details
 
     except Exception as e:
-        print(f"Erreur lors de la récupération des données du film {movie_id} : {e}")
+        print(f"❌ Erreur lors de la récupération des données du film {movie_id} : {e}")
         return None
 
 # Get ids of top 10 actors in a movie ==> table MovieActors
@@ -134,10 +134,10 @@ def get_movie_actor(movie_id, headers):
             for actor in main_cast
         ]
 
-        print(f"Les acteurs du film {movie_id} ont bien été récupérées.")
+        print(f"✅ Les acteurs du film {movie_id} ont bien été récupérées.")
         return movie_actor
     except Exception as e:
-        print(f"Erreur lors de la récupération des acteurs du film {movie_id} : {e}")
+        print(f"❌ Erreur lors de la récupération des acteurs du film {movie_id} : {e}")
         return None
     
 # Get details of top 10 actors in a movie by its ID ==> table Actors
@@ -156,11 +156,11 @@ def get_actor_details(actor_id, headers):
             "popularity": content.get("popularity", None)
         }
 
-        print(f"Les données de l'acteur {actor_id} ont bien été récupérées.")
+        print(f"✅ Les données de l'acteur {actor_id} ont bien été récupérées.")
         return actor_details
 
     except Exception as e:
-        print(f"Erreur lors de la récupération des données de l'acteur {actor_details.name} : {e}")
+        print(f"❌ Erreur lors de la récupération des données de l'acteur {actor_details.name} : {e}")
         return None
 
 # Get production company details for a movie by its ID ==> table MovieProduction
@@ -178,11 +178,11 @@ def get_movie_production(movie_id, headers):
             for company in companies
         ]
 
-        print(f"Les données de production du film {movie_id} ont bien été récupérées.")
+        print(f"✅ Les données de production du film {movie_id} ont bien été récupérées.")
         return production_companies
 
     except Exception as e:
-        print(f"Erreur lors de la récupération des données dde production du film {movie_id} : {e}")
+        print(f"❌ Erreur lors de la récupération des données de production du film {movie_id} : {e}")
         return None
 
 # Process and save movie data to CSV    
@@ -252,10 +252,10 @@ def get_movie_genres(movie_id, headers):
             for genre in genres
         ]
 
-        print(f"Les genres du film {movie_id} ont bien été récupérées.")
+        print(f"✅ Les genres du film {movie_id} ont bien été récupérées.")
         return movie_genres
     except Exception as e:
-        print(f"Erreur lors de la récupération des genres du film {movie_id} : {e}")
+        print(f"❌ Erreur lors de la récupération des genres du film {movie_id} : {e}")
         return None
 
 # Get production company details by production ID ==> table Productions
@@ -272,10 +272,10 @@ def get_production_details(production_id, headers):
             "production_name": content.get("name"),
             "origin_country": content.get("origin_country")
         }
-        print(f"Les données de la société de production {production_id} ont bien été récupérées.")
+        print(f"✅ Les données de la société de production {production_id} ont bien été récupérées.")
         return production_details
     except Exception as e:
-        print(f"Erreur lors de la récupération des données de la société de production {production_id} : {e}")
+        print(f"❌ Erreur lors de la récupération des données de la société de production {production_id} : {e}")
         return None
 
 # Process and save actor data to CSV
@@ -376,10 +376,10 @@ def get_movie_keywords(movie_id, headers):
             for keyword in keywords
         ]
 
-        print(f"Les mots-clés du film {movie_id} ont bien été récupérées.")
+        print(f"✅ Les mots-clés du film {movie_id} ont bien été récupérées.")
         return movie_keywords
     except Exception as e:
-        print(f"Erreur lors de la récupération des mots-clés du film {movie_id} : {e}")
+        print(f"❌ Erreur lors de la récupération des mots-clés du film {movie_id} : {e}")
         return None
 
 # Get keyword details by keyword ID ==> table Keywords    
@@ -394,9 +394,11 @@ def get_keywords_details(keyword_id, headers):
             "keyword_id": content.get("id"),
             "keyword_name": content.get("name")
         }
+
+        print(f"✅ Les données du mot-clé {keyword_id} ont bien été récupérées.")
         return keyword_details
     except Exception as e:
-        print(f"Erreur lors de la récupération des données du mot-clé {keyword_id} : {e}")
+        print(f"❌ Erreur lors de la récupération des données du mot-clé {keyword_id} : {e}")
         return None
     
 # Get movie people (cast and crew) by movie ID ==> table MoviePeople
@@ -426,11 +428,11 @@ def get_movie_people(movie_id, headers):
         for screenwriter in screenwriters:
             movie_people.append({"movie_id": movie_id, "person_id": screenwriter.get("id"), "role_id": 4})
 
-        print(f"Les membres de l'équipe du film {movie_id} ont bien été récupérées.")
+        print(f"✅ Les membres de l'équipe du film {movie_id} ont bien été récupérées.")
         
         return movie_people
     except Exception as e:
-        print(f"Erreur lors de la récupération des membres de l'équipe du film {movie_id} : {e}")
+        print(f"❌ Erreur lors de la récupération des membres de l'équipe du film {movie_id} : {e}")
         return None
     
 # Get person details by people ID ==> table People
@@ -455,7 +457,7 @@ def get_people_details(people_id, headers):
         return people_details
 
     except Exception as e:
-        print(f"⚠️ Erreur lors de la récupération des détails de la personne {people_id} : {e}")
+        print(f"❌ Erreur lors de la récupération des détails de la personne {people_id} : {e}")
         return None
 
 
@@ -476,9 +478,28 @@ def update_movie_details(movie_id, headers):
             "release_date": content.get("release_date")
         }
 
-        print(f"Les données à mettre à jour du film {movie_id} ont bien été récupérées.")
+        print(f"✅ Les données à mettre à jour du film {movie_id} ont bien été récupérées.")
         return movie_details
 
     except Exception as e:
-        print(f"Erreur lors de la récupération des données du film {movie_id} : {e}")
+        print(f"❌ Erreur lors de la récupération des données du film {movie_id} : {e}")
+        return None
+    
+def update_person_details(people_id, headers):
+    url = f"https://api.themoviedb.org/3/person/{people_id}"
+
+    response = requests.get(url, headers=headers)
+
+    try:
+        content = response.json()
+
+        people_details = {
+            "person_id": content.get("id"),
+            "popularity": content.get("popularity", None)
+        }
+        print(f"✅ Les données à mettre à jour de la personne {people_id} ont bien été récupérées.")
+        return people_details
+
+    except Exception as e:
+        print(f"❌ Erreur lors de la récupération des détails de la personne {people_id} : {e}")
         return None

@@ -31,5 +31,5 @@ DESCRIPTION DES FICHIERS:
 - 'api_data_ingestion' --> fonctions pour l'ingestion des données depuis l'API TheMovieDB
 - 'main_ingestion_csv' --> processus d'ingestion des nouveaux films avec sauvegarde au format csv
 - 'main_ingestion_postgre' --> processus d'ingestion des nouveaux films avec sauvegarde dans la base postgre
-- 'instertion_csv' --> fonctions pour l'insertion des données dans des fichiers csv
-- 'instertion_postgre' --> fonctions pour l'insertion des données dans la base postgre
+- 'db_instertion_csv' --> fonctions pour l'insertion des données dans des fichiers csv
+- 'db_instertion_postgre' --> fonctions pour l'insertion des données dans la base postgre

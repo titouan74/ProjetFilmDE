@@ -26,12 +26,11 @@ def insert_people_to_db(conn, people_df):
         deathday = row.deathday if pd.notnull(row.deathday) else None
 
         cursor.execute("""
-            INSERT INTO People (person_id, person_name, gender, birthday, deathday)
-            VALUES (%s, %s, %s, %s, %s)
+            INSERT INTO People (person_id, person_name, gender, popularity, birthday, deathday)
+            VALUES (%s, %s, %s, %s, %s, %s)
             ON CONFLICT (person_id) DO NOTHING;
         """,
-        (row.person_id, row.person_name, row.gender, birthday, deathday))
-
+        (row.person_id, row.person_name, row.gender, row.popularity, birthday, deathday))
     conn.commit()
 
 def insert_movie_people_to_db(conn, movie_people_df):
@@ -75,10 +74,10 @@ def insert_movies_to_db(conn, movies_df):
         release_date = row.release_date if pd.notnull(row.release_date) else None
 
         cursor.execute("""
-            INSERT INTO Movies (movie_id, imdb_id, budget, title, overview, original_language, release_date, runtime, vote_average, vote_count, popularity)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            INSERT INTO Movies (movie_id, imdb_id, budget, title, overview, original_language, revenue, status, release_date, runtime, vote_average, vote_count, popularity)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             ON CONFLICT (movie_id) DO NOTHING;
-        """, (row.movie_id, row.imdb_id, row.budget, row.title, row.overview, row.original_language, release_date, row.runtime, row.vote_average, row.vote_count, row.popularity))
+        """, (row.movie_id, row.imdb_id, row.budget, row.title, row.overview, row.original_language, row.revenue, row.status, release_date, row.runtime, row.vote_average, row.vote_count, row.popularity))
     conn.commit()
 
 def insert_movie_genres_to_db(conn, movie_genres_df):
@@ -257,7 +256,7 @@ def movie_exists_in_db(movie_id, conn):
 def insert_updated_movies_to_db(movies_df, conn):
     # conversion en dataframe si nécessaire
     if not isinstance(movies_df, pd.DataFrame):
-        movies_df = pd.DataFrame([movies_df])
+        movies_df = pd.DataFrame(movies_df)
 
     cursor = conn.cursor()
     
@@ -266,9 +265,39 @@ def insert_updated_movies_to_db(movies_df, conn):
     for row in movies_df.itertuples(index=False):
         release_date = row.release_date if pd.notnull(row.release_date) else None
 
+    try:
         cursor.execute("""
-            INSERT INTO Movies (movie_id, imdb_id, budget, title, overview, original_language, release_date, runtime, vote_average, vote_count, popularity)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-            ON CONFLICT (movie_id) DO NOTHING;
-        """, (row.movie_id, row.imdb_id, row.budget, row.title, row.overview, row.original_language, release_date, row.runtime, row.vote_average, row.vote_count, row.popularity))
+            UPDATE Movies
+            SET release_date = %s, vote_average = %s, vote_count = %s, popularity = %s, revenue = %s, status = %s
+            WHERE movie_id = %s;
+        """, (release_date, row.vote_average, row.vote_count, row.popularity, row.revenue, row.status, row.movie_id))
+
+    except Exception as e:
+        print("\n--- ERROR ON ROW ---")
+        print("movie_id:", row.movie_id)
+        print("vote_average:", row.vote_average)
+        print("vote_count:", row.vote_count)
+        print("popularity:", row.popularity)
+        print("revenue:", row.revenue)
+        print("status:", row.status)
+        print("--------------------\n")
+        raise e
+    
+    conn.commit()
+
+def insert_updated_people_to_db(people_df, conn):
+    # conversion en dataframe si nécessaire
+    if not isinstance(people_df, pd.DataFrame):
+        people_df = pd.DataFrame(people_df)
+
+    cursor = conn.cursor()
+
+    for row in people_df.itertuples(index=False):
+        popularity = row.popularity if pd.notnull(row.popularity) else None
+
+        cursor.execute("""
+            UPDATE People
+            SET popularity = %s
+            WHERE person_id = %s;
+        """, (popularity, row.person_id))
     conn.commit()

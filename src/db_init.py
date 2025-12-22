@@ -1,5 +1,5 @@
 import psycopg2
-import db_insertion_postgre as db_ins
+import db_insertion_postgres as db_ins
 import pandas as pd
 
 # Connexion à la base de données PostgreSQL
