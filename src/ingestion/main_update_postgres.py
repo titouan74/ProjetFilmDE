@@ -1,11 +1,11 @@
 import requests
 import pandas as pd
-import credentials
+import ingestion.credentials as credentials
 import time
-import api_data_ingestion as api
+import ingestion.api_data_ingestion as api
 import os
 import psycopg2
-import db_insertion_postgres as db
+import init.db_insertion_postgres as db
 
 if __name__ == "__main__":
     # Connexion à la base de données PostgreSQL
@@ -26,8 +26,10 @@ if __name__ == "__main__":
     }
 
     # Paramètres de mise à jour
-    moviesParam = False
-    peopleParam = True
+    moviesUpdate = False
+    peopleUpdate = True
+    genresUpdate = False
+
     movie_query = f"""
         SELECT movie_id 
         FROM movies 
@@ -53,7 +55,20 @@ if __name__ == "__main__":
     start_time = time.time()
     print("Démarrage de l'ingestion des données depuis l'API TMDB...")
 
-    if moviesParam:
+    if genresUpdate:
+        # Récupérer tous les genres depuis l'API
+        all_genres_df = api.get_genres(headers)
+
+        # Insérer dans la table genres
+        for row in all_genres_df.itertuples(index=False):
+            cursor.execute("""
+                INSERT INTO genres (genre_id, genre_name)
+                VALUES (%s, %s)
+                ON CONFLICT (genre_id) DO NOTHING;
+            """, (row.genre_id, row.genre_name))
+        conn.commit()
+
+    if moviesUpdate:
         # Etape 1 : Mise à jour des films existants dans la base PostgreSQL
 
         # Étape 1.1 : Récupérer les movie_ids depuis la base PostgreSQL
@@ -79,7 +94,7 @@ if __name__ == "__main__":
             if movie_count % 100 == 0:
                 db.insert_updated_movies_to_db(updated_movies_df, conn); updated_movies_df.clear()
 
-    if peopleParam:
+    if peopleUpdate:
         # Étape 2 : Mise à jour de la table people
 
         # Etape 2.1 : Récupérer les person_ids depuis la base PostgreSQL

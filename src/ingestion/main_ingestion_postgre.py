@@ -1,11 +1,11 @@
 import requests
 import pandas as pd
-import credentials
+import ingestion.credentials as credentials
 import time
-import api_data_ingestion as api
+import ingestion.api_data_ingestion as api
 import os
 import psycopg2
-import db_insertion_postgres as db
+import init.db_insertion_postgres as db
 from datetime import datetime, timedelta
 
 if __name__ == "__main__":
@@ -30,6 +30,18 @@ if __name__ == "__main__":
     start_time = time.time()
     print("Démarrage de l'ingestion des données depuis l'API TMDB...")
 
+    # Récupérer tous les genres depuis l'API
+    all_genres_df = api.get_genres(headers)
+
+    # Insérer dans la table genres
+    for row in all_genres_df.itertuples(index=False):
+        cursor.execute("""
+            INSERT INTO genres (genre_id, genre_name)
+            VALUES (%s, %s)
+            ON CONFLICT (genre_id) DO NOTHING;
+        """, (row.genre_id, row.genre_name))
+    conn.commit()
+
     # Étape 1 : Récupérer les movie_ids depuis la base PostgreSQL
     cursor.execute("SELECT movie_id FROM movies")
     bdd_movie_ids = [row[0] for row in cursor.fetchall()]   
@@ -38,7 +50,7 @@ if __name__ == "__main__":
     # Étape 2 : Récupérer les ids de films à ingérer via l'API en définissant une période temporelle
     print(f"⏳ Recherche des nouveaux films depuis l'API...")
     
-    # Configuration pour itérer mois par mois sur l'année 2025
+    # Configuration pour itérer mois par mois sur une année complète
     year = 2024
     all_api_movie_ids = []
     

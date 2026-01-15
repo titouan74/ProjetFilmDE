@@ -1,7 +1,7 @@
 import pandas as pd
-import credentials
+import ingestion.credentials as credentials
 import time
-import api_data_ingestion as api
+import ingestion.api_data_ingestion as api
 
 if __name__ == "__main__":
 

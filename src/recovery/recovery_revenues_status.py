@@ -1,10 +1,10 @@
 import pandas as pd
-import credentials
+import ingestion.credentials as credentials
 import time
-import api_data_ingestion as api
+import ingestion.api_data_ingestion as api
 import os
 import psycopg2
-import db_insertion_postgres as db
+import init.db_insertion_postgres as db
 import requests
 
 

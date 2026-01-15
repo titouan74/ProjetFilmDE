@@ -1,5 +1,9 @@
 La base doit être régulièrement mise à jour avec les nouveaux films qui sorte
 
+CREDENTIALS
+Pour ingérer des données de l'API TheMovieDB, il faut inclure dans le dossier src/ingestion un fichier credentials.py qui contient la clé.
+Exemple : api_key = "mY@pIKey!"
+
 INGESTION DES NOUVELLES DONNÉES (main_ingestion.py):
 1. Récupérer les ids des nouveaux films et les comparer avec les ids de la base :
     - Si l'id est déjà dans la base : RIEN

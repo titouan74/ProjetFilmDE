@@ -1,6 +1,6 @@
 import requests
 import pandas as pd
-import credentials
+import ingestion.credentials as credentials
 import time
 import os
 
