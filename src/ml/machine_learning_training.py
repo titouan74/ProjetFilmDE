@@ -1,6 +1,7 @@
 from datetime import datetime
 import time
 from joblib import dump
+from sklearn.metrics import root_mean_squared_error, mean_absolute_error, r2_score
 from machine_learning_utils import *
 import sys
 import os
@@ -95,6 +96,14 @@ if __name__ == "__main__":
                     'n_samples': X.shape[0],
                     'feature_columns': list(X.columns),
                     'model_params': model.get_params(),
+                    'model_performance': {
+                        'train_rmse': float(root_mean_squared_error(y_train, model.predict(X_train))),
+                        'test_rmse': float(root_mean_squared_error(y_test, model.predict(X_test))),
+                        'train_mae': float(mean_absolute_error(y_train, model.predict(X_train))),
+                        'test_mae': float(mean_absolute_error(y_test, model.predict(X_test))),
+                        'train_r2': float(r2_score(y_train, model.predict(X_train))),
+                        'test_r2': float(r2_score(y_test, model.predict(X_test)))
+                    },
                     'data_info': {
                         'train_samples': X_train.shape[0],
                         'test_samples': X_test.shape[0],

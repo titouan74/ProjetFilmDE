@@ -68,8 +68,7 @@ def build_query(target: str) -> str:
     AND m.revenue > 50000
     AND m.status = 'Released'
     AND m.vote_count > 100
-    AND m.release_date > '2000-01-01'
-    LIMIT 10000;
+    AND m.release_date > '2000-01-01';
 """
 
 # Fonction pour charger les données depuis PostgreSQL
