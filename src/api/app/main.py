@@ -9,7 +9,7 @@ import os
 from datetime import date, datetime
 
 # Ajouter le dossier parent (src) au chemin Python
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 # Ajouter le dossier courant (api) au chemin Python
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 

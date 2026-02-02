@@ -5,7 +5,7 @@ import os
     
 def _models_dir() -> str:
     api_dir = os.path.dirname(os.path.abspath(__file__))
-    src_dir = os.path.dirname(api_dir)
+    src_dir = os.path.dirname(os.path.dirname(api_dir))
     return os.path.join(src_dir, "ml", "models")
 
 def load_model(model: str, target: str):
