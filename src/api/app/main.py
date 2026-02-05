@@ -7,6 +7,8 @@ import base64
 import sys
 import os
 from datetime import date, datetime
+import sqlalchemy
+from sqlalchemy import text
 
 # Ajouter le dossier parent (src) au chemin Python
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -58,6 +60,18 @@ class MovieProductionResponse(BaseModel):
 async def health_check():
     """Vérification de l'état de l'API"""
     return {"L'API est prête à recevoir des requêtes !"}
+
+
+@app.get("/status")
+async def status():
+    try:
+        engine = dbc.connect_to_db()
+        with engine.connect() as conn:
+            conn.execute(text("SELECT 1"))
+        return {"status": "ok", "db": "connected"}
+    except Exception as e:
+        return {"status": "error", "db": "disconnected", "error_detail": str(e)}
+
 
 @app.post("/predict", response_model=MoviePredictionResponse)
 async def predict_movie_success(request: MoviePredictionRequest):
@@ -133,3 +147,27 @@ async def get_in_production_movies():
             )
         )
     return movies_list
+
+@app.get("/movies/count")
+async def count_movies():
+    """Retourne le nombre total de films dans la base de données"""
+    engine = dbc.connect_to_db()
+    try:
+        with engine.connect() as conn:
+            # Utilisation de .mappings() pour récupérer un dictionnaire au lieu d'un tuple
+            result = conn.execute(sqlalchemy.text("SELECT COUNT(*) AS total FROM movies")).mappings()
+            total = result.fetchone()['total']
+        return {"count_movies": total}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erreur SQL: {e}")
+    
+@app.get("/movies/search", response_model=List[str])
+async def search_movies(query: str = Query(...)):
+    engine = dbc.connect_to_db()
+    try:
+        words = query.split()
+        sql_query = "SELECT title FROM movies WHERE " + " AND ".join([f"title ILIKE '%{word}%'" for word in words])
+        df = pd.read_sql(sqlalchemy.text(sql_query), engine)
+        return df['title'].tolist()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erreur SQL: {e}")
