@@ -8,6 +8,7 @@ import sys
 import os
 from datetime import date, datetime
 import sqlalchemy
+from sqlalchemy import text
 
 # Ajouter le dossier parent (src) au chemin Python
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -60,15 +61,17 @@ async def health_check():
     """Vérification de l'état de l'API"""
     return {"L'API est prête à recevoir des requêtes !"}
 
+
 @app.get("/status")
 async def status():
     try:
         engine = dbc.connect_to_db()
         with engine.connect() as conn:
-            conn.execute("SELECT 1")
+            conn.execute(text("SELECT 1"))
         return {"status": "ok", "db": "connected"}
-    except:
-        return {"status": "error", "db": "disconnected"}
+    except Exception as e:
+        return {"status": "error", "db": "disconnected", "error_detail": str(e)}
+
 
 @app.post("/predict", response_model=MoviePredictionResponse)
 async def predict_movie_success(request: MoviePredictionRequest):
@@ -147,10 +150,12 @@ async def get_in_production_movies():
 
 @app.get("/movies/count")
 async def count_movies():
+    """Retourne le nombre total de films dans la base de données"""
     engine = dbc.connect_to_db()
     try:
         with engine.connect() as conn:
-            result = conn.execute(sqlalchemy.text("SELECT COUNT(*) AS total FROM movies"))
+            # Utilisation de .mappings() pour récupérer un dictionnaire au lieu d'un tuple
+            result = conn.execute(sqlalchemy.text("SELECT COUNT(*) AS total FROM movies")).mappings()
             total = result.fetchone()['total']
         return {"count_movies": total}
     except Exception as e:
