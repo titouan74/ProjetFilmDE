@@ -11,11 +11,15 @@ from xgboost import XGBRegressor
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sqlalchemy import create_engine, text
+from sqlalchemy import text
 import time
 from joblib import dump, load
 import os
 from datetime import datetime
+import sys
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from db_connection import connect_to_db
 
 
 # Configuration pour les graphiques
@@ -27,8 +31,7 @@ sns.set_palette("husl")
 # =============================
 
 # Connexion SQLAlchemy (recommandée pour pandas)
-engine = create_engine('postgresql://cynthia:datascientest@108.129.220.163:5432/movie_db', 
-                       connect_args={"connect_timeout": 10})
+engine = connect_to_db()
 
 # =============================
 # 3. Définition des fonctions de traitement des données

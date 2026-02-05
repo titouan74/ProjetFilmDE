@@ -1,11 +1,13 @@
 import time
 from sqlalchemy import create_engine, text
 
-def connect_to_db() -> None:
+ip_adress = "108.129.181.2"
+
+def connect_to_db(ip_adress) -> None:
     """Établir la connexion à la base de données"""
     try:
         print("🔌 Connexion à la base de données...")
-        engine = create_engine(f'postgresql://cynthia:datascientest@108.129.181.2/movie_db', 
+        engine = create_engine(f'postgresql://cynthia:datascientest@{ip_adress}/movie_db', 
                 connect_args={"connect_timeout": 10})
         # Test de la connexion
         with engine.connect() as connection:

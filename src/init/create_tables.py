@@ -1,13 +1,12 @@
-import psycopg2
+import os
+import sys
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from db_connection import connect_to_db
 
 # Connexion à la base de données PostgreSQL
-conn = psycopg2.connect(
-    dbname="movie_db",
-    user="cynthia",
-    password="datascientest",
-    host="3.250.109.42",
-    port="5432"
-)
+engine = connect_to_db()
+conn = engine.raw_connection()
 cursor = conn.cursor()
 
 schema = """
@@ -115,5 +114,6 @@ cursor.execute("""
 conn.commit()
 cursor.close()
 conn.close()
+engine.dispose()
 
 print("All tables created successfully.")

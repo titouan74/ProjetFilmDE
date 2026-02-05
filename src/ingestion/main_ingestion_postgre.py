@@ -4,19 +4,17 @@ import ingestion.credentials as credentials
 import time
 import ingestion.api_data_ingestion as api
 import os
-import psycopg2
+import sys
 import init.db_insertion_postgres as db
 from datetime import datetime, timedelta
 
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from db_connection import connect_to_db
+
 if __name__ == "__main__":
     # Connexion à la base de données PostgreSQL
-    conn = psycopg2.connect(
-        dbname="movie_db",
-        user="cynthia",
-        password="datascientest",
-        host="34.244.236.174",
-        port="5432"
-    )
+    engine = connect_to_db()
+    conn = engine.raw_connection()
     cursor = conn.cursor()
 
     # Configuration de l'API
@@ -226,3 +224,7 @@ if __name__ == "__main__":
 
     execution_time = (end_time - start_time)/60
     print(f"🕦 Temps d'exécution : {execution_time:.2f} minutes")
+
+    cursor.close()
+    conn.close()
+    engine.dispose()

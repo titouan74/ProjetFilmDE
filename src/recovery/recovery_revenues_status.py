@@ -3,20 +3,18 @@ import ingestion.credentials as credentials
 import time
 import ingestion.api_data_ingestion as api
 import os
-import psycopg2
+import sys
 import init.db_insertion_postgres as db
 import requests
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from db_connection import connect_to_db
 
 
 if __name__ == "__main__":
     # Connexion à la base de données PostgreSQL
-    conn = psycopg2.connect(
-        dbname="movie_db",
-        user="cynthia",
-        password="datascientest",
-        host="108.130.31.47",
-        port="5432"
-    )
+    engine = connect_to_db()
+    conn = engine.raw_connection()
     cursor = conn.cursor()
 
     # Récupérer les ids de films qui ont un budget > 50000 dans la base de données PostgreSQL
@@ -78,5 +76,9 @@ if __name__ == "__main__":
 
         conn.commit()
         print("✅ Les données de revenus et de statut ont été insérées dans la base de données PostgreSQL.")
+
     else:
         print("Aucune donnée récupérée à insérer dans la base de données.")
+
+    # Fermeture de la connexion
+    conn.close()
