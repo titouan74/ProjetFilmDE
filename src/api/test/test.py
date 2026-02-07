@@ -1,4 +1,8 @@
 import os
+import sys
+import time
+import socket
+import subprocess
 import requests
 
 # définition de l'adresse de l'API

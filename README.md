@@ -4,7 +4,14 @@ CREDENTIALS
 Pour ingérer des données de l'API TheMovieDB, il faut inclure dans le dossier src/ingestion un fichier credentials.py qui contient la clé.
 Exemple : api_key = "mY@pIKey!"
 
-INGESTION DES NOUVELLES DONNÉES (main_ingestion.py):
+CREATION DE LA BASE DE DONNEES
+1. Pour créer une nouvelle base à partir du docker-compose.yaml, se placer dans le dosser src/init et lancer la commande suivante : 'docker compose up' ou 'docker-compose up' selon la distribution
+2. Installer les librairies nécessaires au fonctionnement de la base depuis le fichier requirements.txt: pip3 install -r requirements.txt (recommandé de le faire dans un environnement virtuel)
+3. Lancer le script 'create_tables.py'
+4. La base peut-être alimentées par les données présentes dans les fichiers csv (/data) en lançant le script 'db_init.py'
+
+
+INGESTION DES NOUVELLES DONNÉES DEPUIS L'API (main_ingestion.py):
 1. Récupérer les ids des nouveaux films et les comparer avec les ids de la base :
     - Si l'id est déjà dans la base : RIEN
     - Si l'id n'est pas dans la base --> On lance l'ingestion

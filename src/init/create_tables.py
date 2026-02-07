@@ -104,10 +104,10 @@ cursor.execute(schema)
 cursor.execute("""
     INSERT INTO roles (role_id, role_name)
     VALUES
-        (1, 'Writer'),
+        (1, 'Actor'),
         (2, 'Director'),
-        (3, 'Actor'),
-        (4, 'Producer')
+        (3, 'Producer'),
+        (4, 'Writer')
     ON CONFLICT (role_id) DO NOTHING;
 """)
 
