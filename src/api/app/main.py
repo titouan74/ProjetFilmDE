@@ -9,6 +9,7 @@ import os
 from datetime import date, datetime
 import sqlalchemy
 from sqlalchemy import text
+from security import get_current_user, verify_admin
 
 # Ajouter le dossier parent (src) au chemin Python
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -57,13 +58,13 @@ class MovieProductionResponse(BaseModel):
     release_date: date
 
 @app.get("/health")
-async def health_check():
+async def health_check(user: dict = Depends(get_current_user)):
     """Vérification de l'état de l'API"""
     return {"L'API est prête à recevoir des requêtes !"}
 
 
 @app.get("/status")
-async def status():
+async def status(user: dict = Depends(get_current_user)):
     try:
         engine = dbc.connect_to_db()
         with engine.connect() as conn:
@@ -74,7 +75,7 @@ async def status():
 
 
 @app.post("/predict", response_model=MoviePredictionResponse)
-async def predict_movie_success(request: MoviePredictionRequest):
+async def predict_movie_success(request: MoviePredictionRequest, user: dict = Depends(get_current_user)):
     """Prédire le succès d'un film basé sur son titre et la variable cible"""
     movie_info = ml_utils.get_movie_info_from_db(request.movie_title, engine=dbc.connect_to_db())
     if not movie_info:
@@ -97,14 +98,14 @@ async def predict_movie_success(request: MoviePredictionRequest):
     return response
 
 @app.get("/models", response_model=AvailableModelResponse)
-async def list_models():
+async def list_models(user: dict = Depends(get_current_user)):
     """Lister tous les modèles de machine learning disponibles"""
     models_df = client.list_available_models()
     model_list = models_df.to_dict(orient='records')
     return AvailableModelResponse(model_list=model_list)
 
 @app.post("/model_performance", response_model=ModelPerformanceResponse)
-async def get_model_performance(model_request: ModelPerformanceRequest):
+async def get_model_performance(model_request: ModelPerformanceRequest, admin: dict = Depends(verify_admin)):
     """Récupérer les performances du modèle pour la variable cible spécifiée"""
     performance = client.get_model_performance(model_request.model, model_request.target)
     if not performance:
@@ -131,7 +132,7 @@ async def get_model_performance(model_request: ModelPerformanceRequest):
     return response
 
 @app.get("/in_production_movies", response_model=List[MovieProductionResponse])
-async def get_in_production_movies():
+async def get_in_production_movies(user: dict = Depends(get_current_user)):
     """Récupérer les films actuellement en production depuis la base de données"""
     engine = dbc.connect_to_db()
     movies_df = client.get_in_production_movies(engine)
@@ -149,7 +150,7 @@ async def get_in_production_movies():
     return movies_list
 
 @app.get("/movies/count")
-async def count_movies():
+async def count_movies(user: dict = Depends(get_current_user)):
     """Retourne le nombre total de films dans la base de données"""
     engine = dbc.connect_to_db()
     try:
@@ -162,7 +163,7 @@ async def count_movies():
         raise HTTPException(status_code=500, detail=f"Erreur SQL: {e}")
     
 @app.get("/movies/search", response_model=List[str])
-async def search_movies(query: str = Query(...)):
+async def search_movies(query: str = Query(...), user: dict = Depends(get_current_user)):
     engine = dbc.connect_to_db()
     try:
         words = query.split()
@@ -171,3 +172,9 @@ async def search_movies(query: str = Query(...)):
         return df['title'].tolist()
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erreur SQL: {e}")
+    
+
+@app.get("/users_roles")
+async def list_users_roles(admin: dict = Depends(verify_admin)):
+    from security import USERS
+    return [{"username":u,"role":USERS[u]["role"]} for u in USERS]
