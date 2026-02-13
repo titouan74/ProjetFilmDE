@@ -1,6 +1,5 @@
 import requests
 import pandas as pd
-import ingestion.credentials as credentials
 import time
 import ingestion.api_data_ingestion as api
 import os
@@ -17,7 +16,7 @@ if __name__ == "__main__":
     cursor = conn.cursor()
 
     # Configuration de l'API
-    api_key = credentials.api_key
+    api_key = os.getenv("API_KEY")
     headers = {
         "accept": "application/json",
         "Authorization": f"Bearer {api_key}"
@@ -31,10 +30,10 @@ if __name__ == "__main__":
     movie_query = f"""
         SELECT movie_id 
         FROM movies 
-        WHERE m.budget > 50000
-            AND m.revenue > 50000
-            AND m.vote_count > 100
-            AND m.release_date > '2000-01-01'
+        WHERE budget > 50000
+            AND revenue > 50000
+            AND vote_count > 100
+            AND release_date > '2000-01-01'
     """
     people_query = f"""
         SELECT mp.person_id 

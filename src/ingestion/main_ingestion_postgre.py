@@ -7,7 +7,6 @@ if project_root not in sys.path:
 
 import requests
 import pandas as pd
-import ingestion.credentials as credentials
 import time
 import ingestion.api_data_ingestion as api
 import init.db_insertion_postgres as db
@@ -24,7 +23,7 @@ if __name__ == "__main__":
     cursor = conn.cursor() 
 
     # Configuration de l'API
-    api_key = credentials.api_key
+    api_key = os.getenv("API_KEY")
     headers = {
         "accept": "application/json",
         "Authorization": f"Bearer {api_key}"

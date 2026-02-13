@@ -18,7 +18,6 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 import client
 import ml.machine_learning_utils as ml_utils
-import db_connection as dbc
 
 app = FastAPI(title="Movie Success Prediction API")
 
@@ -66,7 +65,7 @@ async def health_check(user: dict = Depends(get_current_user)):
 @app.get("/status")
 async def status(user: dict = Depends(get_current_user)):
     try:
-        engine = dbc.connect_to_db()
+        engine = client.connect_to_db()
         with engine.connect() as conn:
             conn.execute(text("SELECT 1"))
         return {"status": "ok", "db": "connected"}
@@ -77,7 +76,7 @@ async def status(user: dict = Depends(get_current_user)):
 @app.post("/predict", response_model=MoviePredictionResponse)
 async def predict_movie_success(request: MoviePredictionRequest, user: dict = Depends(get_current_user)):
     """Prédire le succès d'un film basé sur son titre et la variable cible"""
-    movie_info = ml_utils.get_movie_info_from_db(request.movie_title, engine=dbc.connect_to_db())
+    movie_info = ml_utils.get_movie_info_from_db(request.movie_title, engine=client.connect_to_db())
     if not movie_info:
         raise HTTPException(status_code=404, detail="Film non trouvé dans la base de données")
     
@@ -134,7 +133,7 @@ async def get_model_performance(model_request: ModelPerformanceRequest, admin: d
 @app.get("/in_production_movies", response_model=List[MovieProductionResponse])
 async def get_in_production_movies(user: dict = Depends(get_current_user)):
     """Récupérer les films actuellement en production depuis la base de données"""
-    engine = dbc.connect_to_db()
+    engine = client.connect_to_db()
     movies_df = client.get_in_production_movies(engine)
     movies_list = []
     for _, row in movies_df.iterrows():
@@ -152,7 +151,7 @@ async def get_in_production_movies(user: dict = Depends(get_current_user)):
 @app.get("/movies/count")
 async def count_movies(user: dict = Depends(get_current_user)):
     """Retourne le nombre total de films dans la base de données"""
-    engine = dbc.connect_to_db()
+    engine = client.connect_to_db()
     try:
         with engine.connect() as conn:
             # Utilisation de .mappings() pour récupérer un dictionnaire au lieu d'un tuple
@@ -164,7 +163,7 @@ async def count_movies(user: dict = Depends(get_current_user)):
     
 @app.get("/movies/search", response_model=List[str])
 async def search_movies(query: str = Query(...), user: dict = Depends(get_current_user)):
-    engine = dbc.connect_to_db()
+    engine = client.connect_to_db()
     try:
         words = query.split()
         sql_query = "SELECT title FROM movies WHERE " + " AND ".join([f"title ILIKE '%{word}%'" for word in words])

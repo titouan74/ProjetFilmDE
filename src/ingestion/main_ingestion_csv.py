@@ -1,10 +1,12 @@
 import requests
 import pandas as pd
-import ingestion.credentials as credentials
 import time
 import ingestion.api_data_ingestion as api
 import init.db_insertion_csv as csv
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 os.makedirs("data", exist_ok=True) #si le dossier "data" n'existe pas préalablement au main
 
@@ -12,7 +14,7 @@ if __name__ == "__main__":
     start_time = time.time()
     print("Démarrage de l'ingestion des données depuis l'API TMDB...")
 
-    api_key = credentials.api_key
+    api_key = os.getenv("API_KEY")
 
     headers = {
         "accept": "application/json",
