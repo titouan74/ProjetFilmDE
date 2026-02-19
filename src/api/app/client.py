@@ -1,22 +1,19 @@
+"""
+Client pour la connexion à la base de données et le chargement des modèles ML.
+"""
+import os
 import pandas as pd
 from sqlalchemy import create_engine, text
 from joblib import load
-import os
-from dotenv import load_dotenv
 
-load_dotenv()
+# Import de la configuration centralisée
+from . import config
 
-def connect_to_db() -> None:
+def connect_to_db():
     """Établir la connexion à la base de données"""
-    host = os.getenv("DB_HOST")
-    user = os.getenv("DB_USER")
-    password = os.getenv("DB_PASSWORD")
-    db = os.getenv("DB_NAME")
-
     try:
-        print("🔌 Connexion à la base de données...")
-        engine = create_engine(f'postgresql://{user}:{password}@{host}/{db}', 
-                connect_args={"connect_timeout": 10})
+        url = f'postgresql://{config.DB_USER}:{config.DB_PASSWORD}@{config.DB_HOST}:{config.DB_PORT}/{config.DB_NAME}'
+        engine = create_engine(url, connect_args={"connect_timeout": 10})
         # Test de la connexion
         with engine.connect() as connection:
             connection.execute(text("SELECT 1"))
@@ -24,13 +21,11 @@ def connect_to_db() -> None:
         return engine
     except Exception as e:
         print(f"❌ Échec de la connexion à la base de données: {e}")
-        exit()
-    return engine
+        raise
     
 def _models_dir() -> str:
-    api_dir = os.path.dirname(os.path.abspath(__file__))
-    src_dir = os.path.dirname(os.path.dirname(api_dir))
-    return os.path.join(src_dir, "ml", "models")
+    """Retourne le chemin vers le dossier des modèles ML"""
+    return str(config.MODELS_DIR)
 
 def load_model(model: str, target: str):
     """Charger le modèle de machine learning pour la variable cible spécifiée"""

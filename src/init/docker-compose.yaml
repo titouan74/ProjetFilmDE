@@ -4,18 +4,15 @@ services:
     container_name: pg_container
     image: postgres:16-alpine
     restart: always
-    environment:
-      POSTGRES_USER: cynthia
-      POSTGRES_PASSWORD: datascientest
-      POSTGRES_DB: movie_db
+    env_file:
+      - .env
     ports:
       - "5432:5432"
   pgadmin:
     container_name: pgadmin4_container
     image: dpage/pgadmin4
     restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: cynthia.mandil@stellantis.com
-      PGADMIN_DEFAULT_PASSWORD: data_engineer
+    env_file:
+      - .env
     ports:
       - "5050:80"

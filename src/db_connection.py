@@ -7,10 +7,10 @@ load_dotenv()
 
 def connect_to_db() -> None:
     """Établir la connexion à la base de données"""
-    host = os.getenv("DB_HOST")
-    user = os.getenv("DB_USER")
-    password = os.getenv("DB_PASSWORD")
-    db = os.getenv("DB_NAME")
+    host = os.getenv("POSTGRES_HOST")
+    user = os.getenv("POSTGRES_USER")
+    password = os.getenv("POSTGRES_PASSWORD")
+    db = os.getenv("POSTGRES_DB")
 
     try:
         print("🔌 Connexion à la base de données...")

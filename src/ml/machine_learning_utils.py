@@ -31,7 +31,7 @@ sns.set_palette("husl")
 # =============================
 
 # Connexion SQLAlchemy (recommandée pour pandas)
-engine = connect_to_db()
+# La connexion est établie à la demande par les appelants.
 
 # =============================
 # 3. Définition des fonctions de traitement des données

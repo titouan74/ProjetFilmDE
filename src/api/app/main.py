@@ -1,22 +1,27 @@
+"""
+API FastAPI pour la prédiction de succès des films.
+"""
+import sys
+from pathlib import Path
+
+# Ajouter src/ au PYTHONPATH pour l'import de ml
+_src_dir = Path(__file__).resolve().parent.parent.parent
+if str(_src_dir) not in sys.path:
+    sys.path.insert(0, str(_src_dir))
+
 from fastapi import FastAPI, Header, HTTPException, Query, Depends
 from pydantic import BaseModel
 from typing import Optional, List
-import uvicorn
 import pandas as pd
-import base64
-import sys
-import os
 from datetime import date, datetime
 import sqlalchemy
 from sqlalchemy import text
-from security import get_current_user, verify_admin
 
-# Ajouter le dossier parent (src) au chemin Python
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-# Ajouter le dossier courant (api) au chemin Python
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+# Imports relatifs du package app
+from . import client
+from .security import get_current_user, verify_admin
 
-import client
+# Import du module ML (depuis src/)
 import ml.machine_learning_utils as ml_utils
 
 app = FastAPI(title="Movie Success Prediction API")
@@ -175,5 +180,5 @@ async def search_movies(query: str = Query(...), user: dict = Depends(get_curren
 
 @app.get("/users_roles")
 async def list_users_roles(admin: dict = Depends(verify_admin)):
-    from security import USERS
+    from .security import USERS
     return [{"username":u,"role":USERS[u]["role"]} for u in USERS]

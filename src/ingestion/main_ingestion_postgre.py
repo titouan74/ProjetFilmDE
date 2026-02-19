@@ -10,13 +10,21 @@ import pandas as pd
 import time
 import ingestion.api_data_ingestion as api
 import init.db_insertion_postgres as db
+import logging
 from datetime import datetime, timedelta
 from db_connection import connect_to_db
 
 # L'ingestion se fait année par année. Spécifier l'année à ingérer ici :
-year = [2023]
+year = [2008, 2007, 2006]
 
 if __name__ == "__main__":
+    log_file = os.path.join(os.path.dirname(__file__), "ingestion_log.txt")
+    logging.basicConfig(
+        filename=log_file,
+        level=logging.INFO,
+        format="%(asctime)s | %(levelname)s | %(message)s",
+    )
+
     # Connexion à la base de données PostgreSQL
     engine = connect_to_db()
     conn = engine.raw_connection()
@@ -48,6 +56,19 @@ if __name__ == "__main__":
     # Itération sur les années spécifiées (ici, une seule année : 2023) pour récupérer les movie_ids mois par mois
     for y in year:
         print(f"\n---------- 📅 TRAITEMENT DE L'ANNÉE : {y} ----------")
+        year_start_time = datetime.now()
+        logging.info("Start ingestion for year %s", y)
+
+        inserted_counts = {
+            "movies": 0,
+            "people": 0,
+            "movie_people": 0,
+            "productions": 0,
+            "movie_productions": 0,
+            "movie_genres": 0,
+            "keywords": 0,
+            "movie_keywords": 0,
+        }
 
         # Étape 1 : Récupérer les movie_ids depuis la base PostgreSQL
         cursor.execute("SELECT movie_id FROM movies")
@@ -113,12 +134,14 @@ if __name__ == "__main__":
             budget_value = budget if isinstance(budget, (int, float)) else 0
             if movie_details and budget_value > 50000:
                 new_movies_df.append(movie_details)
+                inserted_counts["movies"] += 1
                 print(f"Le film {movie_id} a bien été récupéré.")
 
                 # Récupérer et stocker les acteurs du film puis récupérer la liste des nouveaux acteurs
                 movie_people = api.get_movie_people(movie_id, headers)
                 if movie_people:
                     new_movie_people_df.extend(movie_people)
+                    inserted_counts["movie_people"] += len(movie_people)
                     for person in movie_people:
                         # Vérifie si déjà ajouté pendant cette ingestion
                         if any(a['person_id'] == person['person_id'] for a in new_people_df):
@@ -133,6 +156,7 @@ if __name__ == "__main__":
                             person_details = api.get_people_details(person['person_id'], headers)
                             if person_details:
                                 new_people_df.append(person_details)
+                                inserted_counts["people"] += 1
 
                         time.sleep(0.25)  # Respecter les limites de l'API
                 else:
@@ -142,6 +166,7 @@ if __name__ == "__main__":
                 movie_genre = api.get_movie_genres(movie_id, headers)
                 if movie_genre:
                     new_movie_genres_df.extend(movie_genre)
+                    inserted_counts["movie_genres"] += len(movie_genre)
 
                     time.sleep(0.25)  # Respecter les limites de l'API
                 else:
@@ -151,6 +176,7 @@ if __name__ == "__main__":
                 movie_production = api.get_movie_production(movie_id, headers)
                 if movie_production:
                     new_movie_productions_df.extend(movie_production)
+                    inserted_counts["movie_productions"] += len(movie_production)
                     
                     for production in movie_production:
                         # Vérifie si déjà ajouté pendant cette ingestion
@@ -166,12 +192,14 @@ if __name__ == "__main__":
                             production_details = api.get_production_details(production['production_id'], headers)
                             if production_details:
                                 new_productions_df.append(production_details)
+                                inserted_counts["productions"] += 1
                         time.sleep(0.25)  # Respecter les limites de l'API
 
                 # Récupérer et stocker les keywords du film
                 movie_keywords = api.get_movie_keywords(movie_id, headers)
                 if movie_keywords:
                     new_movie_keywords_df.extend(movie_keywords)
+                    inserted_counts["movie_keywords"] += len(movie_keywords)
                     for keyword in movie_keywords:
                         # Vérifie si déjà ajouté pendant cette ingestion
                         if any(k['keyword_id'] == keyword['keyword_id'] for k in new_keywords_df):
@@ -186,23 +214,24 @@ if __name__ == "__main__":
                             keyword_details = api.get_keywords_details(keyword['keyword_id'], headers)
                             if keyword_details:
                                 new_keywords_df.append(keyword_details)
+                                inserted_counts["keywords"] += 1
                         time.sleep(0.25)  # Respecter les limites de l'API
 
                 print(f"Ingestion terminée pour le film ID : {movie_id}")
 
                 count += 1
                 new_count += 1
-                print(f"Progression : {count}/{len(new_movie_ids)} films.")
+                print(f"Progression pour l'année {y} : {count}/{len(new_movie_ids)} films.")
 
             elif movie_details and budget_value <= 50000:
                 print(f"Le film {movie_id} a un budget inférieur ou égal à 50000. Ignoré.")
                 count += 1
-                print(f"Progression : {count}/{len(new_movie_ids)} films.")
+                print(f"Progression pour l'année {y} : {count}/{len(new_movie_ids)} films.")
                 continue
             else:
                 print(f"Échec de la récupération des informations pour le film ID : {movie_id}")
                 count += 1
-                print(f"Progression : {count}/{len(new_movie_ids)} films.")
+                print(f"Progression pour l'année {y} : {count}/{len(new_movie_ids)} films.")
                 continue
 
             # Sauvegarde partielle pour éviter la perte de données en cas de rupture de connexion
@@ -229,6 +258,21 @@ if __name__ == "__main__":
             db.insert_movie_keywords_to_db(conn, new_movie_keywords_df)
 
             print(f"\n✅ Ingestion des données pour l'année {y} terminée : {new_count} nouveaux films ajoutés avec succès dans la base de données !")
+
+        year_end_time = datetime.now()
+        logging.info(
+            "End ingestion for year %s | movies=%s people=%s movie_people=%s productions=%s movie_productions=%s movie_genres=%s keywords=%s movie_keywords=%s",
+            y,
+            inserted_counts["movies"],
+            inserted_counts["people"],
+            inserted_counts["movie_people"],
+            inserted_counts["productions"],
+            inserted_counts["movie_productions"],
+            inserted_counts["movie_genres"],
+            inserted_counts["keywords"],
+            inserted_counts["movie_keywords"],
+        )
+        logging.info("Ingestion duration for year %s: %s", y, year_end_time - year_start_time)
 
     print(f"\n✅ Ingestion des données terminée pour toutes les années : {new_count} nouveaux films ajoutés avec succès dans la base de données !")
 

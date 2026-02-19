@@ -1,170 +1,286 @@
+import os
+import sys
+
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
 import requests
 import pandas as pd
 import time
 import ingestion.api_data_ingestion as api
-import init.db_insertion_csv as csv
-import os
-from dotenv import load_dotenv
+import init.db_insertion_postgres as db
+import logging
+from datetime import datetime, timedelta
+from db_connection import connect_to_db
 
-load_dotenv()
-
-os.makedirs("data", exist_ok=True) #si le dossier "data" n'existe pas préalablement au main
+# L'ingestion se fait année par année. Spécifier l'année à ingérer ici :
+year = [2026]
 
 if __name__ == "__main__":
-    start_time = time.time()
-    print("Démarrage de l'ingestion des données depuis l'API TMDB...")
+    log_file = os.path.join(os.path.dirname(__file__), "ingestion_log.txt")
+    logging.basicConfig(
+        filename=log_file,
+        level=logging.INFO,
+        format="%(asctime)s | %(levelname)s | %(message)s",
+    )
 
+    # Connexion à la base de données PostgreSQL
+    engine = connect_to_db()
+    conn = engine.raw_connection()
+    cursor = conn.cursor() 
+
+    # Configuration de l'API
     api_key = os.getenv("API_KEY")
-
     headers = {
         "accept": "application/json",
         "Authorization": f"Bearer {api_key}"
     }
 
-    # Étape 1 : Récupérer les movie_ids depuis le CSV (à terme, depuis la BDD)
-    movie_path = "data/movies_data.csv"
-    if os.path.exists(movie_path):
-        try:
-            movie_df = pd.read_csv(movie_path)
-            # Vérifie si la colonne 'movie_id' existe et contient au moins un élément
-            if 'movie_id' in movie_df.columns and not movie_df['movie_id'].empty:
-                bdd_movie_ids = movie_df['movie_id'].unique().tolist()
+    # Début du processus d'ingestion
+    start_time = time.time()
+    print("Démarrage de l'ingestion des données depuis l'API TMDB...")
+
+    # Récupérer tous les genres depuis l'API
+    all_genres_df = api.get_genres(headers)
+
+    # Insérer dans la table genres
+    for row in all_genres_df.itertuples(index=False):
+        cursor.execute("""
+            INSERT INTO genres (genre_id, genre_name)
+            VALUES (%s, %s)
+            ON CONFLICT (genre_id) DO NOTHING;
+        """, (row.genre_id, row.genre_name))
+    conn.commit()
+    
+    # Itération sur les années spécifiées (ici, une seule année : 2023) pour récupérer les movie_ids mois par mois
+    for y in year:
+        print(f"\n---------- 📅 TRAITEMENT DE L'ANNÉE : {y} ----------")
+        year_start_time = datetime.now()
+        logging.info("Start ingestion for year %s", y)
+
+        inserted_counts = {
+            "movies": 0,
+            "people": 0,
+            "movie_people": 0,
+            "productions": 0,
+            "movie_productions": 0,
+            "movie_genres": 0,
+            "keywords": 0,
+            "movie_keywords": 0,
+        }
+
+        # Étape 1 : Récupérer les movie_ids depuis la base PostgreSQL
+        cursor.execute("SELECT movie_id FROM movies")
+        bdd_movie_ids = [row[0] for row in cursor.fetchall()]   
+        print(f"Nombre de films dans la base de données : {len(bdd_movie_ids)}")
+
+        # Étape 2 : Récupérer les ids de films à ingérer via l'API en définissant une période temporelle
+        print(f"⏳ Recherche des nouveaux films depuis l'API...")
+
+        # Configuration pour itérer mois par mois sur une année complète
+        all_api_movie_ids = []
+        
+        for month in range(1, 13):
+            # Calculer les dates de début et fin pour chaque mois
+            start_date = f"{y}-{month:02d}-01"
+            
+            # Calculer le dernier jour du mois
+            if month == 12:
+                next_month = datetime(y + 1, 1, 1)
             else:
-                bdd_movie_ids = []
-        except pd.errors.EmptyDataError:
-            bdd_movie_ids = []
-    else:
-        bdd_movie_ids = []
-    
-    print(f"Nombre de films dans la base de données : {len(bdd_movie_ids)}")
-
-    # Étape 2 : Récupérer des films via l'API en définissant une période temporelle
-    start_date = "2024-12-01"
-    api_movie_ids = api.get_movie_ids(start_date, headers)
-
-    # Étape 3 : Identifier les movie_ids qui ne sont pas encore dans la BDD
-    new_movie_ids = list(set(api_movie_ids) - set(bdd_movie_ids))
-    print(f"Nombre de nouveaux films à ingérer : {len(new_movie_ids)}")
-
-    # Étape 4 : Ingestion des données pour chaque nouveau movie_id
-    movies_path = "data/movies_data.csv"
-    people_path = "data/people_data.csv"
-    movie_people_path = "data/movie_people.csv"
-    production_path = "data/productions_data.csv"
-    movie_productions_path = "data/movie_productions.csv"
-    movie_genres_path = "data/movie_genres.csv"
-    movie_keywords_path = "data/movie_keywords.csv"
-    keywords_path = "data/keywords_data.csv"
-
-    new_movies_df = []
-    new_people_df = []
-    new_movie_people_df = []
-    new_productions_df = []
-    new_movie_productions_df = []
-    new_movie_genres_df = []
-    new_movie_keywords_df = []
-    new_keywords_df = []
-
-    count = 0
-
-    for movie_id in new_movie_ids:
-        print(f"\nIngestion des données pour le film ID : {movie_id}")
-        time.sleep(0.5) #plusieurs fonctions dans la même boucle --> ajout d'une pause un peu plus longue
-
-        # Récupérer et stocker les détails du film
-        movie_details = api.get_movie_details(movie_id, headers)
-        if movie_details:
-            new_movies_df.append(movie_details)
-            print(f"Le film {movie_id} a bien été récupéré.")
-        else:
-            print(f"Échec de la récupération des détails pour le film ID : {movie_id}")
-            continue
-
-        # Récupérer et stocker les personnes clées du film puis les ajouter à la BDD
-        movie_people = api.get_movie_people(movie_id, headers)
-        if movie_people:
-            new_movie_people_df.extend(movie_people)
-            for person in movie_people:
-                pid = person['people_id']
-                if any(p['person_id'] == pid for p in new_people_df):
-                    continue
-                elif os.path.exists(people_path) and api.people_exists_in_db(pid, people_path):
-                    continue
-                else:
-                    details = api.get_people_details(pid, headers)
-                    if details:
-                        new_people_df.append(details)
-                time.sleep(0.25)
-        else:
-            print(f"⚠️ Aucun people trouvé pour le film {movie_id}")
-
-        # Récupérer et stocker les genres du film
-        movie_genre = api.get_movie_genres(movie_id, headers)
-        if movie_genre:
-            new_movie_genres_df.extend(movie_genre)
-            time.sleep(0.25)  # Respecter les limites de l'API
-        else:
-            print(f"Aucun genre trouvé pour le film ID : {movie_id}")
+                next_month = datetime(y, month + 1, 1)
+            
+            end_date = (next_month - timedelta(days=1)).strftime("%Y-%m-%d")
+            
+            print(f"Récupération des films pour la période : {start_date} à {end_date}")
+            
+            # Récupérer les movie_ids pour ce mois
+            api_movie_ids = api.get_movie_ids(start_date, end_date, headers)
+            all_api_movie_ids.extend(api_movie_ids)
+            
+            print(f"Films trouvés pour {start_date} à {end_date}: {len(api_movie_ids)}")
+            
+            # Pause pour respecter les limites de l'API
+            time.sleep(0.5)
         
-        # Récupérer et stocker les productions du film
-        movie_production = api.get_movie_production(movie_id, headers)
-        if movie_production:
-            new_movie_productions_df.extend(movie_production)
-            for production in movie_production:
-                if any(p['production_id'] == production['production_id'] for p in new_productions_df):
-                    continue  # Production déjà ajoutée au cours de cette ingestion
-                elif os.path.exists(production_path) and api.production_exists_in_db(production['production_id'], production_path):
-                    continue  # Production déjà présente dans la BDD
-                else:
-                    production_details = api.get_production_details(production['production_id'], headers)
-                    if production_details:
-                        new_productions_df.append(production_details)
-                time.sleep(0.25)  # Respecter les limites de l'API
-        
-        # Récupérer et stocker les keywords du film
-        movie_keywords = api.get_movie_keywords(movie_id, headers)
-        if movie_keywords:
-            new_movie_keywords_df.extend(movie_keywords)
-            for keyword in movie_keywords:
-                kid = keyword['keyword_id']
-                if any(k['keyword_id'] == kid for k in new_keywords_df):
-                    continue
-                elif os.path.exists(keywords_path) and api.keyword_exists_in_db(kid, keywords_path):
-                    continue
-                else:
-                    details = api.get_keywords_details(kid, headers)
-                    if details:
-                        new_keywords_df.append(details)
-                time.sleep(0.25)
-        
-        count += 1
-        print(f"Ingestion terminée pour le film ID : {movie_id}")
-        print(f"Progression : {count}/{len(new_movie_ids)} films.")
+        # Supprimer les doublons
+        all_api_movie_ids = list(set(all_api_movie_ids))
+        print(f"Total de films uniques trouvés pour l'année {y}: {len(all_api_movie_ids)}")
 
-        # Sauvegarde partielle pour éviter la perte de données en cas de rupture de connexion
-        if count % 100 == 0:
-            api.save_data_to_csv(movies_path, new_movies_df); new_movies_df.clear()
-            api.save_data_to_csv(people_path, new_people_df); new_people_df.clear()
-            api.save_data_to_csv(movie_people_path, new_movie_people_df); new_movie_people_df.clear()
-            api.save_data_to_csv(production_path, new_productions_df); new_productions_df.clear()
-            api.save_data_to_csv(movie_productions_path, new_movie_productions_df); new_movie_productions_df.clear()
-            api.save_data_to_csv(movie_genres_path, new_movie_genres_df); new_movie_genres_df.clear()
-            api.save_data_to_csv(movie_keywords_path, new_movie_keywords_df); new_movie_keywords_df.clear()
-            api.save_data_to_csv(keywords_path, new_keywords_df); new_keywords_df.clear()
-            print(f"✅ Sauvegarde intermédiaire terminée après {count} films.")
+        # Étape 3 : Identifier les movie_ids qui ne sont pas encore dans la base postgreSQL
+        new_movie_ids = list(set(all_api_movie_ids) - set(bdd_movie_ids))
+        print(f"Nombre de nouveaux films à ingérer : {len(new_movie_ids)}")
 
-    # Étape 5 : Enregistrement finale des données collectées dans les fichiers CSV
-    api.save_data_to_csv(movies_path, new_movies_df)
-    api.save_data_to_csv(people_path, new_people_df)
-    api.save_data_to_csv(movie_people_path, new_movie_people_df)
-    api.save_data_to_csv(production_path, new_productions_df)
-    api.save_data_to_csv(movie_productions_path, new_movie_productions_df)
-    api.save_data_to_csv(movie_genres_path, new_movie_genres_df)
-    api.save_data_to_csv(movie_keywords_path, new_movie_keywords_df)
-    api.save_data_to_csv(keywords_path, new_keywords_df)
-    print("\n✅ Ingestion des données terminée. Données sauvegardées avec succès dans les fichiers CSV !")
-    
+        # Étape 4 : Ingestion des données pour chaque nouveau movie_id
+        new_movies_df = []
+        new_people_df = []
+        new_movie_people_df = []
+        new_productions_df = []
+        new_movie_productions_df = []
+        new_movie_genres_df = []
+        new_movie_keywords_df = []
+        new_keywords_df = []
+
+        count = 0
+        new_count = 0
+
+        for movie_id in new_movie_ids:
+            print(f"\nIngestion des données pour le film ID : {movie_id}")
+
+            # Récupérer et stocker les détails du film
+            movie_details = api.get_movie_details(movie_id, headers)
+            budget = movie_details.get("budget") if movie_details else None
+            budget_value = budget if isinstance(budget, (int, float)) else 0
+            if movie_details and budget_value > 50000:
+                new_movies_df.append(movie_details)
+                inserted_counts["movies"] += 1
+                print(f"Le film {movie_id} a bien été récupéré.")
+
+                # Récupérer et stocker les acteurs du film puis récupérer la liste des nouveaux acteurs
+                movie_people = api.get_movie_people(movie_id, headers)
+                if movie_people:
+                    new_movie_people_df.extend(movie_people)
+                    inserted_counts["movie_people"] += len(movie_people)
+                    for person in movie_people:
+                        # Vérifie si déjà ajouté pendant cette ingestion
+                        if any(a['person_id'] == person['person_id'] for a in new_people_df):
+                            continue  
+
+                        # Vérifie dans la base PostgreSQL
+                        elif db.person_exists_in_db(person['person_id'], conn):
+                            continue  
+
+                        # Ajoute le nouvel acteur
+                        else:
+                            person_details = api.get_people_details(person['person_id'], headers)
+                            if person_details:
+                                new_people_df.append(person_details)
+                                inserted_counts["people"] += 1
+
+                        time.sleep(0.25)  # Respecter les limites de l'API
+                else:
+                    print(f"Aucune personne trouvée pour le film ID : {movie_id}")
+
+                # Récupérer et stocker les genres du film
+                movie_genre = api.get_movie_genres(movie_id, headers)
+                if movie_genre:
+                    new_movie_genres_df.extend(movie_genre)
+                    inserted_counts["movie_genres"] += len(movie_genre)
+
+                    time.sleep(0.25)  # Respecter les limites de l'API
+                else:
+                    print(f"Aucun genre trouvé pour le film ID : {movie_id}")
+                
+                # Récupérer et stocker les productions du film
+                movie_production = api.get_movie_production(movie_id, headers)
+                if movie_production:
+                    new_movie_productions_df.extend(movie_production)
+                    inserted_counts["movie_productions"] += len(movie_production)
+                    
+                    for production in movie_production:
+                        # Vérifie si déjà ajouté pendant cette ingestion
+                        if any(p['production_id'] == production['production_id'] for p in new_productions_df):
+                            continue
+
+                        # Vérifie dans la base PostgreSQL
+                        elif db.production_exists_in_db(production['production_id'], conn):
+                            continue  # Production déjà présente dans la BDD
+
+                        # Ajoute la nouvelle production
+                        else:
+                            production_details = api.get_production_details(production['production_id'], headers)
+                            if production_details:
+                                new_productions_df.append(production_details)
+                                inserted_counts["productions"] += 1
+                        time.sleep(0.25)  # Respecter les limites de l'API
+
+                # Récupérer et stocker les keywords du film
+                movie_keywords = api.get_movie_keywords(movie_id, headers)
+                if movie_keywords:
+                    new_movie_keywords_df.extend(movie_keywords)
+                    inserted_counts["movie_keywords"] += len(movie_keywords)
+                    for keyword in movie_keywords:
+                        # Vérifie si déjà ajouté pendant cette ingestion
+                        if any(k['keyword_id'] == keyword['keyword_id'] for k in new_keywords_df):
+                            continue
+
+                        # Vérifie dans la base PostgreSQL
+                        elif db.keyword_exists_in_db(keyword['keyword_id'], conn):
+                            continue  # Keyword déjà présent dans la BDD
+
+                        # Ajoute le nouveau keyword
+                        else:
+                            keyword_details = api.get_keywords_details(keyword['keyword_id'], headers)
+                            if keyword_details:
+                                new_keywords_df.append(keyword_details)
+                                inserted_counts["keywords"] += 1
+                        time.sleep(0.25)  # Respecter les limites de l'API
+
+                print(f"Ingestion terminée pour le film ID : {movie_id}")
+
+                count += 1
+                new_count += 1
+                print(f"Progression : {count}/{len(new_movie_ids)} films.")
+
+            elif movie_details and budget_value <= 50000:
+                print(f"Le film {movie_id} a un budget inférieur ou égal à 50000. Ignoré.")
+                count += 1
+                print(f"Progression : {count}/{len(new_movie_ids)} films.")
+                continue
+            else:
+                print(f"Échec de la récupération des informations pour le film ID : {movie_id}")
+                count += 1
+                print(f"Progression : {count}/{len(new_movie_ids)} films.")
+                continue
+
+            # Sauvegarde partielle pour éviter la perte de données en cas de rupture de connexion
+            if count % 10 == 0:
+                db.insert_movies_to_db(conn, new_movies_df); new_movies_df.clear()
+                db.insert_people_to_db(conn, new_people_df); new_people_df.clear()
+                db.insert_productions_to_db(conn, new_productions_df); new_productions_df.clear()
+                db.insert_keywords_to_db(conn, new_keywords_df); new_keywords_df.clear()
+                db.insert_movie_people_to_db(conn, new_movie_people_df); new_movie_people_df.clear()
+                db.insert_movie_productions_to_db(conn, new_movie_productions_df); new_movie_productions_df.clear()
+                db.insert_movie_genres_to_db(conn, new_movie_genres_df); new_movie_genres_df.clear()
+                db.insert_movie_keywords_to_db(conn, new_movie_keywords_df); new_movie_keywords_df.clear()
+                
+                print("💾 Sauvegarde partielle effectuée dans la base de données.")
+
+            # Étape 5 : Insertion des données collectées dans la base de données
+            db.insert_movies_to_db(conn, new_movies_df)
+            db.insert_people_to_db(conn, new_people_df)
+            db.insert_productions_to_db(conn, new_productions_df)
+            db.insert_keywords_to_db(conn, new_keywords_df)
+            db.insert_movie_people_to_db(conn, new_movie_people_df)
+            db.insert_movie_productions_to_db(conn, new_movie_productions_df)
+            db.insert_movie_genres_to_db(conn, new_movie_genres_df)
+            db.insert_movie_keywords_to_db(conn, new_movie_keywords_df)
+
+            print(f"\n✅ Ingestion des données pour l'année {y} terminée : {new_count} nouveaux films ajoutés avec succès dans la base de données !")
+
+        year_end_time = datetime.now()
+        logging.info(
+            "End ingestion for year %s | movies=%s people=%s movie_people=%s productions=%s movie_productions=%s movie_genres=%s keywords=%s movie_keywords=%s",
+            y,
+            inserted_counts["movies"],
+            inserted_counts["people"],
+            inserted_counts["movie_people"],
+            inserted_counts["productions"],
+            inserted_counts["movie_productions"],
+            inserted_counts["movie_genres"],
+            inserted_counts["keywords"],
+            inserted_counts["movie_keywords"],
+        )
+        logging.info("Ingestion duration for year %s: %s", y, year_end_time - year_start_time)
+
+    print(f"\n✅ Ingestion des données terminée pour toutes les années : {new_count} nouveaux films ajoutés avec succès dans la base de données !")
+
     end_time = time.time()
 
     execution_time = (end_time - start_time)/60
     print(f"🕦 Temps d'exécution : {execution_time:.2f} minutes")
+
+    cursor.close()
+    conn.close()
+    engine.dispose()
