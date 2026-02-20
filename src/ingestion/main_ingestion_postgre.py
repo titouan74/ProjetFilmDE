@@ -14,8 +14,13 @@ import logging
 from datetime import datetime, timedelta
 from db_connection import connect_to_db
 
-# L'ingestion se fait année par année. Spécifier l'année à ingérer ici :
-year = [2008, 2007, 2006]
+# L'ingestion se fait année par année. Spécifier l'année à ingérer ici (commenter l'option qui ne sera pas utilisée) :
+# option 1: spécification des années précises à ingérer sous forme de liste
+#year = [2005]
+# option 2: spécification d'une plage d'années à ingérer
+start_year = 2026
+end_year = 2036
+year = list(range(start_year, end_year + 1))
 
 if __name__ == "__main__":
     log_file = os.path.join(os.path.dirname(__file__), "ingestion_log.txt")
@@ -53,7 +58,7 @@ if __name__ == "__main__":
         """, (row.genre_id, row.genre_name))
     conn.commit()
     
-    # Itération sur les années spécifiées (ici, une seule année : 2023) pour récupérer les movie_ids mois par mois
+    # Itération sur les années spécifiées pour récupérer les movie_ids mois par mois
     for y in year:
         print(f"\n---------- 📅 TRAITEMENT DE L'ANNÉE : {y} ----------")
         year_start_time = datetime.now()

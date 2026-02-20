@@ -1,0 +1,21 @@
+[2026-02-20T11:27:33.043+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-02-20T11:27:33.078+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: db_and_model_update.run_xgb_model_update manual__2026-02-20T10:29:04+00:00 [queued]>
+[2026-02-20T11:27:33.089+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: db_and_model_update.run_xgb_model_update manual__2026-02-20T10:29:04+00:00 [queued]>
+[2026-02-20T11:27:33.090+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 1
+[2026-02-20T11:27:33.115+0000] {taskinstance.py:2890} INFO - Executing <Task(PythonOperator): run_xgb_model_update> on 2026-02-20 10:29:04+00:00
+[2026-02-20T11:27:33.125+0000] {standard_task_runner.py:72} INFO - Started process 79 to run task
+[2026-02-20T11:27:33.131+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'db_and_model_update', 'run_xgb_model_update', 'manual__2026-02-20T10:29:04+00:00', '--job-id', '30', '--raw', '--subdir', 'DAGS_FOLDER/db_and_model_update_dag.py', '--cfg-path', '/tmp/tmp17n1z11g']
+[2026-02-20T11:27:33.142+0000] {standard_task_runner.py:105} INFO - Job 30: Subtask run_xgb_model_update
+[2026-02-20T11:27:33.312+0000] {task_command.py:467} INFO - Running <TaskInstance: db_and_model_update.run_xgb_model_update manual__2026-02-20T10:29:04+00:00 [running]> on host 5a32e08586f8
+[2026-02-20T11:27:33.448+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='db_and_model_update' AIRFLOW_CTX_TASK_ID='run_xgb_model_update' AIRFLOW_CTX_EXECUTION_DATE='2026-02-20T10:29:04+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-20T10:29:04+00:00'
+[2026-02-20T11:27:33.450+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2026-02-20T11:27:37.320+0000] {logging_mixin.py:190} INFO - 🔌 Connexion à la base de données...
+[2026-02-20T11:27:37.434+0000] {logging_mixin.py:190} INFO - ✅ Connexion réussie!
+[2026-02-20T11:27:37.435+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-02-20T11:27:37.436+0000] {logging_mixin.py:190} INFO - 🎯 TRAITEMENT POUR LA VARIABLE CIBLE: REVENUE
+[2026-02-20T11:27:37.436+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-02-20T11:27:37.437+0000] {logging_mixin.py:190} INFO - 🔍 Construction de la requête SQL...
+[2026-02-20T11:27:37.438+0000] {logging_mixin.py:190} INFO - 📥 Chargement des données complètes...
+[2026-02-20T11:27:37.438+0000] {logging_mixin.py:190} INFO - 🔗 Test de connexion à la base de données...
+[2026-02-20T11:27:37.441+0000] {logging_mixin.py:190} INFO - ✅ Connexion PostgreSQL réussie!

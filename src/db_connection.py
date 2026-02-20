@@ -23,5 +23,4 @@ def connect_to_db() -> None:
         return engine
     except Exception as e:
         print(f"❌ Échec de la connexion à la base de données: {e}")
-        exit()
-    return engine
+        raise RuntimeError("Échec de la connexion à la base de données") from e

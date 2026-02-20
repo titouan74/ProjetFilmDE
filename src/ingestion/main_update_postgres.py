@@ -23,9 +23,9 @@ if __name__ == "__main__":
     }
 
     # Paramètres de mise à jour
-    moviesUpdate = False
+    moviesUpdate = True
     peopleUpdate = True
-    genresUpdate = False
+    genresUpdate = True
 
     movie_query = f"""
         SELECT movie_id 
@@ -63,6 +63,8 @@ if __name__ == "__main__":
                 VALUES (%s, %s)
                 ON CONFLICT (genre_id) DO NOTHING;
             """, (row.genre_id, row.genre_name))
+        
+        print(f"✅ Mise à jour des genres terminée. {len(all_genres_df)} genres insérés ou mis à jour dans la base de données.")
         conn.commit()
 
     if moviesUpdate:
@@ -90,6 +92,11 @@ if __name__ == "__main__":
             # Sauvegarde partielle pour éviter la perte de données en cas de rupture de connexion
             if movie_count % 100 == 0:
                 db.insert_updated_movies_to_db(updated_movies_df, conn); updated_movies_df.clear()
+            
+        # Étape 4 : Insertion des données collectées dans la base de données
+        db.insert_updated_movies_to_db(updated_movies_df, conn)
+        print(f"✅ Mise à jour des films terminée. {len(updated_movies_df)} films insérés ou mis à jour dans la base de données.")
+        conn.commit()
 
     if peopleUpdate:
         # Étape 2 : Mise à jour de la table people
@@ -118,9 +125,9 @@ if __name__ == "__main__":
                 db.insert_updated_people_to_db(updated_people_df, conn); updated_people_df.clear()
 
         # Étape 5 : Insertion des données collectées dans la base de données
-        db.insert_updated_movies_to_db(updated_movies_df, conn)
         db.insert_updated_people_to_db(updated_people_df, conn)
-        print("\n✅ Ingestion des données terminée. Données sauvegardées avec succès dans la base de données !")
+        print("\n✅ Mise à jour des personnes terminée. {} personnes insérées ou mises à jour dans la base de données.".format(len(updated_people_df)))
+        conn.commit()
 
     end_time = time.time()
 

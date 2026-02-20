@@ -5,12 +5,9 @@ import pandas as pd
 import numpy as np
 from typing import Tuple, List, Dict, Optional
 from sklearn.model_selection import train_test_split, RandomizedSearchCV
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.linear_model import LinearRegression
-from xgboost import XGBRegressor
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
-import matplotlib.pyplot as plt
-import seaborn as sns
+from sklearn.metrics import root_mean_squared_error, mean_absolute_error, r2_score
+import gc
 from sqlalchemy import text
 import time
 from joblib import dump, load
@@ -20,11 +17,6 @@ import sys
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from db_connection import connect_to_db
-
-
-# Configuration pour les graphiques
-plt.style.use('default')
-sns.set_palette("husl")
 
 # =============================
 # 2. Paramètres de connexion et de la requête SQL
@@ -118,8 +110,8 @@ def preprocess_data(df: pd.DataFrame) -> Tuple[pd.Series, pd.Series]:
 
     df = df.copy()
 
-    # On garde les Top-100 modalités des tables intermédiaires
-    K = 100
+    # On garde les Top-50 modalités des tables intermédiaires pour alléger le process
+    K = 50
     top_genres      = df["genre_id"].value_counts().head(K).index
     top_keywords    = df["keyword_id"].value_counts().head(K).index
     top_people      = df["person_id"].value_counts().head(K).index
@@ -168,6 +160,8 @@ def preprocess_data(df: pd.DataFrame) -> Tuple[pd.Series, pd.Series]:
     X = X.drop(columns=["target"])
 
     X = X.fillna(0)
+    X = X.astype(np.float32)
+    y = y.astype(np.float32)
 
     return X, y
 
@@ -182,6 +176,9 @@ def process_linear_regression(X: pd.DataFrame, y: pd.Series,
     Entraîne un modèle de régression linéaire sur X/y.
     Retourne le modèle entraîné et les splits train/test.
     """
+
+    from sklearn.linear_model import LinearRegression
+
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
     lr = LinearRegression()
     lr.fit(X_train, y_train)
@@ -198,20 +195,22 @@ def process_random_forest(X: pd.DataFrame, y: pd.Series,
     Entraîne un RandomForestRegressor avec RandomizedSearchCV sur X/y.
     Retourne le meilleur modèle et les splits train/test.
     """
+
+    from sklearn.ensemble import RandomForestRegressor
     
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
 
-    rf = RandomForestRegressor(random_state=42, n_jobs=-1)
+    rf = RandomForestRegressor(random_state=42, n_jobs=1)
     rf_params = {
-        "n_estimators": [100, 200, 300],
-        "max_depth": [10, 20, 30, None],
+        "n_estimators": [80, 120, 180],
+        "max_depth": [10, 20, None],
         "min_samples_split": [2, 5, 10],
         "min_samples_leaf": [1, 2, 4],
         "max_features": ["sqrt","log2", None]
     }
 
     rf_search = RandomizedSearchCV(
-        rf, rf_params, n_iter=10, cv=3, scoring="r2", n_jobs=-1, random_state=42
+        rf, rf_params, n_iter=4, cv=2, scoring="r2", n_jobs=1, random_state=42
     )
     rf_search.fit(X_train, y_train)
     best_rf = rf_search.best_estimator_
@@ -241,12 +240,13 @@ def process_xgb_regressor(X: pd.DataFrame, y: pd.Series,
     Entraîne un XGBRegressor avec RandomizedSearchCV sur X/y.
     Retourne le meilleur modèle et les splits train/test.
     """
+    from xgboost import XGBRegressor
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
 
-    xgb = XGBRegressor(random_state=42, n_jobs=-1)
+    xgb = XGBRegressor(random_state=42, n_jobs=1, tree_method="hist")
     xgb_params = {
-        "n_estimators": [100, 200, 300],
+        "n_estimators": [80, 120, 180],
         "max_depth": [3, 5, 7],
         "learning_rate": [0.05, 0.1, 0.2],
         "subsample": [0.7, 0.8, 1.0],
@@ -254,7 +254,7 @@ def process_xgb_regressor(X: pd.DataFrame, y: pd.Series,
     }
 
     xgb_search = RandomizedSearchCV(
-        xgb, xgb_params, n_iter=10, cv=3, scoring="r2", n_jobs=-1, random_state=42
+        xgb, xgb_params, n_iter=3, cv=2, scoring="r2", n_jobs=1, random_state=42
     )
     xgb_search.fit(X_train, y_train)
     best_xgb = xgb_search.best_estimator_
@@ -408,3 +408,134 @@ def get_movie_info_from_db(movie_title: str, engine) -> Dict:
         print(f"❌ Erreur lors de la recherche: {e}")
         return {}
     
+def train_and_save_models(ml_model: str, targets: List[str]):
+    # Début du timer
+    start_time = time.time()
+
+    # Connexion à la base de données
+    engine = connect_to_db()
+
+    # Définition du modèle à entraîner en fonction de l'argument ml_model
+    if ml_model == "xgb":
+        models_config = [
+            {
+                'name': 'XGBoost',
+                'function': process_xgb_regressor,
+                'prefix': 'xgb'
+            }
+        ]
+    elif ml_model == "rf":
+        models_config = [
+            {
+                'name': 'RandomForest',
+                'function': process_random_forest,
+                'prefix': 'rf'
+            }
+        ]
+    elif ml_model == "lr":
+        models_config = [
+            {
+                'name': 'LinearRegression',
+                'function': process_linear_regression,
+                'prefix': 'lr'
+            }
+        ]
+    else:
+        print(f"❌ Modèle ML inconnu: {ml_model}. Merci d'entrer une des valeurs suivantes: 'xgb', 'rf', 'lr'.")
+        return
+
+    for target in targets:
+        print("\n" + "="*50)
+        print(f"🎯 TRAITEMENT POUR LA VARIABLE CIBLE: {target.upper()}")
+        print("="*50)   
+
+        # Construction de la requête SQL et chargement des données
+        print("🔍 Construction de la requête SQL...")
+        query = build_query(target=target)
+        
+        print("📥 Chargement des données complètes...")
+        df_raw = fetch_movie_data(query, engine)
+
+        if df_raw.empty:
+            print("❌ Aucune donnée récupérée de la base de données!")
+            exit()
+
+        # Préprocessing des données et obtention de X et y
+        print("🔧 Début du préprocessing des données...")
+        X, y = preprocess_data(df_raw)
+
+        # Vérification que les données ont bien été prétraitées
+        if X is None or y is None:
+            print("❌ Le prétraitement des données a échoué. Fin du programme.")
+        else:
+            print(f"✅ Préprocessing terminé! Shape final: X{X.shape}, y{y.shape}")
+            print("\n" + "="*50)
+            print(f"🤖 ENTRAÎNEMENT DU MODÈLE {model_config['name'].upper()}")
+            print("="*50)
+            
+            # Création du répertoire models si nécessaire
+            model_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "models")
+            os.makedirs(model_dir, exist_ok=True)
+            
+            # Entraînement et sauvegarde de chaque modèle
+            for model_config in models_config:
+                print(f"\n🔧 Entraînement du modèle {model_config['name']}...")
+                
+                # Entraînement du modèle
+                model, X_train, X_test, y_train, y_test = model_config['function'](X, y)
+                
+                # Sauvegarde du modèle
+                print(f"💾 Sauvegarde du modèle {model_config['name']}...")
+                
+                model_filename = f"{model_dir}/{model_config['prefix']}_model_{target}.joblib"
+                dump(model, model_filename)
+                
+                # Création et sauvegarde des métadonnées complètes
+                metadata = {
+                    'target': target,
+                    'model_type': model_config['name'],
+                    'training_date': datetime.now().isoformat(),
+                    'train_score': float(model.score(X_train, y_train)),
+                    'test_score': float(model.score(X_test, y_test)),
+                    'n_features': X.shape[1],
+                    'n_samples': X.shape[0],
+                    'feature_columns': list(X.columns),
+                    'model_params': model.get_params(),
+                    'model_performance': {
+                        'train_rmse': float(root_mean_squared_error(y_train, model.predict(X_train))),
+                        'test_rmse': float(root_mean_squared_error(y_test, model.predict(X_test))),
+                        'train_mae': float(mean_absolute_error(y_train, model.predict(X_train))),
+                        'test_mae': float(mean_absolute_error(y_test, model.predict(X_test))),
+                        'train_r2': float(r2_score(y_train, model.predict(X_train))),
+                        'test_r2': float(r2_score(y_test, model.predict(X_test)))
+                    },
+                    'data_info': {
+                        'train_samples': X_train.shape[0],
+                        'test_samples': X_test.shape[0],
+                        'target_mean': float(y.mean()),
+                        'target_std': float(y.std()),
+                        'target_min': float(y.min()),
+                        'target_max': float(y.max())
+                    }
+                }
+                
+                metadata_filename = f"{model_dir}/{model_config['prefix']}_metadata_{target}.joblib"
+                dump(metadata, metadata_filename)
+                
+                # Affichage des informations de sauvegarde
+                print(f"✅ Modèle {model_config['name']} sauvegardé: {model_filename}")
+                print(f"✅ Métadonnées sauvegardées: {metadata_filename}")
+                print(f"📊 Scores - Train: {metadata['train_score']:.4f}, Test: {metadata['test_score']:.4f}")
+                print(f"🔧 Features: {metadata['n_features']}, Échantillons: {metadata['n_samples']}")
+                del model, X_train, X_test, y_train, y_test
+                gc.collect()
+                
+            print(f"\n🎉 Entrainement terminé et sauvegardés avec succès pour {target}!")
+            del X, y, df_raw
+            gc.collect()
+        
+    # Fin du timer
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print("\n✅ Entrainement terminé pour toutes les variables cibles.")
+    print(f"\n⏱️ Temps total d'exécution du script: {elapsed_time:.2f} secondes")

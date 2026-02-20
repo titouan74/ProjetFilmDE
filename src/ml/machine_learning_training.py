@@ -1,5 +1,6 @@
 from datetime import datetime
 import time
+import gc
 from joblib import dump
 from sklearn.metrics import root_mean_squared_error, mean_absolute_error, r2_score
 from machine_learning_utils import *
@@ -69,7 +70,7 @@ if __name__ == "__main__":
             ]
             
             # Création du répertoire models si nécessaire
-            model_dir = "src/ml/models"
+            model_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "models")
             os.makedirs(model_dir, exist_ok=True)
             
             # Entraînement et sauvegarde de chaque modèle
@@ -122,8 +123,12 @@ if __name__ == "__main__":
                 print(f"✅ Métadonnées sauvegardées: {metadata_filename}")
                 print(f"📊 Scores - Train: {metadata['train_score']:.4f}, Test: {metadata['test_score']:.4f}")
                 print(f"🔧 Features: {metadata['n_features']}, Échantillons: {metadata['n_samples']}")
+                del model, X_train, X_test, y_train, y_test
+                gc.collect()
                 
             print(f"\n🎉 Tous les modèles ont été entraînés et sauvegardés avec succès pour {target}!")
+            del X, y, df_raw
+            gc.collect()
         
     # Fin du timer
     end_time = time.time()

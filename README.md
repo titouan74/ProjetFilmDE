@@ -38,9 +38,17 @@ MISE A JOUR DE LA BASE EXISTANTE
 3. On insert les nouvelles valeurs dans la base
 
 DESCRIPTION DES FICHIERS:
-- 'recovery_keywords' et 'recovery_people' --> utilisés une fois pour récupérer des données sur des films existants dans la base (suite au changement de schéma de la base)
-- 'api_data_ingestion' --> fonctions pour l'ingestion des données depuis l'API TheMovieDB
-- 'main_ingestion_csv' --> processus d'ingestion des nouveaux films avec sauvegarde au format csv
-- 'main_ingestion_postgre' --> processus d'ingestion des nouveaux films avec sauvegarde dans la base postgre
-- 'db_instertion_csv' --> fonctions pour l'insertion des données dans des fichiers csv
-- 'db_instertion_postgre' --> fonctions pour l'insertion des données dans la base postgre
+- `recovery_keywords` et `recovery_people` --> utilisés une fois pour récupérer des données sur des films existants dans la base (suite au changement de schéma de la base)
+- `api_data_ingestion` --> fonctions pour l'ingestion des données depuis l'API TheMovieDB
+- `main_ingestion_csv` --> processus d'ingestion des nouveaux films avec sauvegarde au format csv
+- `main_ingestion_postgre` --> processus d'ingestion des nouveaux films avec sauvegarde dans la base postgre
+- `db_instertion_csv` --> fonctions pour l'insertion des données dans des fichiers csv
+- `db_instertion_postgre` --> fonctions pour l'insertion des données dans la base postgre
+
+AIRFLOW (ORCHESTRATION)
+- Le dossier des DAG est placé dans `airflow/dags` à la racine du projet.
+- Une stack Airflow minimale est disponible dans `airflow/docker-compose.yml`.
+- Définir `API_KEY` dans l'environnement shell avant lancement (ou via un fichier `.env` local).
+- Depuis le dossier `airflow`, lancer : `docker compose up -d`.
+- UI Airflow : http://localhost:8088
+- DAGs créés : `ingestion_postgres_tmdb` (exécute `src/ingestion/main_ingestion_postgre.py`).

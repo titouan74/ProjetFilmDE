@@ -1,0 +1,103 @@
+x-airflow-common: &airflow-common
+  image: apache/airflow:2.10.5-python3.11
+  restart: unless-stopped
+  env_file:
+    - .env
+  environment:
+    AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "false"
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__CORE__PARALLELISM: "1"
+    AIRFLOW__CORE__MAX_ACTIVE_TASKS_PER_DAG: "1"
+    AIRFLOW__SCHEDULER__SCHEDULER_ZOMBIE_TASK_THRESHOLD: "1800"
+    AIRFLOW__SCHEDULER__TASK_INSTANCE_HEARTBEAT_TIMEOUT: "1200"
+    AIRFLOW__SCHEDULER__TASK_INSTANCE_HEARTBEAT_SEC: "30"
+    AIRFLOW__SCHEDULER__TASK_INSTANCE_HEARTBEAT_TIMEOUT_DETECTION_INTERVAL: "30"
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-db:5432/airflow
+    AIRFLOW__DATABASE__SQL_ALCHEMY_POOL_PRE_PING: "true"
+    AIRFLOW__DATABASE__SQL_ALCHEMY_POOL_RECYCLE: "1800"
+    _PIP_ADDITIONAL_REQUIREMENTS: "pandas numpy requests sqlalchemy psycopg2-binary joblib scikit-learn xgboost matplotlib seaborn"
+    PYTHONPATH: /opt/project/src
+    AIRFLOW_UID: ${AIRFLOW_UID:-50000}
+    API_KEY: ${API_KEY:-change_me}
+    AIRFLOW_USERNAME: ${AIRFLOW_USERNAME:-admin}
+    AIRFLOW_PASSWORD: ${AIRFLOW_PASSWORD:-admin}
+    POSTGRES_HOST: ${POSTGRES_HOST:-host.docker.internal}
+    POSTGRES_USER: ${POSTGRES_USER:-postgres}
+    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    POSTGRES_DB: ${POSTGRES_DB:-postgres}
+  volumes:
+    - ./dags:/opt/airflow/dags
+    - ./logs:/opt/airflow/logs
+    - ../:/opt/project
+
+services:
+  airflow-db:
+    image: postgres:15
+    container_name: movie-airflow-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - airflow_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow -d airflow"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  airflow-init:
+    <<: *airflow-common
+    container_name: movie-airflow-init
+    restart: "no"
+    depends_on:
+      airflow-db:
+        condition: service_healthy
+    command:
+      - bash
+      - -c
+      - |
+        set -e
+        airflow db migrate || airflow db init
+        airflow users create \
+          --username "$${AIRFLOW_USERNAME:-admin}" \
+          --password "$${AIRFLOW_PASSWORD:-admin}" \
+          --firstname Admin \
+          --lastname User \
+          --role Admin \
+          --email admin@example.com || \
+        airflow users reset-password \
+          --username "$${AIRFLOW_USERNAME:-admin}" \
+          --password "$${AIRFLOW_PASSWORD:-admin}"
+
+  airflow-scheduler:
+    <<: *airflow-common
+    container_name: movie-airflow-scheduler
+    depends_on:
+      airflow-db:
+        condition: service_healthy
+      airflow-init:
+        condition: service_completed_successfully
+    command: airflow scheduler
+
+  airflow-webserver:
+    <<: *airflow-common
+    container_name: movie-airflow-webserver
+    depends_on:
+      airflow-db:
+        condition: service_healthy
+      airflow-init:
+        condition: service_completed_successfully
+    ports:
+      - "8088:8080"
+    command:
+      - bash
+      - -c
+      - |
+        rm -f /opt/airflow/airflow-webserver.pid
+        exec airflow webserver
+
+volumes:
+  airflow_db_data:

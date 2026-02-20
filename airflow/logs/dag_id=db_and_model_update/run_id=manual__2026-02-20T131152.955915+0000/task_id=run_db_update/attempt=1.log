@@ -1,0 +1,25 @@
+[2026-02-20T13:12:09.460+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-02-20T13:12:09.493+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: db_and_model_update.run_db_update manual__2026-02-20T13:11:52.955915+00:00 [queued]>
+[2026-02-20T13:12:09.505+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: db_and_model_update.run_db_update manual__2026-02-20T13:11:52.955915+00:00 [queued]>
+[2026-02-20T13:12:09.506+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 3
+[2026-02-20T13:12:09.525+0000] {taskinstance.py:2890} INFO - Executing <Task(BashOperator): run_db_update> on 2026-02-20 13:11:52.955915+00:00
+[2026-02-20T13:12:09.534+0000] {standard_task_runner.py:72} INFO - Started process 139 to run task
+[2026-02-20T13:12:09.539+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'db_and_model_update', 'run_db_update', 'manual__2026-02-20T13:11:52.955915+00:00', '--job-id', '38', '--raw', '--subdir', 'DAGS_FOLDER/db_and_model_update_dag.py', '--cfg-path', '/tmp/tmpyzlvx0rj']
+[2026-02-20T13:12:09.542+0000] {standard_task_runner.py:105} INFO - Job 38: Subtask run_db_update
+[2026-02-20T13:12:09.621+0000] {task_command.py:467} INFO - Running <TaskInstance: db_and_model_update.run_db_update manual__2026-02-20T13:11:52.955915+00:00 [running]> on host 5a32e08586f8
+[2026-02-20T13:12:09.774+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='db_and_model_update' AIRFLOW_CTX_TASK_ID='run_db_update' AIRFLOW_CTX_EXECUTION_DATE='2026-02-20T13:11:52.955915+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-20T13:11:52.955915+00:00'
+[2026-02-20T13:12:09.777+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2026-02-20T13:12:09.828+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2026-02-20T13:12:09.831+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', 'python /opt/project/src/ingestion/main_update_postgres.py']
+[2026-02-20T13:12:09.853+0000] {subprocess.py:99} INFO - Output:
+[2026-02-20T13:12:12.281+0000] {subprocess.py:106} INFO - 🔌 Connexion à la base de données...
+[2026-02-20T13:12:12.283+0000] {subprocess.py:106} INFO - ✅ Connexion réussie!
+[2026-02-20T13:12:12.284+0000] {subprocess.py:106} INFO - Démarrage de l'ingestion des données depuis l'API TMDB...
+[2026-02-20T13:12:12.284+0000] {subprocess.py:106} INFO - ✅ Mise à jour des genres terminée. 19 genres insérés ou mis à jour dans la base de données.
+[2026-02-20T13:12:12.285+0000] {subprocess.py:106} INFO - 🕦 Temps d'exécution : 0.00 minutes
+[2026-02-20T13:12:12.465+0000] {subprocess.py:110} INFO - Command exited with return code 0
+[2026-02-20T13:12:12.512+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2026-02-20T13:12:12.513+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=db_and_model_update, task_id=run_db_update, run_id=manual__2026-02-20T13:11:52.955915+00:00, execution_date=20260220T131152, start_date=20260220T131209, end_date=20260220T131212
+[2026-02-20T13:12:12.608+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-02-20T13:12:12.646+0000] {taskinstance.py:3901} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-02-20T13:12:12.649+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
