@@ -417,29 +417,23 @@ def train_and_save_models(ml_model: str, targets: List[str]):
 
     # Définition du modèle à entraîner en fonction de l'argument ml_model
     if ml_model == "xgb":
-        models_config = [
-            {
-                'name': 'XGBoost',
-                'function': process_xgb_regressor,
-                'prefix': 'xgb'
-            }
-        ]
+        model_config = {
+            'name': 'XGBoost',
+            'function': process_xgb_regressor,
+            'prefix': 'xgb'
+        }
     elif ml_model == "rf":
-        models_config = [
-            {
-                'name': 'RandomForest',
-                'function': process_random_forest,
-                'prefix': 'rf'
-            }
-        ]
+        model_config = {
+            'name': 'RandomForest',
+            'function': process_random_forest,
+            'prefix': 'rf'
+        }
     elif ml_model == "lr":
-        models_config = [
-            {
-                'name': 'LinearRegression',
-                'function': process_linear_regression,
-                'prefix': 'lr'
-            }
-        ]
+        model_config = {
+            'name': 'LinearRegression',
+            'function': process_linear_regression,
+            'prefix': 'lr'
+        }
     else:
         print(f"❌ Modèle ML inconnu: {ml_model}. Merci d'entrer une des valeurs suivantes: 'xgb', 'rf', 'lr'.")
         return
@@ -477,58 +471,56 @@ def train_and_save_models(ml_model: str, targets: List[str]):
             model_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "models")
             os.makedirs(model_dir, exist_ok=True)
             
-            # Entraînement et sauvegarde de chaque modèle
-            for model_config in models_config:
-                print(f"\n🔧 Entraînement du modèle {model_config['name']}...")
-                
-                # Entraînement du modèle
-                model, X_train, X_test, y_train, y_test = model_config['function'](X, y)
-                
-                # Sauvegarde du modèle
-                print(f"💾 Sauvegarde du modèle {model_config['name']}...")
-                
-                model_filename = f"{model_dir}/{model_config['prefix']}_model_{target}.joblib"
-                dump(model, model_filename)
-                
-                # Création et sauvegarde des métadonnées complètes
-                metadata = {
-                    'target': target,
-                    'model_type': model_config['name'],
-                    'training_date': datetime.now().isoformat(),
-                    'train_score': float(model.score(X_train, y_train)),
-                    'test_score': float(model.score(X_test, y_test)),
-                    'n_features': X.shape[1],
-                    'n_samples': X.shape[0],
-                    'feature_columns': list(X.columns),
-                    'model_params': model.get_params(),
-                    'model_performance': {
-                        'train_rmse': float(root_mean_squared_error(y_train, model.predict(X_train))),
-                        'test_rmse': float(root_mean_squared_error(y_test, model.predict(X_test))),
-                        'train_mae': float(mean_absolute_error(y_train, model.predict(X_train))),
-                        'test_mae': float(mean_absolute_error(y_test, model.predict(X_test))),
-                        'train_r2': float(r2_score(y_train, model.predict(X_train))),
-                        'test_r2': float(r2_score(y_test, model.predict(X_test)))
-                    },
-                    'data_info': {
-                        'train_samples': X_train.shape[0],
-                        'test_samples': X_test.shape[0],
-                        'target_mean': float(y.mean()),
-                        'target_std': float(y.std()),
-                        'target_min': float(y.min()),
-                        'target_max': float(y.max())
-                    }
+            print(f"\n🔧 Entraînement du modèle {model_config['name']}...")
+            
+            # Entraînement du modèle
+            model, X_train, X_test, y_train, y_test = model_config['function'](X, y)
+            
+            # Sauvegarde du modèle
+            print(f"💾 Sauvegarde du modèle {model_config['name']}...")
+            
+            model_filename = f"{model_dir}/{model_config['prefix']}_model_{target}.joblib"
+            dump(model, model_filename)
+            
+            # Création et sauvegarde des métadonnées complètes
+            metadata = {
+                'target': target,
+                'model_type': model_config['name'],
+                'training_date': datetime.now().isoformat(),
+                'train_score': float(model.score(X_train, y_train)),
+                'test_score': float(model.score(X_test, y_test)),
+                'n_features': X.shape[1],
+                'n_samples': X.shape[0],
+                'feature_columns': list(X.columns),
+                'model_params': model.get_params(),
+                'model_performance': {
+                    'train_rmse': float(root_mean_squared_error(y_train, model.predict(X_train))),
+                    'test_rmse': float(root_mean_squared_error(y_test, model.predict(X_test))),
+                    'train_mae': float(mean_absolute_error(y_train, model.predict(X_train))),
+                    'test_mae': float(mean_absolute_error(y_test, model.predict(X_test))),
+                    'train_r2': float(r2_score(y_train, model.predict(X_train))),
+                    'test_r2': float(r2_score(y_test, model.predict(X_test)))
+                },
+                'data_info': {
+                    'train_samples': X_train.shape[0],
+                    'test_samples': X_test.shape[0],
+                    'target_mean': float(y.mean()),
+                    'target_std': float(y.std()),
+                    'target_min': float(y.min()),
+                    'target_max': float(y.max())
                 }
-                
-                metadata_filename = f"{model_dir}/{model_config['prefix']}_metadata_{target}.joblib"
-                dump(metadata, metadata_filename)
-                
-                # Affichage des informations de sauvegarde
-                print(f"✅ Modèle {model_config['name']} sauvegardé: {model_filename}")
-                print(f"✅ Métadonnées sauvegardées: {metadata_filename}")
-                print(f"📊 Scores - Train: {metadata['train_score']:.4f}, Test: {metadata['test_score']:.4f}")
-                print(f"🔧 Features: {metadata['n_features']}, Échantillons: {metadata['n_samples']}")
-                del model, X_train, X_test, y_train, y_test
-                gc.collect()
+            }
+            
+            metadata_filename = f"{model_dir}/{model_config['prefix']}_metadata_{target}.joblib"
+            dump(metadata, metadata_filename)
+            
+            # Affichage des informations de sauvegarde
+            print(f"✅ Modèle {model_config['name']} sauvegardé: {model_filename}")
+            print(f"✅ Métadonnées sauvegardées: {metadata_filename}")
+            print(f"📊 Scores - Train: {metadata['train_score']:.4f}, Test: {metadata['test_score']:.4f}")
+            print(f"🔧 Features: {metadata['n_features']}, Échantillons: {metadata['n_samples']}")
+            del model, X_train, X_test, y_train, y_test
+            gc.collect()
                 
             print(f"\n🎉 Entrainement terminé et sauvegardés avec succès pour {target}!")
             del X, y, df_raw

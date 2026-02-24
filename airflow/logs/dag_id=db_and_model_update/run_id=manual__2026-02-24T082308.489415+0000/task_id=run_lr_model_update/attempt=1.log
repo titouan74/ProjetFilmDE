@@ -1,0 +1,123 @@
+[2026-02-24T09:19:11.976+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-02-24T09:19:11.995+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: db_and_model_update.run_lr_model_update manual__2026-02-24T08:23:08.489415+00:00 [queued]>
+[2026-02-24T09:19:12.005+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: db_and_model_update.run_lr_model_update manual__2026-02-24T08:23:08.489415+00:00 [queued]>
+[2026-02-24T09:19:12.009+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 1
+[2026-02-24T09:19:12.024+0000] {taskinstance.py:2890} INFO - Executing <Task(PythonOperator): run_lr_model_update> on 2026-02-24 08:23:08.489415+00:00
+[2026-02-24T09:19:12.034+0000] {standard_task_runner.py:72} INFO - Started process 1469 to run task
+[2026-02-24T09:19:12.037+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'db_and_model_update', 'run_lr_model_update', 'manual__2026-02-24T08:23:08.489415+00:00', '--job-id', '89', '--raw', '--subdir', 'DAGS_FOLDER/db_and_model_update_dag.py', '--cfg-path', '/tmp/tmp9658wi2u']
+[2026-02-24T09:19:12.040+0000] {standard_task_runner.py:105} INFO - Job 89: Subtask run_lr_model_update
+[2026-02-24T09:19:12.108+0000] {task_command.py:467} INFO - Running <TaskInstance: db_and_model_update.run_lr_model_update manual__2026-02-24T08:23:08.489415+00:00 [running]> on host 5a32e08586f8
+[2026-02-24T09:19:12.197+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='db_and_model_update' AIRFLOW_CTX_TASK_ID='run_lr_model_update' AIRFLOW_CTX_EXECUTION_DATE='2026-02-24T08:23:08.489415+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-24T08:23:08.489415+00:00'
+[2026-02-24T09:19:12.199+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2026-02-24T09:19:13.561+0000] {logging_mixin.py:190} INFO - 🔌 Connexion à la base de données...
+[2026-02-24T09:19:13.590+0000] {logging_mixin.py:190} INFO - ✅ Connexion réussie!
+[2026-02-24T09:19:13.591+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-02-24T09:19:13.592+0000] {logging_mixin.py:190} INFO - 🎯 TRAITEMENT POUR LA VARIABLE CIBLE: REVENUE
+[2026-02-24T09:19:13.592+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-02-24T09:19:13.593+0000] {logging_mixin.py:190} INFO - 🔍 Construction de la requête SQL...
+[2026-02-24T09:19:13.593+0000] {logging_mixin.py:190} INFO - 📥 Chargement des données complètes...
+[2026-02-24T09:19:13.594+0000] {logging_mixin.py:190} INFO - 🔗 Test de connexion à la base de données...
+[2026-02-24T09:19:13.596+0000] {logging_mixin.py:190} INFO - ✅ Connexion PostgreSQL réussie!
+[2026-02-24T09:21:25.433+0000] {logging_mixin.py:190} INFO - ✅ Données chargées avec succès. Shape: (10453616, 14)
+[2026-02-24T09:21:25.435+0000] {logging_mixin.py:190} INFO - 🔧 Début du préprocessing des données...
+[2026-02-24T09:21:30.451+0000] {logging_mixin.py:190} INFO - ✅ Préprocessing terminé! Shape final: X(5392, 218), y(5392,)
+[2026-02-24T09:21:30.453+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-02-24T09:21:30.455+0000] {taskinstance.py:3313} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 768, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 734, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/baseoperator.py", line 424, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 238, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 256, in execute_callable
+    return runner.run(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/db_and_model_update_dag.py", line 22, in run_train_and_save_models
+    return ml_module.train_and_save_models(ml_model=ml_model, targets=targets)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/project/src/ml/machine_learning_utils.py", line 473, in train_and_save_models
+    print(f"🤖 ENTRAÎNEMENT DU MODÈLE {model_config['name'].upper()}")
+                                       ^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'model_config' where it is not associated with a value
+[2026-02-24T09:21:30.484+0000] {taskinstance.py:1226} INFO - Marking task as FAILED. dag_id=db_and_model_update, task_id=run_lr_model_update, run_id=manual__2026-02-24T08:23:08.489415+00:00, execution_date=20260224T082308, start_date=20260224T091911, end_date=20260224T092130
+[2026-02-24T09:21:30.527+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2026-02-24T09:21:30.531+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 89 for task run_lr_model_update (cannot access local variable 'model_config' where it is not associated with a value; 1469)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/utils/cli.py", line 116, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 3006, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 274, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 3161, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 3185, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 768, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 734, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/baseoperator.py", line 424, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 238, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 256, in execute_callable
+    return runner.run(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/db_and_model_update_dag.py", line 22, in run_train_and_save_models
+    return ml_module.train_and_save_models(ml_model=ml_model, targets=targets)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/project/src/ml/machine_learning_utils.py", line 473, in train_and_save_models
+    print(f"🤖 ENTRAÎNEMENT DU MODÈLE {model_config['name'].upper()}")
+                                       ^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'model_config' where it is not associated with a value
+[2026-02-24T09:21:32.479+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-02-24T09:21:32.508+0000] {taskinstance.py:3901} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-02-24T09:21:32.515+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

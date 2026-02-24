@@ -23,8 +23,8 @@ if __name__ == "__main__":
     }
 
     # Paramètres de mise à jour
-    moviesUpdate = True
-    peopleUpdate = True
+    moviesUpdate = False
+    peopleUpdate = False
     genresUpdate = True
 
     movie_query = f"""
@@ -50,7 +50,10 @@ if __name__ == "__main__":
 
     # Début du processus d'ingestion
     start_time = time.time()
-    print("Démarrage de l'ingestion des données depuis l'API TMDB...")
+    print("Démarrage de l'ingestion des données depuis l'API TMDB avec les paramètres suivants :")
+    print(f"  - Mise à jour des films : {moviesUpdate}")
+    print(f"  - Mise à jour des personnes : {peopleUpdate}")
+    print(f"  - Mise à jour des genres : {genresUpdate}")
 
     if genresUpdate:
         # Récupérer tous les genres depuis l'API
