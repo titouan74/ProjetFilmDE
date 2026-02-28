@@ -287,7 +287,6 @@ def process_xgb_regressor(X, y,
     print("XGBRegressor :")
     print("train :", xgb.score(X_train, y_train))
     print("test  :", xgb.score(X_test, y_test))
-    print('nouveau script utilisé')
     return xgb, X_train, X_test, y_train, y_test
 
 # XGBRegressor avec RandomizedSearchCV
