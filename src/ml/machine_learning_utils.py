@@ -187,84 +187,141 @@ def process_linear_regression(X: pd.DataFrame, y: pd.Series,
     print("test  :", lr.score(X_test, y_test))
     return lr, X_train, X_test, y_train, y_test
 
-# RandomForest avec RandomizedSearchCV
-def process_random_forest(X: pd.DataFrame, y: pd.Series,
-                          featImportance: bool = True,
-                          test_size: float = 0.2, random_state: int = 42):
-    """
-    Entraîne un RandomForestRegressor avec RandomizedSearchCV sur X/y.
-    Retourne le meilleur modèle et les splits train/test.
-    """
+#RandomForest avec param fixes
+def process_random_forest(X, y,
+                          test_size=0.2, random_state=42):
 
     from sklearn.ensemble import RandomForestRegressor
-    
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
 
-    rf = RandomForestRegressor(random_state=42, n_jobs=1)
-    rf_params = {
-        "n_estimators": [80, 120, 180],
-        "max_depth": [10, 20, None],
-        "min_samples_split": [2, 5, 10],
-        "min_samples_leaf": [1, 2, 4],
-        "max_features": ["sqrt","log2", None]
-    }
-
-    rf_search = RandomizedSearchCV(
-        rf, rf_params, n_iter=4, cv=2, scoring="r2", n_jobs=1, random_state=42
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=test_size, random_state=random_state
     )
-    rf_search.fit(X_train, y_train)
-    best_rf = rf_search.best_estimator_
+
+    rf = RandomForestRegressor(
+        n_estimators=100,      # fixe
+        max_depth=15,          # limite profondeur = moins RAM
+        min_samples_split=5,
+        min_samples_leaf=2,
+        max_features="sqrt",
+        n_jobs=1,
+        random_state=42
+    )
+
+    rf.fit(X_train, y_train)
+
     print("RandomForest :")
-    print("Meilleurs paramètres RandomForest :", rf_search.best_params_)
-    print("train :", best_rf.score(X_train, y_train))
-    print("test  :", best_rf.score(X_test, y_test))
+    print("train :", rf.score(X_train, y_train))
+    print("test  :", rf.score(X_test, y_test))
 
-    # Top 50 features importantes pour RandomForest si on veut optimiser
-    if featImportance:
-        feat_imp = pd.DataFrame({
-        "feature": X_train.columns,
-        "importance": best_rf.feature_importances_
-        })
-        feat_imp["importance_pct"] = 100 * feat_imp["importance"] / feat_imp["importance"].sum()
-        top50 = feat_imp.sort_values("importance_pct", ascending=False).head(50)
+    return rf, X_train, X_test, y_train, y_test
 
-        print("\nTop 50 features RandomForest :")
-        print(top50[["feature","importance_pct"]])
+# # RandomForest avec RandomizedSearchCV
+# def process_random_forest(X: pd.DataFrame, y: pd.Series,
+#                           featImportance: bool = True,
+#                           test_size: float = 0.2, random_state: int = 42):
+#     """
+#     Entraîne un RandomForestRegressor avec RandomizedSearchCV sur X/y.
+#     Retourne le meilleur modèle et les splits train/test.
+#     """
 
-    return best_rf, X_train, X_test, y_train, y_test
+#     from sklearn.ensemble import RandomForestRegressor
+    
+#     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
 
-# XGBRegressor avec RandomizedSearchCV
-def process_xgb_regressor(X: pd.DataFrame, y: pd.Series,
-                          test_size: float = 0.2, random_state: int = 42):
-    """
-    Entraîne un XGBRegressor avec RandomizedSearchCV sur X/y.
-    Retourne le meilleur modèle et les splits train/test.
-    """
+#     rf = RandomForestRegressor(random_state=42, n_jobs=1)
+#     rf_params = {
+#         "n_estimators": [80, 120, 180],
+#         "max_depth": [10, 20, None],
+#         "min_samples_split": [2, 5, 10],
+#         "min_samples_leaf": [1, 2, 4],
+#         "max_features": ["sqrt","log2", None]
+#     }
+
+#     rf_search = RandomizedSearchCV(
+#         rf, rf_params, n_iter=4, cv=2, scoring="r2", n_jobs=1, random_state=42
+#     )
+#     rf_search.fit(X_train, y_train)
+#     best_rf = rf_search.best_estimator_
+#     print("RandomForest :")
+#     print("Meilleurs paramètres RandomForest :", rf_search.best_params_)
+#     print("train :", best_rf.score(X_train, y_train))
+#     print("test  :", best_rf.score(X_test, y_test))
+
+#     # Top 50 features importantes pour RandomForest si on veut optimiser
+#     if featImportance:
+#         feat_imp = pd.DataFrame({
+#         "feature": X_train.columns,
+#         "importance": best_rf.feature_importances_
+#         })
+#         feat_imp["importance_pct"] = 100 * feat_imp["importance"] / feat_imp["importance"].sum()
+#         top50 = feat_imp.sort_values("importance_pct", ascending=False).head(50)
+
+#         print("\nTop 50 features RandomForest :")
+#         print(top50[["feature","importance_pct"]])
+
+#     return best_rf, X_train, X_test, y_train, y_test
+
+#XGB avec param fixes
+def process_xgb_regressor(X, y,
+                          test_size=0.2, random_state=42):
+
     from xgboost import XGBRegressor
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
-
-    xgb = XGBRegressor(random_state=42, n_jobs=1, tree_method="hist")
-    xgb_params = {
-        "n_estimators": [80, 120, 180],
-        "max_depth": [3, 5, 7],
-        "learning_rate": [0.05, 0.1, 0.2],
-        "subsample": [0.7, 0.8, 1.0],
-        "colsample_bytree": [0.7, 0.8, 1.0]
-    }
-
-    xgb_search = RandomizedSearchCV(
-        xgb, xgb_params, n_iter=3, cv=2, scoring="r2", n_jobs=1, random_state=42
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=test_size, random_state=random_state
     )
-    xgb_search.fit(X_train, y_train)
-    best_xgb = xgb_search.best_estimator_
+
+    xgb = XGBRegressor(
+        n_estimators=120,
+        max_depth=5,
+        learning_rate=0.1,
+        subsample=0.8,
+        colsample_bytree=0.8,
+        tree_method="hist",   # important pour RAM
+        n_jobs=1,
+        random_state=42
+    )
+
+    xgb.fit(X_train, y_train)
 
     print("XGBRegressor :")
-    print("train :", best_xgb.score(X_train, y_train))
-    print("test  :", best_xgb.score(X_test, y_test))
-    print("Meilleurs paramètres XGBRegressor :", xgb_search.best_params_)
+    print("train :", xgb.score(X_train, y_train))
+    print("test  :", xgb.score(X_test, y_test))
+    print('nouveau script utilisé')
+    return xgb, X_train, X_test, y_train, y_test
 
-    return best_xgb, X_train, X_test, y_train, y_test
+# XGBRegressor avec RandomizedSearchCV
+# def process_xgb_regressor(X: pd.DataFrame, y: pd.Series,
+#                           test_size: float = 0.2, random_state: int = 42):
+#     """
+#     Entraîne un XGBRegressor avec RandomizedSearchCV sur X/y.
+#     Retourne le meilleur modèle et les splits train/test.
+#     """
+#     from xgboost import XGBRegressor
+
+#     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
+
+#     xgb = XGBRegressor(random_state=42, n_jobs=1, tree_method="hist")
+#     xgb_params = {
+#         "n_estimators": [80, 120, 180],
+#         "max_depth": [3, 5, 7],
+#         "learning_rate": [0.05, 0.1, 0.2],
+#         "subsample": [0.7, 0.8, 1.0],
+#         "colsample_bytree": [0.7, 0.8, 1.0]
+#     }
+
+#     xgb_search = RandomizedSearchCV(
+#         xgb, xgb_params, n_iter=3, cv=2, scoring="r2", n_jobs=1, random_state=42
+#     )
+#     xgb_search.fit(X_train, y_train)
+#     best_xgb = xgb_search.best_estimator_
+
+#     print("XGBRegressor :")
+#     print("train :", best_xgb.score(X_train, y_train))
+#     print("test  :", best_xgb.score(X_test, y_test))
+#     print("Meilleurs paramètres XGBRegressor :", xgb_search.best_params_)
+
+#     return best_xgb, X_train, X_test, y_train, y_test
 
 # =============================
 # 5. Fonctions de prédiction pour films individuels
