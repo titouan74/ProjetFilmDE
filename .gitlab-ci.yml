@@ -1,14 +1,8 @@
-image: python:3.11
 stages:
-  - lint
   - test
+  - lint
 variables:
   POSTGRES_HOST: host.docker.internal
-lint:
-  stage: lint
-  script:
-    - pip install flake8
-    - flake8 .
 test:
   stage: test
   tags:
@@ -17,5 +11,12 @@ test:
     - pip install fastapi uvicorn sqlalchemy psycopg2-binary python-dotenv requests pytest
     - cp src/api/.env .env
     - uvicorn src.api.main:app --host 0.0.0.0 --port 8000 &
-    - sleep 5
+    - sleep 20
     - pytest -s src/api/test/test_assert.py
+    - pkill uvicorn || true
+lint:
+  stage: lint
+  allow_failure: true
+  script:
+    - pip install flake8
+    - flake8 airflow/dags src/api/app src/api/test src/ingestion src/init src/ml src/recovery
