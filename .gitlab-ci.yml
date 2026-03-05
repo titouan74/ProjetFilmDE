@@ -1,20 +1,15 @@
+image: python:3.11
 stages:
   - test
   - lint
-variables:
-  POSTGRES_HOST: host.docker.internal
 test:
   stage: test
-  tags:
-    - shell
   script:
-    - py -3 -m pip install --upgrade pip
-    - py -3 -m pip install fastapi uvicorn sqlalchemy psycopg2-binary python-dotenv requests pytest
-    - Copy-Item src/api/.env .env -Force
-    - $uvicorn = Start-Process uvicorn -ArgumentList "src.api.main:app --host 0.0.0.0 --port 8000" -NoNewWindow -PassThru
-    - Start-Sleep -Seconds 20
-    - py -3 -m pytest -s src/api/test/test_assert.py
-    - try { Stop-Process -Id $uvicorn.Id -Force } catch { Write-Host "uvicorn already stopped" }
+    - pip install fastapi uvicorn sqlalchemy psycopg2-binary python-dotenv requests pytest
+    - cp src/api/.env .env
+    - uvicorn src.api.main:app --host 0.0.0.0 --port 8000 &
+    - sleep 20
+    - pytest -s src/api/test/test_assert.py
 lint:
   stage: lint
   allow_failure: true
