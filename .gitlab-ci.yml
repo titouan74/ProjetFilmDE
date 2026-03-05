@@ -2,6 +2,8 @@ image: python:3.11
 stages:
   - lint
   - test
+variables:
+  POSTGRES_HOST: host.docker.internal
 lint:
   stage: lint
   script:
@@ -9,9 +11,8 @@ lint:
     - flake8 .
 test:
   stage: test
-
-  services:
-    - postgres:15
+  tags:
+    - shell
   script:
     - pip install fastapi uvicorn sqlalchemy psycopg2-binary python-dotenv requests pytest
     - cp src/api/.env .env
