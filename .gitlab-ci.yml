@@ -1,0 +1,20 @@
+image: python:3.11
+stages:
+  - lint
+  - test
+lint:
+  stage: lint
+  script:
+    - pip install flake8
+    - flake8 .
+test:
+  stage: test
+
+  services:
+    - postgres:15
+  script:
+    - pip install fastapi uvicorn sqlalchemy psycopg2-binary python-dotenv requests pytest
+    - cp src/api/.env .env
+    - uvicorn src.api.main:app --host 0.0.0.0 --port 8000 &
+    - sleep 5
+    - pytest -s src/api/test/test_assert.py

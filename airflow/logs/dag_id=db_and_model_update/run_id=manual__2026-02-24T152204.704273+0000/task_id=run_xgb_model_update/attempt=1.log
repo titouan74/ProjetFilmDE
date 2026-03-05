@@ -1,0 +1,107 @@
+[2026-02-24T15:25:56.209+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-02-24T15:25:56.225+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: db_and_model_update.run_xgb_model_update manual__2026-02-24T15:22:04.704273+00:00 [queued]>
+[2026-02-24T15:25:56.231+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: db_and_model_update.run_xgb_model_update manual__2026-02-24T15:22:04.704273+00:00 [queued]>
+[2026-02-24T15:25:56.233+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 1
+[2026-02-24T15:25:56.241+0000] {taskinstance.py:2890} INFO - Executing <Task(PythonOperator): run_xgb_model_update> on 2026-02-24 15:22:04.704273+00:00
+[2026-02-24T15:25:56.247+0000] {standard_task_runner.py:72} INFO - Started process 2637 to run task
+[2026-02-24T15:25:56.249+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'db_and_model_update', 'run_xgb_model_update', 'manual__2026-02-24T15:22:04.704273+00:00', '--job-id', '10', '--raw', '--subdir', 'DAGS_FOLDER/db_and_model_update_dag.py', '--cfg-path', '/tmp/tmpr9lcpv6d']
+[2026-02-24T15:25:56.252+0000] {standard_task_runner.py:105} INFO - Job 10: Subtask run_xgb_model_update
+[2026-02-24T15:25:56.298+0000] {task_command.py:467} INFO - Running <TaskInstance: db_and_model_update.run_xgb_model_update manual__2026-02-24T15:22:04.704273+00:00 [running]> on host 5f1c52170570
+[2026-02-24T15:25:56.366+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='db_and_model_update' AIRFLOW_CTX_TASK_ID='run_xgb_model_update' AIRFLOW_CTX_EXECUTION_DATE='2026-02-24T15:22:04.704273+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-24T15:22:04.704273+00:00'
+[2026-02-24T15:25:56.367+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2026-02-24T15:25:57.278+0000] {logging_mixin.py:190} INFO - 🔌 Connexion à la base de données...
+[2026-02-24T15:25:57.317+0000] {logging_mixin.py:190} INFO - ✅ Connexion réussie!
+[2026-02-24T15:25:57.318+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-02-24T15:25:57.318+0000] {logging_mixin.py:190} INFO - 🎯 TRAITEMENT POUR LA VARIABLE CIBLE: REVENUE
+[2026-02-24T15:25:57.319+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-02-24T15:25:57.320+0000] {logging_mixin.py:190} INFO - 🔍 Construction de la requête SQL...
+[2026-02-24T15:25:57.320+0000] {logging_mixin.py:190} INFO - 📥 Chargement des données complètes...
+[2026-02-24T15:25:57.321+0000] {logging_mixin.py:190} INFO - 🔗 Test de connexion à la base de données...
+[2026-02-24T15:25:57.323+0000] {logging_mixin.py:190} INFO - ✅ Connexion PostgreSQL réussie!
+[2026-02-24T15:26:31.679+0000] {logging_mixin.py:190} INFO - ✅ Données chargées avec succès. Shape: (2375557, 14)
+[2026-02-24T15:26:31.680+0000] {logging_mixin.py:190} INFO - 🔧 Début du préprocessing des données...
+[2026-02-24T15:26:32.206+0000] {logging_mixin.py:190} INFO - ✅ Préprocessing terminé! Shape final: X(984, 200), y(984,)
+[2026-02-24T15:26:32.207+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-02-24T15:26:32.208+0000] {logging_mixin.py:190} INFO - 🤖 ENTRAÎNEMENT DU MODÈLE XGBOOST
+[2026-02-24T15:26:32.209+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-02-24T15:26:32.213+0000] {logging_mixin.py:190} INFO - 
+🔧 Entraînement du modèle XGBoost...
+[2026-02-24T15:26:33.059+0000] {logging_mixin.py:190} INFO - XGBRegressor :
+[2026-02-24T15:26:33.064+0000] {logging_mixin.py:190} INFO - train : 0.8705428242683411
+[2026-02-24T15:26:33.069+0000] {logging_mixin.py:190} INFO - test  : 0.5242067575454712
+[2026-02-24T15:26:33.070+0000] {logging_mixin.py:190} INFO - Meilleurs paramètres XGBRegressor : {'subsample': 0.7, 'n_estimators': 180, 'max_depth': 3, 'learning_rate': 0.05, 'colsample_bytree': 0.7}
+[2026-02-24T15:26:33.071+0000] {logging_mixin.py:190} INFO - 💾 Sauvegarde du modèle XGBoost...
+[2026-02-24T15:26:33.103+0000] {logging_mixin.py:190} INFO - ✅ Modèle XGBoost sauvegardé: /opt/project/src/ml/models/xgb_model_revenue.joblib
+[2026-02-24T15:26:33.104+0000] {logging_mixin.py:190} INFO - ✅ Métadonnées sauvegardées: /opt/project/src/ml/models/xgb_metadata_revenue.joblib
+[2026-02-24T15:26:33.105+0000] {logging_mixin.py:190} INFO - 📊 Scores - Train: 0.8705, Test: 0.5242
+[2026-02-24T15:26:33.105+0000] {logging_mixin.py:190} INFO - 🔧 Features: 200, Échantillons: 984
+[2026-02-24T15:26:33.195+0000] {logging_mixin.py:190} INFO - 
+🎉 Entrainement terminé et sauvegardés avec succès pour revenue!
+[2026-02-24T15:26:33.689+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-02-24T15:26:33.690+0000] {logging_mixin.py:190} INFO - 🎯 TRAITEMENT POUR LA VARIABLE CIBLE: POPULARITY
+[2026-02-24T15:26:33.690+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-02-24T15:26:33.691+0000] {logging_mixin.py:190} INFO - 🔍 Construction de la requête SQL...
+[2026-02-24T15:26:33.692+0000] {logging_mixin.py:190} INFO - 📥 Chargement des données complètes...
+[2026-02-24T15:26:33.692+0000] {logging_mixin.py:190} INFO - 🔗 Test de connexion à la base de données...
+[2026-02-24T15:26:33.695+0000] {logging_mixin.py:190} INFO - ✅ Connexion PostgreSQL réussie!
+[2026-02-24T15:27:07.286+0000] {logging_mixin.py:190} INFO - ✅ Données chargées avec succès. Shape: (2375557, 14)
+[2026-02-24T15:27:07.287+0000] {logging_mixin.py:190} INFO - 🔧 Début du préprocessing des données...
+[2026-02-24T15:27:07.803+0000] {logging_mixin.py:190} INFO - ✅ Préprocessing terminé! Shape final: X(984, 200), y(984,)
+[2026-02-24T15:27:07.804+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-02-24T15:27:07.805+0000] {logging_mixin.py:190} INFO - 🤖 ENTRAÎNEMENT DU MODÈLE XGBOOST
+[2026-02-24T15:27:07.806+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-02-24T15:27:07.810+0000] {logging_mixin.py:190} INFO - 
+🔧 Entraînement du modèle XGBoost...
+[2026-02-24T15:27:08.527+0000] {logging_mixin.py:190} INFO - XGBRegressor :
+[2026-02-24T15:27:08.532+0000] {logging_mixin.py:190} INFO - train : 0.8400420546531677
+[2026-02-24T15:27:08.537+0000] {logging_mixin.py:190} INFO - test  : 0.19595927000045776
+[2026-02-24T15:27:08.538+0000] {logging_mixin.py:190} INFO - Meilleurs paramètres XGBRegressor : {'subsample': 0.7, 'n_estimators': 180, 'max_depth': 3, 'learning_rate': 0.05, 'colsample_bytree': 0.7}
+[2026-02-24T15:27:08.538+0000] {logging_mixin.py:190} INFO - 💾 Sauvegarde du modèle XGBoost...
+[2026-02-24T15:27:08.571+0000] {logging_mixin.py:190} INFO - ✅ Modèle XGBoost sauvegardé: /opt/project/src/ml/models/xgb_model_popularity.joblib
+[2026-02-24T15:27:08.572+0000] {logging_mixin.py:190} INFO - ✅ Métadonnées sauvegardées: /opt/project/src/ml/models/xgb_metadata_popularity.joblib
+[2026-02-24T15:27:08.573+0000] {logging_mixin.py:190} INFO - 📊 Scores - Train: 0.8400, Test: 0.1960
+[2026-02-24T15:27:08.574+0000] {logging_mixin.py:190} INFO - 🔧 Features: 200, Échantillons: 984
+[2026-02-24T15:27:08.664+0000] {logging_mixin.py:190} INFO - 
+🎉 Entrainement terminé et sauvegardés avec succès pour popularity!
+[2026-02-24T15:27:09.173+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-02-24T15:27:09.174+0000] {logging_mixin.py:190} INFO - 🎯 TRAITEMENT POUR LA VARIABLE CIBLE: VOTE_AVERAGE
+[2026-02-24T15:27:09.175+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-02-24T15:27:09.175+0000] {logging_mixin.py:190} INFO - 🔍 Construction de la requête SQL...
+[2026-02-24T15:27:09.176+0000] {logging_mixin.py:190} INFO - 📥 Chargement des données complètes...
+[2026-02-24T15:27:09.176+0000] {logging_mixin.py:190} INFO - 🔗 Test de connexion à la base de données...
+[2026-02-24T15:27:09.179+0000] {logging_mixin.py:190} INFO - ✅ Connexion PostgreSQL réussie!
+[2026-02-24T15:27:42.959+0000] {logging_mixin.py:190} INFO - ✅ Données chargées avec succès. Shape: (2375557, 14)
+[2026-02-24T15:27:42.960+0000] {logging_mixin.py:190} INFO - 🔧 Début du préprocessing des données...
+[2026-02-24T15:27:43.477+0000] {logging_mixin.py:190} INFO - ✅ Préprocessing terminé! Shape final: X(984, 200), y(984,)
+[2026-02-24T15:27:43.478+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-02-24T15:27:43.479+0000] {logging_mixin.py:190} INFO - 🤖 ENTRAÎNEMENT DU MODÈLE XGBOOST
+[2026-02-24T15:27:43.479+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-02-24T15:27:43.484+0000] {logging_mixin.py:190} INFO - 
+🔧 Entraînement du modèle XGBoost...
+[2026-02-24T15:27:44.181+0000] {logging_mixin.py:190} INFO - XGBRegressor :
+[2026-02-24T15:27:44.186+0000] {logging_mixin.py:190} INFO - train : 0.587547242641449
+[2026-02-24T15:27:44.191+0000] {logging_mixin.py:190} INFO - test  : 0.2601359486579895
+[2026-02-24T15:27:44.192+0000] {logging_mixin.py:190} INFO - Meilleurs paramètres XGBRegressor : {'subsample': 0.7, 'n_estimators': 180, 'max_depth': 3, 'learning_rate': 0.05, 'colsample_bytree': 0.7}
+[2026-02-24T15:27:44.192+0000] {logging_mixin.py:190} INFO - 💾 Sauvegarde du modèle XGBoost...
+[2026-02-24T15:27:44.225+0000] {logging_mixin.py:190} INFO - ✅ Modèle XGBoost sauvegardé: /opt/project/src/ml/models/xgb_model_vote_average.joblib
+[2026-02-24T15:27:44.225+0000] {logging_mixin.py:190} INFO - ✅ Métadonnées sauvegardées: /opt/project/src/ml/models/xgb_metadata_vote_average.joblib
+[2026-02-24T15:27:44.226+0000] {logging_mixin.py:190} INFO - 📊 Scores - Train: 0.5875, Test: 0.2601
+[2026-02-24T15:27:44.227+0000] {logging_mixin.py:190} INFO - 🔧 Features: 200, Échantillons: 984
+[2026-02-24T15:27:44.332+0000] {logging_mixin.py:190} INFO - 
+🎉 Entrainement terminé et sauvegardés avec succès pour vote_average!
+[2026-02-24T15:27:44.814+0000] {logging_mixin.py:190} INFO - 
+✅ Entrainement terminé pour toutes les variables cibles.
+[2026-02-24T15:27:44.815+0000] {logging_mixin.py:190} INFO - 
+⏱️ Temps total d'exécution du script: 107.54 secondes
+[2026-02-24T15:27:44.815+0000] {python.py:240} INFO - Done. Returned value was: None
+[2026-02-24T15:27:44.824+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2026-02-24T15:27:44.824+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=db_and_model_update, task_id=run_xgb_model_update, run_id=manual__2026-02-24T15:22:04.704273+00:00, execution_date=20260224T152204, start_date=20260224T152556, end_date=20260224T152744
+[2026-02-24T15:27:44.979+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-02-24T15:27:44.990+0000] {taskinstance.py:3901} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-02-24T15:27:44.993+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

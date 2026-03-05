@@ -1,0 +1,104 @@
+[2026-02-28T20:43:08.319+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-02-28T20:43:08.333+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: db_and_model_update.run_rf_model_update manual__2026-02-28T20:40:46.799383+00:00 [queued]>
+[2026-02-28T20:43:08.339+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: db_and_model_update.run_rf_model_update manual__2026-02-28T20:40:46.799383+00:00 [queued]>
+[2026-02-28T20:43:08.340+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 1
+[2026-02-28T20:43:08.347+0000] {taskinstance.py:2890} INFO - Executing <Task(PythonOperator): run_rf_model_update> on 2026-02-28 20:40:46.799383+00:00
+[2026-02-28T20:43:08.352+0000] {standard_task_runner.py:72} INFO - Started process 1844 to run task
+[2026-02-28T20:43:08.355+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'db_and_model_update', 'run_rf_model_update', 'manual__2026-02-28T20:40:46.799383+00:00', '--job-id', '15', '--raw', '--subdir', 'DAGS_FOLDER/db_and_model_update_dag.py', '--cfg-path', '/tmp/tmp6oukdtls']
+[2026-02-28T20:43:08.357+0000] {standard_task_runner.py:105} INFO - Job 15: Subtask run_rf_model_update
+[2026-02-28T20:43:08.402+0000] {task_command.py:467} INFO - Running <TaskInstance: db_and_model_update.run_rf_model_update manual__2026-02-28T20:40:46.799383+00:00 [running]> on host 5f1c52170570
+[2026-02-28T20:43:08.463+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='db_and_model_update' AIRFLOW_CTX_TASK_ID='run_rf_model_update' AIRFLOW_CTX_EXECUTION_DATE='2026-02-28T20:40:46.799383+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-28T20:40:46.799383+00:00'
+[2026-02-28T20:43:08.464+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2026-02-28T20:43:09.327+0000] {logging_mixin.py:190} INFO - 🔌 Connexion à la base de données...
+[2026-02-28T20:43:09.362+0000] {logging_mixin.py:190} INFO - ✅ Connexion réussie!
+[2026-02-28T20:43:09.363+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-02-28T20:43:09.364+0000] {logging_mixin.py:190} INFO - 🎯 TRAITEMENT POUR LA VARIABLE CIBLE: REVENUE
+[2026-02-28T20:43:09.364+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-02-28T20:43:09.365+0000] {logging_mixin.py:190} INFO - 🔍 Construction de la requête SQL...
+[2026-02-28T20:43:09.365+0000] {logging_mixin.py:190} INFO - 📥 Chargement des données complètes...
+[2026-02-28T20:43:09.366+0000] {logging_mixin.py:190} INFO - 🔗 Test de connexion à la base de données...
+[2026-02-28T20:43:09.368+0000] {logging_mixin.py:190} INFO - ✅ Connexion PostgreSQL réussie!
+[2026-02-28T20:43:52.277+0000] {logging_mixin.py:190} INFO - ✅ Données chargées avec succès. Shape: (2982232, 14)
+[2026-02-28T20:43:52.278+0000] {logging_mixin.py:190} INFO - 🔧 Début du préprocessing des données...
+[2026-02-28T20:43:52.931+0000] {logging_mixin.py:190} INFO - ✅ Préprocessing terminé! Shape final: X(1212, 201), y(1212,)
+[2026-02-28T20:43:52.933+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-02-28T20:43:52.933+0000] {logging_mixin.py:190} INFO - 🤖 ENTRAÎNEMENT DU MODÈLE RANDOMFOREST
+[2026-02-28T20:43:52.934+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-02-28T20:43:52.939+0000] {logging_mixin.py:190} INFO - 
+🔧 Entraînement du modèle RandomForest...
+[2026-02-28T20:43:53.123+0000] {logging_mixin.py:190} INFO - RandomForest :
+[2026-02-28T20:43:53.135+0000] {logging_mixin.py:190} INFO - train : 0.7196335982975254
+[2026-02-28T20:43:53.142+0000] {logging_mixin.py:190} INFO - test  : 0.47278209333867993
+[2026-02-28T20:43:53.143+0000] {logging_mixin.py:190} INFO - 💾 Sauvegarde du modèle RandomForest...
+[2026-02-28T20:43:53.314+0000] {logging_mixin.py:190} INFO - ✅ Modèle RandomForest sauvegardé: /opt/project/src/ml/models/rf_model_revenue.joblib
+[2026-02-28T20:43:53.315+0000] {logging_mixin.py:190} INFO - ✅ Métadonnées sauvegardées: /opt/project/src/ml/models/rf_metadata_revenue.joblib
+[2026-02-28T20:43:53.315+0000] {logging_mixin.py:190} INFO - 📊 Scores - Train: 0.7196, Test: 0.4728
+[2026-02-28T20:43:53.316+0000] {logging_mixin.py:190} INFO - 🔧 Features: 201, Échantillons: 1212
+[2026-02-28T20:43:53.447+0000] {logging_mixin.py:190} INFO - 
+🎉 Entrainement terminé et sauvegardés avec succès pour revenue!
+[2026-02-28T20:43:54.064+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-02-28T20:43:54.065+0000] {logging_mixin.py:190} INFO - 🎯 TRAITEMENT POUR LA VARIABLE CIBLE: POPULARITY
+[2026-02-28T20:43:54.066+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-02-28T20:43:54.067+0000] {logging_mixin.py:190} INFO - 🔍 Construction de la requête SQL...
+[2026-02-28T20:43:54.068+0000] {logging_mixin.py:190} INFO - 📥 Chargement des données complètes...
+[2026-02-28T20:43:54.068+0000] {logging_mixin.py:190} INFO - 🔗 Test de connexion à la base de données...
+[2026-02-28T20:43:54.070+0000] {logging_mixin.py:190} INFO - ✅ Connexion PostgreSQL réussie!
+[2026-02-28T20:44:37.112+0000] {logging_mixin.py:190} INFO - ✅ Données chargées avec succès. Shape: (2982232, 14)
+[2026-02-28T20:44:37.114+0000] {logging_mixin.py:190} INFO - 🔧 Début du préprocessing des données...
+[2026-02-28T20:44:37.927+0000] {logging_mixin.py:190} INFO - ✅ Préprocessing terminé! Shape final: X(1212, 201), y(1212,)
+[2026-02-28T20:44:37.928+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-02-28T20:44:37.929+0000] {logging_mixin.py:190} INFO - 🤖 ENTRAÎNEMENT DU MODÈLE RANDOMFOREST
+[2026-02-28T20:44:37.930+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-02-28T20:44:37.934+0000] {logging_mixin.py:190} INFO - 
+🔧 Entraînement du modèle RandomForest...
+[2026-02-28T20:44:38.015+0000] {logging_mixin.py:190} INFO - RandomForest :
+[2026-02-28T20:44:38.024+0000] {logging_mixin.py:190} INFO - train : 0.5199204924557045
+[2026-02-28T20:44:38.030+0000] {logging_mixin.py:190} INFO - test  : 0.24912496161223208
+[2026-02-28T20:44:38.031+0000] {logging_mixin.py:190} INFO - 💾 Sauvegarde du modèle RandomForest...
+[2026-02-28T20:44:38.185+0000] {logging_mixin.py:190} INFO - ✅ Modèle RandomForest sauvegardé: /opt/project/src/ml/models/rf_model_popularity.joblib
+[2026-02-28T20:44:38.186+0000] {logging_mixin.py:190} INFO - ✅ Métadonnées sauvegardées: /opt/project/src/ml/models/rf_metadata_popularity.joblib
+[2026-02-28T20:44:38.186+0000] {logging_mixin.py:190} INFO - 📊 Scores - Train: 0.5199, Test: 0.2491
+[2026-02-28T20:44:38.187+0000] {logging_mixin.py:190} INFO - 🔧 Features: 201, Échantillons: 1212
+[2026-02-28T20:44:38.367+0000] {logging_mixin.py:190} INFO - 
+🎉 Entrainement terminé et sauvegardés avec succès pour popularity!
+[2026-02-28T20:44:38.949+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-02-28T20:44:38.950+0000] {logging_mixin.py:190} INFO - 🎯 TRAITEMENT POUR LA VARIABLE CIBLE: VOTE_AVERAGE
+[2026-02-28T20:44:38.951+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-02-28T20:44:38.951+0000] {logging_mixin.py:190} INFO - 🔍 Construction de la requête SQL...
+[2026-02-28T20:44:38.952+0000] {logging_mixin.py:190} INFO - 📥 Chargement des données complètes...
+[2026-02-28T20:44:38.953+0000] {logging_mixin.py:190} INFO - 🔗 Test de connexion à la base de données...
+[2026-02-28T20:44:38.955+0000] {logging_mixin.py:190} INFO - ✅ Connexion PostgreSQL réussie!
+[2026-02-28T20:45:22.232+0000] {logging_mixin.py:190} INFO - ✅ Données chargées avec succès. Shape: (2982232, 14)
+[2026-02-28T20:45:22.233+0000] {logging_mixin.py:190} INFO - 🔧 Début du préprocessing des données...
+[2026-02-28T20:45:22.883+0000] {logging_mixin.py:190} INFO - ✅ Préprocessing terminé! Shape final: X(1212, 201), y(1212,)
+[2026-02-28T20:45:22.884+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-02-28T20:45:22.885+0000] {logging_mixin.py:190} INFO - 🤖 ENTRAÎNEMENT DU MODÈLE RANDOMFOREST
+[2026-02-28T20:45:22.885+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-02-28T20:45:22.890+0000] {logging_mixin.py:190} INFO - 
+🔧 Entraînement du modèle RandomForest...
+[2026-02-28T20:45:22.972+0000] {logging_mixin.py:190} INFO - RandomForest :
+[2026-02-28T20:45:22.983+0000] {logging_mixin.py:190} INFO - train : 0.5110176629369394
+[2026-02-28T20:45:22.989+0000] {logging_mixin.py:190} INFO - test  : 0.28544540455310796
+[2026-02-28T20:45:22.990+0000] {logging_mixin.py:190} INFO - 💾 Sauvegarde du modèle RandomForest...
+[2026-02-28T20:45:23.147+0000] {logging_mixin.py:190} INFO - ✅ Modèle RandomForest sauvegardé: /opt/project/src/ml/models/rf_model_vote_average.joblib
+[2026-02-28T20:45:23.148+0000] {logging_mixin.py:190} INFO - ✅ Métadonnées sauvegardées: /opt/project/src/ml/models/rf_metadata_vote_average.joblib
+[2026-02-28T20:45:23.149+0000] {logging_mixin.py:190} INFO - 📊 Scores - Train: 0.5110, Test: 0.2854
+[2026-02-28T20:45:23.149+0000] {logging_mixin.py:190} INFO - 🔧 Features: 201, Échantillons: 1212
+[2026-02-28T20:45:23.241+0000] {logging_mixin.py:190} INFO - 
+🎉 Entrainement terminé et sauvegardés avec succès pour vote_average!
+[2026-02-28T20:45:23.817+0000] {logging_mixin.py:190} INFO - 
+✅ Entrainement terminé pour toutes les variables cibles.
+[2026-02-28T20:45:23.818+0000] {logging_mixin.py:190} INFO - 
+⏱️ Temps total d'exécution du script: 134.49 secondes
+[2026-02-28T20:45:23.818+0000] {python.py:240} INFO - Done. Returned value was: None
+[2026-02-28T20:45:23.827+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2026-02-28T20:45:23.827+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=db_and_model_update, task_id=run_rf_model_update, run_id=manual__2026-02-28T20:40:46.799383+00:00, execution_date=20260228T204046, start_date=20260228T204308, end_date=20260228T204523
+[2026-02-28T20:45:23.994+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-02-28T20:45:24.007+0000] {taskinstance.py:3901} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-02-28T20:45:24.009+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

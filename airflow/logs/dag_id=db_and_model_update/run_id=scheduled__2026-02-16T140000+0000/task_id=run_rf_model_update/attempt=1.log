@@ -1,0 +1,266 @@
+[2026-02-24T13:28:42.016+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-02-24T13:28:42.033+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: db_and_model_update.run_rf_model_update scheduled__2026-02-16T14:00:00+00:00 [queued]>
+[2026-02-24T13:28:42.038+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: db_and_model_update.run_rf_model_update scheduled__2026-02-16T14:00:00+00:00 [queued]>
+[2026-02-24T13:28:42.039+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 1
+[2026-02-24T13:28:42.046+0000] {taskinstance.py:2890} INFO - Executing <Task(PythonOperator): run_rf_model_update> on 2026-02-16 14:00:00+00:00
+[2026-02-24T13:28:42.052+0000] {standard_task_runner.py:72} INFO - Started process 172 to run task
+[2026-02-24T13:28:42.054+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'db_and_model_update', 'run_rf_model_update', 'scheduled__2026-02-16T14:00:00+00:00', '--job-id', '4', '--raw', '--subdir', 'DAGS_FOLDER/db_and_model_update_dag.py', '--cfg-path', '/tmp/tmpifwkachd']
+[2026-02-24T13:28:42.056+0000] {standard_task_runner.py:105} INFO - Job 4: Subtask run_rf_model_update
+[2026-02-24T13:28:42.107+0000] {task_command.py:467} INFO - Running <TaskInstance: db_and_model_update.run_rf_model_update scheduled__2026-02-16T14:00:00+00:00 [running]> on host 5f1c52170570
+[2026-02-24T13:28:42.170+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='db_and_model_update' AIRFLOW_CTX_TASK_ID='run_rf_model_update' AIRFLOW_CTX_EXECUTION_DATE='2026-02-16T14:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-02-16T14:00:00+00:00'
+[2026-02-24T13:28:42.171+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2026-02-24T13:28:42.986+0000] {logging_mixin.py:190} INFO - 🔌 Connexion à la base de données...
+[2026-02-24T13:28:43.126+0000] {logging_mixin.py:190} INFO - ✅ Connexion réussie!
+[2026-02-24T13:28:43.127+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-02-24T13:28:43.128+0000] {logging_mixin.py:190} INFO - 🎯 TRAITEMENT POUR LA VARIABLE CIBLE: REVENUE
+[2026-02-24T13:28:43.128+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-02-24T13:28:43.129+0000] {logging_mixin.py:190} INFO - 🔍 Construction de la requête SQL...
+[2026-02-24T13:28:43.130+0000] {logging_mixin.py:190} INFO - 📥 Chargement des données complètes...
+[2026-02-24T13:28:43.130+0000] {logging_mixin.py:190} INFO - 🔗 Test de connexion à la base de données...
+[2026-02-24T13:28:43.132+0000] {logging_mixin.py:190} INFO - ✅ Connexion PostgreSQL réussie!
+[2026-02-24T13:29:17.305+0000] {logging_mixin.py:190} INFO - ✅ Données chargées avec succès. Shape: (2345680, 14)
+[2026-02-24T13:29:17.306+0000] {logging_mixin.py:190} INFO - 🔧 Début du préprocessing des données...
+[2026-02-24T13:29:17.838+0000] {logging_mixin.py:190} INFO - ✅ Préprocessing terminé! Shape final: X(975, 200), y(975,)
+[2026-02-24T13:29:17.839+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-02-24T13:29:17.840+0000] {logging_mixin.py:190} INFO - 🤖 ENTRAÎNEMENT DU MODÈLE RANDOMFOREST
+[2026-02-24T13:29:17.840+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-02-24T13:29:17.845+0000] {logging_mixin.py:190} INFO - 
+🔧 Entraînement du modèle RandomForest...
+[2026-02-24T13:29:19.758+0000] {logging_mixin.py:190} INFO - RandomForest :
+[2026-02-24T13:29:19.759+0000] {logging_mixin.py:190} INFO - Meilleurs paramètres RandomForest : {'n_estimators': 180, 'min_samples_split': 10, 'min_samples_leaf': 2, 'max_features': None, 'max_depth': 20}
+[2026-02-24T13:29:19.774+0000] {logging_mixin.py:190} INFO - train : 0.8510226287356579
+[2026-02-24T13:29:19.784+0000] {logging_mixin.py:190} INFO - test  : 0.45544508117476823
+[2026-02-24T13:29:19.793+0000] {logging_mixin.py:190} INFO - 
+Top 50 features RandomForest :
+[2026-02-24T13:29:19.798+0000] {logging_mixin.py:190} INFO -                    feature  importance_pct
+0                   budget       65.377173
+1                  runtime        5.886586
+2                     year        3.294513
+32             genre_id_12        2.568673
+92     keyword_id_246466.0        1.997700
+60       keyword_id_2343.0        1.277830
+3                month_sin        1.217451
+4                month_cos        1.211960
+171    production_id_437.0        1.126045
+85     keyword_id_179431.0        1.030756
+68       keyword_id_9663.0        0.863396
+33             genre_id_14        0.727468
+38             genre_id_35        0.628469
+48          genre_id_10751        0.560890
+79      keyword_id_11322.0        0.556998
+158     production_id_33.0        0.535418
+63       keyword_id_3289.0        0.524186
+81      keyword_id_18035.0        0.510910
+88     keyword_id_208289.0        0.496094
+34             genre_id_16        0.490465
+37             genre_id_28        0.433153
+157     production_id_25.0        0.406814
+154     production_id_12.0        0.378504
+71       keyword_id_9715.0        0.368989
+84     keyword_id_179430.0        0.354798
+151      production_id_5.0        0.320170
+136        person_id_11288        0.311425
+35             genre_id_18        0.302453
+44            genre_id_878        0.267620
+182   production_id_1632.0        0.263717
+195  production_id_22213.0        0.240995
+172    production_id_491.0        0.221876
+31                 lang_zh        0.208821
+128         person_id_6040        0.207158
+153     production_id_11.0        0.193108
+41             genre_id_53        0.190506
+194  production_id_12292.0        0.179125
+72       keyword_id_9717.0        0.178724
+94     keyword_id_314730.0        0.172249
+150      production_id_4.0        0.166528
+47          genre_id_10749        0.159214
+67       keyword_id_6054.0        0.157388
+97     keyword_id_325765.0        0.134800
+174    production_id_520.0        0.125635
+104          person_id_108        0.108154
+140        person_id_18999        0.101494
+98     keyword_id_325773.0        0.100250
+113         person_id_1333        0.097948
+186   production_id_3172.0        0.095154
+51        keyword_id_212.0        0.085437
+[2026-02-24T13:29:19.799+0000] {logging_mixin.py:190} INFO - 💾 Sauvegarde du modèle RandomForest...
+[2026-02-24T13:29:20.056+0000] {logging_mixin.py:190} INFO - ✅ Modèle RandomForest sauvegardé: /opt/project/src/ml/models/rf_model_revenue.joblib
+[2026-02-24T13:29:20.057+0000] {logging_mixin.py:190} INFO - ✅ Métadonnées sauvegardées: /opt/project/src/ml/models/rf_metadata_revenue.joblib
+[2026-02-24T13:29:20.057+0000] {logging_mixin.py:190} INFO - 📊 Scores - Train: 0.8510, Test: 0.4554
+[2026-02-24T13:29:20.058+0000] {logging_mixin.py:190} INFO - 🔧 Features: 200, Échantillons: 975
+[2026-02-24T13:29:20.151+0000] {logging_mixin.py:190} INFO - 
+🎉 Entrainement terminé et sauvegardés avec succès pour revenue!
+[2026-02-24T13:29:20.636+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-02-24T13:29:20.637+0000] {logging_mixin.py:190} INFO - 🎯 TRAITEMENT POUR LA VARIABLE CIBLE: POPULARITY
+[2026-02-24T13:29:20.638+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-02-24T13:29:20.638+0000] {logging_mixin.py:190} INFO - 🔍 Construction de la requête SQL...
+[2026-02-24T13:29:20.639+0000] {logging_mixin.py:190} INFO - 📥 Chargement des données complètes...
+[2026-02-24T13:29:20.640+0000] {logging_mixin.py:190} INFO - 🔗 Test de connexion à la base de données...
+[2026-02-24T13:29:20.642+0000] {logging_mixin.py:190} INFO - ✅ Connexion PostgreSQL réussie!
+[2026-02-24T13:29:54.679+0000] {logging_mixin.py:190} INFO - ✅ Données chargées avec succès. Shape: (2345680, 14)
+[2026-02-24T13:29:54.680+0000] {logging_mixin.py:190} INFO - 🔧 Début du préprocessing des données...
+[2026-02-24T13:29:55.203+0000] {logging_mixin.py:190} INFO - ✅ Préprocessing terminé! Shape final: X(975, 200), y(975,)
+[2026-02-24T13:29:55.204+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-02-24T13:29:55.205+0000] {logging_mixin.py:190} INFO - 🤖 ENTRAÎNEMENT DU MODÈLE RANDOMFOREST
+[2026-02-24T13:29:55.205+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-02-24T13:29:55.210+0000] {logging_mixin.py:190} INFO - 
+🔧 Entraînement du modèle RandomForest...
+[2026-02-24T13:29:56.859+0000] {logging_mixin.py:190} INFO - RandomForest :
+[2026-02-24T13:29:56.859+0000] {logging_mixin.py:190} INFO - Meilleurs paramètres RandomForest : {'n_estimators': 120, 'min_samples_split': 10, 'min_samples_leaf': 2, 'max_features': None, 'max_depth': None}
+[2026-02-24T13:29:56.871+0000] {logging_mixin.py:190} INFO - train : 0.7515327892616342
+[2026-02-24T13:29:56.880+0000] {logging_mixin.py:190} INFO - test  : 0.2657586717060324
+[2026-02-24T13:29:56.887+0000] {logging_mixin.py:190} INFO - 
+Top 50 features RandomForest :
+[2026-02-24T13:29:56.890+0000] {logging_mixin.py:190} INFO -                     feature  importance_pct
+2                      year       34.081016
+0                    budget       19.568384
+88      keyword_id_208289.0       12.464227
+3                 month_sin       10.861796
+1                   runtime        3.619803
+4                 month_cos        2.795543
+154      production_id_12.0        1.659937
+72        keyword_id_9717.0        1.006702
+70        keyword_id_9714.0        0.742452
+63        keyword_id_3289.0        0.662271
+158      production_id_33.0        0.658285
+199  production_id_216687.0        0.598752
+71        keyword_id_9715.0        0.556901
+37              genre_id_28        0.531448
+74        keyword_id_9826.0        0.500336
+186    production_id_3172.0        0.492247
+34              genre_id_16        0.473430
+44             genre_id_878        0.457974
+32              genre_id_12        0.417645
+68        keyword_id_9663.0        0.416075
+60        keyword_id_2343.0        0.393929
+42              genre_id_80        0.348296
+81       keyword_id_18035.0        0.345576
+87      keyword_id_202371.0        0.298907
+84      keyword_id_179430.0        0.288546
+97      keyword_id_325765.0        0.282317
+36              genre_id_27        0.257723
+191    production_id_9996.0        0.254988
+180     production_id_923.0        0.250360
+78       keyword_id_10714.0        0.246382
+35              genre_id_18        0.209020
+38              genre_id_35        0.190061
+75       keyword_id_10123.0        0.151600
+76       keyword_id_10292.0        0.145318
+41              genre_id_53        0.144949
+31                  lang_zh        0.144359
+67        keyword_id_6054.0        0.140662
+33              genre_id_14        0.139869
+107           person_id_525        0.139791
+171     production_id_437.0        0.138505
+111           person_id_976        0.125979
+20                  lang_ko        0.123365
+56         keyword_id_818.0        0.115656
+55         keyword_id_782.0        0.109010
+48           genre_id_10751        0.108652
+77       keyword_id_10349.0        0.096593
+196   production_id_41077.0        0.095837
+85      keyword_id_179431.0        0.092585
+14                  lang_fr        0.091960
+11                  lang_en        0.080834
+[2026-02-24T13:29:56.891+0000] {logging_mixin.py:190} INFO - 💾 Sauvegarde du modèle RandomForest...
+[2026-02-24T13:29:57.085+0000] {logging_mixin.py:190} INFO - ✅ Modèle RandomForest sauvegardé: /opt/project/src/ml/models/rf_model_popularity.joblib
+[2026-02-24T13:29:57.085+0000] {logging_mixin.py:190} INFO - ✅ Métadonnées sauvegardées: /opt/project/src/ml/models/rf_metadata_popularity.joblib
+[2026-02-24T13:29:57.086+0000] {logging_mixin.py:190} INFO - 📊 Scores - Train: 0.7515, Test: 0.2658
+[2026-02-24T13:29:57.087+0000] {logging_mixin.py:190} INFO - 🔧 Features: 200, Échantillons: 975
+[2026-02-24T13:29:57.188+0000] {logging_mixin.py:190} INFO - 
+🎉 Entrainement terminé et sauvegardés avec succès pour popularity!
+[2026-02-24T13:29:57.684+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-02-24T13:29:57.685+0000] {logging_mixin.py:190} INFO - 🎯 TRAITEMENT POUR LA VARIABLE CIBLE: VOTE_AVERAGE
+[2026-02-24T13:29:57.686+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-02-24T13:29:57.687+0000] {logging_mixin.py:190} INFO - 🔍 Construction de la requête SQL...
+[2026-02-24T13:29:57.688+0000] {logging_mixin.py:190} INFO - 📥 Chargement des données complètes...
+[2026-02-24T13:29:57.689+0000] {logging_mixin.py:190} INFO - 🔗 Test de connexion à la base de données...
+[2026-02-24T13:29:57.691+0000] {logging_mixin.py:190} INFO - ✅ Connexion PostgreSQL réussie!
+[2026-02-24T13:30:29.798+0000] {logging_mixin.py:190} INFO - ✅ Données chargées avec succès. Shape: (2345680, 14)
+[2026-02-24T13:30:29.799+0000] {logging_mixin.py:190} INFO - 🔧 Début du préprocessing des données...
+[2026-02-24T13:30:30.319+0000] {logging_mixin.py:190} INFO - ✅ Préprocessing terminé! Shape final: X(975, 200), y(975,)
+[2026-02-24T13:30:30.320+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-02-24T13:30:30.321+0000] {logging_mixin.py:190} INFO - 🤖 ENTRAÎNEMENT DU MODÈLE RANDOMFOREST
+[2026-02-24T13:30:30.322+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-02-24T13:30:30.326+0000] {logging_mixin.py:190} INFO - 
+🔧 Entraînement du modèle RandomForest...
+[2026-02-24T13:30:31.778+0000] {logging_mixin.py:190} INFO - RandomForest :
+[2026-02-24T13:30:31.779+0000] {logging_mixin.py:190} INFO - Meilleurs paramètres RandomForest : {'n_estimators': 120, 'min_samples_split': 10, 'min_samples_leaf': 2, 'max_features': None, 'max_depth': None}
+[2026-02-24T13:30:31.790+0000] {logging_mixin.py:190} INFO - train : 0.7484052449303294
+[2026-02-24T13:30:31.797+0000] {logging_mixin.py:190} INFO - test  : 0.21019470792182615
+[2026-02-24T13:30:31.803+0000] {logging_mixin.py:190} INFO - 
+Top 50 features RandomForest :
+[2026-02-24T13:30:31.806+0000] {logging_mixin.py:190} INFO -                    feature  importance_pct
+1                  runtime       28.987914
+34             genre_id_16       11.667808
+0                   budget       10.696749
+2                     year        7.410520
+4                month_cos        4.220642
+3                month_sin        3.235961
+35             genre_id_18        3.138967
+36             genre_id_27        1.853320
+151      production_id_5.0        1.442111
+41             genre_id_53        1.315206
+48          genre_id_10751        0.987432
+37             genre_id_28        0.934444
+38             genre_id_35        0.917478
+60       keyword_id_2343.0        0.879962
+11                 lang_en        0.875694
+44            genre_id_878        0.753110
+185   production_id_2527.0        0.752331
+42             genre_id_80        0.709294
+56        keyword_id_818.0        0.677270
+47          genre_id_10749        0.610211
+81      keyword_id_18035.0        0.590267
+70       keyword_id_9714.0        0.588848
+32             genre_id_12        0.583762
+33             genre_id_14        0.574357
+45           genre_id_9648        0.550990
+69       keyword_id_9672.0        0.549670
+85     keyword_id_179431.0        0.536470
+84     keyword_id_179430.0        0.458415
+52        keyword_id_242.0        0.422664
+49          genre_id_10752        0.407508
+80      keyword_id_12670.0        0.404342
+14                 lang_fr        0.384244
+55        keyword_id_782.0        0.363395
+67       keyword_id_6054.0        0.360479
+46          genre_id_10402        0.327389
+172    production_id_491.0        0.318831
+72       keyword_id_9717.0        0.271956
+107          person_id_525        0.271482
+82      keyword_id_34079.0        0.271433
+196  production_id_41077.0        0.267796
+182   production_id_1632.0        0.266343
+155     production_id_14.0        0.263077
+68       keyword_id_9663.0        0.257839
+150      production_id_4.0        0.253117
+191   production_id_9996.0        0.249993
+99     keyword_id_325812.0        0.248503
+138        person_id_17276        0.245774
+73       keyword_id_9748.0        0.241971
+89     keyword_id_209220.0        0.236234
+79      keyword_id_11322.0        0.227866
+[2026-02-24T13:30:31.806+0000] {logging_mixin.py:190} INFO - 💾 Sauvegarde du modèle RandomForest...
+[2026-02-24T13:30:31.991+0000] {logging_mixin.py:190} INFO - ✅ Modèle RandomForest sauvegardé: /opt/project/src/ml/models/rf_model_vote_average.joblib
+[2026-02-24T13:30:31.992+0000] {logging_mixin.py:190} INFO - ✅ Métadonnées sauvegardées: /opt/project/src/ml/models/rf_metadata_vote_average.joblib
+[2026-02-24T13:30:31.992+0000] {logging_mixin.py:190} INFO - 📊 Scores - Train: 0.7484, Test: 0.2102
+[2026-02-24T13:30:31.993+0000] {logging_mixin.py:190} INFO - 🔧 Features: 200, Échantillons: 975
+[2026-02-24T13:30:32.073+0000] {logging_mixin.py:190} INFO - 
+🎉 Entrainement terminé et sauvegardés avec succès pour vote_average!
+[2026-02-24T13:30:32.549+0000] {logging_mixin.py:190} INFO - 
+✅ Entrainement terminé pour toutes les variables cibles.
+[2026-02-24T13:30:32.550+0000] {logging_mixin.py:190} INFO - 
+⏱️ Temps total d'exécution du script: 109.56 secondes
+[2026-02-24T13:30:32.551+0000] {python.py:240} INFO - Done. Returned value was: None
+[2026-02-24T13:30:32.559+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2026-02-24T13:30:32.560+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=db_and_model_update, task_id=run_rf_model_update, run_id=scheduled__2026-02-16T14:00:00+00:00, execution_date=20260216T140000, start_date=20260224T132842, end_date=20260224T133032
+[2026-02-24T13:30:32.700+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-02-24T13:30:32.718+0000] {taskinstance.py:3901} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-02-24T13:30:32.720+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
