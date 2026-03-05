@@ -9,11 +9,11 @@ test:
     - shell
   script:
     - pip install fastapi uvicorn sqlalchemy psycopg2-binary python-dotenv requests pytest
-    - Copy-Item src/api/.env .env
-    - Start-Process uvicorn -ArgumentList "src.api.main:app --host 0.0.0.0 --port 8000"
+    - Copy-Item src/api/.env .env -Force
+    - $uvicorn = Start-Process uvicorn -ArgumentList "src.api.main:app --host 0.0.0.0 --port 8000" -NoNewWindow -PassThru
     - Start-Sleep -Seconds 20
     - python -m pytest -s src/api/test/test_assert.py
-    - Stop-Process -Name uvicorn -Force || Write-Host "uvicorn already stopped"
+    - try { Stop-Process -Id $uvicorn.Id -Force } catch { Write-Host "uvicorn already stopped" }
 lint:
   stage: lint
   allow_failure: true
