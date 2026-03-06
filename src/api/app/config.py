@@ -27,3 +27,7 @@ DB_PORT = os.getenv("POSTGRES_PORT", "5432")
 
 # Chemin vers les modèles ML
 MODELS_DIR = SRC_DIR / "ml" / "models"
+
+# API credentials
+API_USER = os.getenv("API_USER")
+API_PASSWORD = os.getenv("API_PASSWORD")
