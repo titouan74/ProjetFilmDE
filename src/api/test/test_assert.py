@@ -13,9 +13,8 @@ api_address = '127.0.0.1'
 api_port = 8000
 
 # auth depuis .env
-load_dotenv("src/api/.env")
-api_user = os.getenv("API_USER")
-api_password = os.getenv("API_PASSWORD")
+api_user = os.environ.get("API_USER")
+api_password = os.environ.get("API_PASSWORD")
 auth = HTTPBasicAuth(api_user, api_password)
 
 # Format de sortie des tests
@@ -48,6 +47,11 @@ def test_health():
     # statut de la requête
     status_code = r.status_code
 
+    try:
+        response_data = r.json()
+    except ValueError:
+        response_data = r.text
+
     # affichage des résultats
     if status_code == 200:
         test_status = 'SUCCESS'
@@ -55,6 +59,7 @@ def test_health():
         test_status = 'FAILURE'
 
     test_result = output.format(test_name="Health", endpoint="health", expected_status=200, status_code=status_code, test_status=test_status)
+    test_result += f"Response content: {response_data}\n"
     print(test_result)
 
     # impression dans un fichier
@@ -76,6 +81,11 @@ def test_predict_existing_movie():
     # statut de la requête
     status_code = r.status_code
 
+    try:
+        response_data = r.json()
+    except ValueError:
+        response_data = r.text
+
     # affichage des résultats
     if status_code == 200:
         test_status = 'SUCCESS'
@@ -83,6 +93,7 @@ def test_predict_existing_movie():
         test_status = 'FAILURE'
 
     test_result = output.format(test_name="Predict existing movie", endpoint="predict", expected_status=200, status_code=status_code, test_status=test_status)
+    test_result += f"Response content: {response_data}\n"
     print(test_result)
 
     # impression dans un fichier
@@ -104,6 +115,11 @@ def test_predict_nonexistent_movie():
     # statut de la requête
     status_code = r.status_code
 
+    try:
+        response_data = r.json()
+    except ValueError:
+        response_data = r.text
+
     # affichage des résultats
     if status_code == 404:
         test_status = 'SUCCESS'
@@ -111,6 +127,7 @@ def test_predict_nonexistent_movie():
         test_status = 'FAILURE'
 
     test_result = output.format(test_name="Predict Nonexistent Movie", endpoint="predict", expected_status=404, status_code=status_code, test_status=test_status)
+    test_result += f"Response content: {response_data}\n"
     print(test_result)
 
     # impression dans un fichier
@@ -127,6 +144,11 @@ def test_list_models():
     # statut de la requête
     status_code = r.status_code
 
+    try:
+        response_data = r.json()
+    except ValueError:
+        response_data = r.text
+
     # affichage des résultats
     if status_code == 200:
         test_status = 'SUCCESS'
@@ -134,6 +156,7 @@ def test_list_models():
         test_status = 'FAILURE'
 
     test_result = output.format(test_name="List Models", endpoint="models", expected_status=200, status_code=status_code, test_status=test_status)
+    test_result += f"Response content: {response_data}\n"
     print(test_result)
 
     # impression dans un fichier
@@ -153,6 +176,11 @@ def test_status():
     # statut de la requête
     status_code = r.status_code
 
+    try:
+        response_data = r.json()
+    except ValueError:
+        response_data = r.text
+
     # affichage des résultats
     if status_code == 200:
         test_status = 'SUCCESS'
@@ -160,6 +188,7 @@ def test_status():
         test_status = 'FAILURE'
 
     test_result = output.format(test_name="Status", endpoint="status", expected_status=200, status_code=status_code, test_status=test_status)
+    test_result += f"Response content: {response_data}\n"
     print(test_result)
 
     # impression dans un fichier
@@ -174,6 +203,11 @@ def test_count_movies():
     # statut de la requête
     status_code = r.status_code
 
+    try:
+        response_data = r.json()
+    except ValueError:
+        response_data = r.text
+
     # affichage des résultats
     if status_code == 200:
         test_status = 'SUCCESS'
@@ -181,6 +215,7 @@ def test_count_movies():
         test_status = 'FAILURE'
 
     test_result = output.format(test_name="Movies Count", endpoint="movies/count", expected_status=200, status_code=status_code, test_status=test_status)
+    test_result += f"Response content: {response_data}\n"   
     print(test_result)
 
     # impression dans un fichier
@@ -198,6 +233,11 @@ def test_search_movies():
     # statut de la requête
     status_code = r.status_code
 
+    try:
+        response_data = r.json()
+    except ValueError:
+        response_data = r.text
+
     # affichage des résultats
     if status_code == 200:
         test_status = 'SUCCESS'
@@ -205,9 +245,14 @@ def test_search_movies():
         test_status = 'FAILURE'
 
     test_result = output.format(test_name="Movies Search", endpoint="movies/search", expected_status=200, status_code=status_code, test_status=test_status)
+    
+    test_result += f"Response content: {response_data}\n"
+    
     print(test_result)
 
     # impression dans un fichier
     log_test(test_result)
 
     assert status_code == 200
+
+    #test mirror

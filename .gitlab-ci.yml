@@ -1,0 +1,55 @@
+image: python:3.11
+
+variables:
+  POSTGRES_HOST: postgres
+  POSTGRES_PORT: 5432
+
+services:
+  - name: postgres:15
+    alias: postgres
+    variables:
+      POSTGRES_DB: movie_db
+      POSTGRES_USER: titouan
+      POSTGRES_PASSWORD: datascientest
+
+stages:
+  - test
+  - lint
+
+test:
+  stage: test
+  before_script:
+    - apt-get update && apt-get install -y postgresql-client
+    - pip install --upgrade pip
+    - pip install fastapi uvicorn sqlalchemy psycopg2-binary requests pytest pandas scikit-learn joblib numpy python-dotenv xgboost dill
+    # Exporter le mot de passe pour psql
+    - export PGPASSWORD=$POSTGRES_PASSWORD
+  script:
+    # Attendre que Postgres soit prêt
+    - |
+      for i in $(seq 1 30); do
+        if pg_isready -h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USER; then
+          echo "Postgres is ready"
+          break
+        fi
+        echo "Waiting for Postgres..."
+        sleep 1
+      done
+    # Recréer la base à partir du dump en se connectant sur la base 'postgres'
+    - psql -h $POSTGRES_HOST -U $POSTGRES_USER -d postgres -c "DROP DATABASE IF EXISTS $POSTGRES_DB;"
+    - psql -h $POSTGRES_HOST -U $POSTGRES_USER -d postgres -c "CREATE DATABASE $POSTGRES_DB;"
+    - psql -h $POSTGRES_HOST -U $POSTGRES_USER -d $POSTGRES_DB -f src/api/movie_db_dump.sql
+    # Lancer le serveur en arrière-plan
+    - uvicorn src.api.app.main:app --host 0.0.0.0 --port 8000 &
+    # Attendre que le serveur réponde
+    - |
+      for i in $(seq 1 30); do
+        if curl -s http://127.0.0.1:8000/health; then
+          echo "Server is up"
+          break
+        fi
+        echo "Waiting for server..."
+        sleep 1
+      done
+    # Lancer les tests
+    - pytest -s src/api/test/test_assert.py
