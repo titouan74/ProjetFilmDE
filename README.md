@@ -52,3 +52,5 @@ AIRFLOW (ORCHESTRATION)
 - Depuis le dossier `airflow`, lancer : `docker compose up -d`.
 - UI Airflow : http://localhost:8088
 - DAGs créés : `ingestion_postgres_tmdb` (exécute `src/ingestion/main_ingestion_postgre.py`).
+
+CONTINUOUS IMPROVMENT CI - GITLAB
