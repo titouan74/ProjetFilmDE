@@ -53,4 +53,17 @@ AIRFLOW (ORCHESTRATION)
 - UI Airflow : http://localhost:8088
 - DAGs créés : `ingestion_postgres_tmdb` (exécute `src/ingestion/main_ingestion_postgre.py`).
 
-CONTINUOUS IMPROVMENT CI - GITLAB
+CONTINUOUS INTEGRATION
+Fonctionnement standard (https://gitlab.com/ottinger74-group/ProjetFilmDE):
+1. Push GitHub → Workflow GitHub Actions "Mirror to GitLab" (via personal_access_tokens sur Gitlab et repository_secrets dans Github) → Push automatique sur GitLab
+2. Le runner partagé GitLab détecte le push et lance le pipeline défini dans .gitlab-ci.yml
+3. Un conteneur PostgreSQL 15 est démarré en tant que service avec la base movie_db et l'utilisateur titouan
+4. Le dump SQL movie_db_dump.sql est importé pour peupler la base de données
+5. Le serveur FastAPI est lancé en arrière-plan via uvicorn sur le port 8000
+6. Le job test exécute les tests définis dans test_assert.py via pytest
+7. Les résultats (passed/failed) sont consultables dans l'onglet CI/CD → Jobs de GitLab, avec le détail des requêtes HTTP effectuées sur chaque endpoint testé
+
+Mise à jour de la base de données de test :
+1. Lancer le script dump.py qui génère un dump de la base PostgreSQL locale et le place dans src/api/movie_db_dump.sql
+2. Si les identifiants de la base locale ont changé, mettre à jour POSTGRES_USER et POSTGRES_PASSWORD dans la section services du .gitlab-ci.yml
+3. Pusher sur GitHub les fichiers modifiés (movie_db_dump.sql et/ou .gitlab-ci.yml) — le mirror se chargera de synchroniser automatiquement sur GitLab et déclenchera le pipeline
