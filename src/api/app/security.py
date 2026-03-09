@@ -7,7 +7,6 @@ security = HTTPBasic()
 USERS = {
     "titouan":{"password":"datascientest1","role":"admin"},
     "cynthia":{"password":"datascientest2","role":"admin"},
-    "testuser":{"password":"testpassword","role":"admin"},
     "user":{"password":"datascientest3","role":"user"}
 }
 
