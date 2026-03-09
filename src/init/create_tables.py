@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS people (
 
 CREATE TABLE IF NOT EXISTS keywords (
     keyword_id INTEGER PRIMARY KEY,
-    keyword_name TEXT UNIQUE
+    keyword_name TEXT
 );
 
 CREATE TABLE IF NOT EXISTS roles (
