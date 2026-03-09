@@ -9,8 +9,8 @@ services:
     alias: postgres
     variables:
       POSTGRES_DB: movie_db
-      POSTGRES_USER: titouan
-      POSTGRES_PASSWORD: datascientest
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: testpassword
 
 stages:
   - test
