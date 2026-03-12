@@ -1,14 +1,17 @@
 import os
+import shutil
+from pathlib import Path
 from dotenv import load_dotenv
 import subprocess
 
-load_dotenv()
+API_DIR = Path(__file__).resolve().parent
+load_dotenv(API_DIR / ".env")
 
 PG_HOST = os.getenv("POSTGRES_HOST")
 PG_USER = os.getenv("POSTGRES_USER")
 PG_PASSWORD = os.getenv("POSTGRES_PASSWORD")
 PG_DB = os.getenv("POSTGRES_DB")
-DUMP_FILE = r"C:\Users\User\ProjetFilmDE\src\api\movie_db_dump.sql"
+DUMP_FILE = API_DIR / "movie_db_dump.sql"
 
 PG_DUMP_PATH = r"C:\Program Files\PostgreSQL\18\bin\pg_dump.exe"
 

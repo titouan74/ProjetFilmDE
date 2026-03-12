@@ -4,7 +4,7 @@ variables:
   POSTGRES_HOST: postgres
   POSTGRES_PORT: 5432
   CI_POSTGRES_DB: movie_db
-  CI_POSTGRES_USER: cynthia
+  CI_POSTGRES_USER: titouan
   CI_POSTGRES_PASSWORD: datascientest
 
 services:
@@ -24,7 +24,7 @@ test:
   before_script:
     - apt-get update && apt-get install -y postgresql-client
     - pip install --upgrade pip
-    - pip install fastapi uvicorn sqlalchemy psycopg2-binary requests pytest pandas scikit-learn joblib numpy python-dotenv xgboost dill
+    - pip install -r src/api/requirements.txt pytest dill
     - export POSTGRES_DB=$CI_POSTGRES_DB
     - export POSTGRES_USER=$CI_POSTGRES_USER
     - export POSTGRES_PASSWORD=$CI_POSTGRES_PASSWORD
