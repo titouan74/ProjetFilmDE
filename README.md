@@ -63,8 +63,6 @@ Fonctionnement standard (https://gitlab.com/ottinger74-group/ProjetFilmDE):
 6. Le job test exécute les tests définis dans test_assert.py via pytest
 7. Les résultats (passed/failed) sont consultables dans l'onglet CI/CD → Jobs de GitLab, avec le détail des requêtes HTTP effectuées sur chaque endpoint testé
 
-test gitlab
-
 Mise à jour de la base de données de test :
 1. Lancer le script dump.py qui génère un dump de la base PostgreSQL locale et le place dans src/api/movie_db_dump.sql
 2. Si les identifiants de la base locale ont changé, mettre à jour POSTGRES_USER et POSTGRES_PASSWORD dans la section services du .gitlab-ci.yml
