@@ -3,14 +3,17 @@ image: python:3.11
 variables:
   POSTGRES_HOST: postgres
   POSTGRES_PORT: 5432
+  CI_POSTGRES_DB: movie_db
+  CI_POSTGRES_USER: cynthia
+  CI_POSTGRES_PASSWORD: datascientest
 
 services:
   - name: postgres:15
     alias: postgres
     variables:
-      POSTGRES_DB: movie_db
-      POSTGRES_USER: cynthia
-      POSTGRES_PASSWORD: datascientest
+      POSTGRES_DB: $CI_POSTGRES_DB
+      POSTGRES_USER: $CI_POSTGRES_USER
+      POSTGRES_PASSWORD: $CI_POSTGRES_PASSWORD
 
 stages:
   - test
@@ -22,6 +25,9 @@ test:
     - apt-get update && apt-get install -y postgresql-client
     - pip install --upgrade pip
     - pip install fastapi uvicorn sqlalchemy psycopg2-binary requests pytest pandas scikit-learn joblib numpy python-dotenv xgboost dill
+    - export POSTGRES_DB=$CI_POSTGRES_DB
+    - export POSTGRES_USER=$CI_POSTGRES_USER
+    - export POSTGRES_PASSWORD=$CI_POSTGRES_PASSWORD
     # Exporter le mot de passe pour psql
     - export PGPASSWORD=$POSTGRES_PASSWORD
   script:
