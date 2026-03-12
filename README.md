@@ -67,3 +67,33 @@ Mise à jour de la base de données de test :
 1. Lancer le script dump.py qui génère un dump de la base PostgreSQL locale et le place dans src/api/movie_db_dump.sql
 2. Si les identifiants de la base locale ont changé, mettre à jour POSTGRES_USER et POSTGRES_PASSWORD dans la section services du .gitlab-ci.yml
 3. Pusher sur GitHub les fichiers modifiés (movie_db_dump.sql et/ou .gitlab-ci.yml) — le mirror se chargera de synchroniser automatiquement sur GitLab et déclenchera le pipeline
+
+MONITORING (PROMETHEUS + GRAFANA)
+Objectif: superviser l'API FastAPI et PostgreSQL.
+
+1. Vérifier/compléter le fichier `src/api/.env` (voir `src/api/.env.example`):
+    - `POSTGRES_HOST`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`, `POSTGRES_PORT`
+    - `GRAFANA_ADMIN_USER`, `GRAFANA_ADMIN_PASSWORD` (optionnel)
+2. Depuis `src/api`, lancer la stack:
+    - `docker compose up -d --build`
+3. Accès aux interfaces:
+    - API: http://localhost:8000
+    - Metrics API (Prometheus scrape): http://localhost:8000/metrics
+    - Prometheus: http://localhost:9090
+    - Grafana: http://localhost:3000
+4. Dashboard Grafana provisionné automatiquement:
+    - `Movie API + PostgreSQL Monitoring`
+
+Notes:
+- Le service `postgres-exporter` expose les métriques PostgreSQL sur le port 9187.
+- Si PostgreSQL tourne dans une autre stack Docker locale (ex: `src/init/docker-compose.yaml`), `POSTGRES_HOST=host.docker.internal` fonctionne généralement sur Windows.
+
+Suivi de l'ingestion PostgreSQL (PromQL / Grafana):
+- Débit d'insertions (lignes/s):
+    - `sum(rate(pg_stat_database_tup_inserted{datname="movie_db"}[5m]))`
+- Débit de mises à jour (lignes/s):
+    - `sum(rate(pg_stat_database_tup_updated{datname="movie_db"}[5m]))`
+- Volume inséré sur 1 heure:
+    - `sum(increase(pg_stat_database_tup_inserted{datname="movie_db"}[1h]))`
+
+Le dashboard `Movie API + PostgreSQL Monitoring` contient maintenant ces 3 panneaux dédiés à l'ingestion.

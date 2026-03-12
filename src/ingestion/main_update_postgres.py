@@ -23,8 +23,8 @@ if __name__ == "__main__":
     }
 
     # Paramètres de mise à jour
-    moviesUpdate = False
-    peopleUpdate = False
+    moviesUpdate = True
+    peopleUpdate = True
     genresUpdate = True
 
     movie_query = f"""

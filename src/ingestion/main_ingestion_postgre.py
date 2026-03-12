@@ -16,11 +16,11 @@ from db_connection import connect_to_db
 
 # L'ingestion se fait année par année. Spécifier l'année à ingérer ici (commenter l'option qui ne sera pas utilisée) :
 # option 1: spécification des années précises à ingérer sous forme de liste
-#year = [2005]
+year = [2004]
 # option 2: spécification d'une plage d'années à ingérer
-start_year = 2026
-end_year = 2036
-year = list(range(start_year, end_year + 1))
+#start_year = 2026
+#end_year = 2036
+#year = list(range(start_year, end_year + 1))
 
 if __name__ == "__main__":
     log_file = os.path.join(os.path.dirname(__file__), "ingestion_log.txt")

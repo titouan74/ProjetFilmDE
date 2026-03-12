@@ -16,6 +16,7 @@ import pandas as pd
 from datetime import date, datetime
 import sqlalchemy
 from sqlalchemy import text
+from prometheus_fastapi_instrumentator import Instrumentator
 
 # Imports relatifs du package app
 from . import client
@@ -25,6 +26,9 @@ from .security import get_current_user, verify_admin
 import ml.machine_learning_utils as ml_utils
 
 app = FastAPI(title="Movie Success Prediction API")
+
+# Expose des metriques HTTP Prometheus sur /metrics.
+Instrumentator().instrument(app).expose(app, include_in_schema=False)
 
 class MoviePredictionRequest(BaseModel):
     movie_title: str

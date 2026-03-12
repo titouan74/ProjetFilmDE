@@ -1,0 +1,105 @@
+[2026-03-10T08:12:01.065+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-03-10T08:12:01.102+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: db_and_model_update.run_lr_model_update scheduled__2026-03-02T14:00:00+00:00 [queued]>
+[2026-03-10T08:12:01.120+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: db_and_model_update.run_lr_model_update scheduled__2026-03-02T14:00:00+00:00 [queued]>
+[2026-03-10T08:12:01.122+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 1
+[2026-03-10T08:12:01.141+0000] {taskinstance.py:2890} INFO - Executing <Task(PythonOperator): run_lr_model_update> on 2026-03-02 14:00:00+00:00
+[2026-03-10T08:12:01.154+0000] {standard_task_runner.py:72} INFO - Started process 76 to run task
+[2026-03-10T08:12:01.160+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'db_and_model_update', 'run_lr_model_update', 'scheduled__2026-03-02T14:00:00+00:00', '--job-id', '107', '--raw', '--subdir', 'DAGS_FOLDER/db_and_model_update_dag.py', '--cfg-path', '/tmp/tmp9w83dau9']
+[2026-03-10T08:12:01.165+0000] {standard_task_runner.py:105} INFO - Job 107: Subtask run_lr_model_update
+[2026-03-10T08:12:01.261+0000] {task_command.py:467} INFO - Running <TaskInstance: db_and_model_update.run_lr_model_update scheduled__2026-03-02T14:00:00+00:00 [running]> on host 5a32e08586f8
+[2026-03-10T08:12:01.465+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='db_and_model_update' AIRFLOW_CTX_TASK_ID='run_lr_model_update' AIRFLOW_CTX_EXECUTION_DATE='2026-03-02T14:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-03-02T14:00:00+00:00'
+[2026-03-10T08:12:01.470+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2026-03-10T08:12:03.419+0000] {logging_mixin.py:190} INFO - 🔌 Connexion à la base de données...
+[2026-03-10T08:12:03.457+0000] {logging_mixin.py:190} INFO - ✅ Connexion réussie!
+[2026-03-10T08:12:03.458+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-03-10T08:12:03.459+0000] {logging_mixin.py:190} INFO - 🎯 TRAITEMENT POUR LA VARIABLE CIBLE: REVENUE
+[2026-03-10T08:12:03.460+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-03-10T08:12:03.460+0000] {logging_mixin.py:190} INFO - 🔍 Construction de la requête SQL...
+[2026-03-10T08:12:03.461+0000] {logging_mixin.py:190} INFO - 📥 Chargement des données complètes...
+[2026-03-10T08:12:03.462+0000] {logging_mixin.py:190} INFO - 🔗 Test de connexion à la base de données...
+[2026-03-10T08:12:03.465+0000] {logging_mixin.py:190} INFO - ✅ Connexion PostgreSQL réussie!
+[2026-03-10T08:13:44.086+0000] {job.py:229} INFO - Heartbeat recovered after 17.55 seconds
+[2026-03-10T08:14:26.886+0000] {logging_mixin.py:190} INFO - ✅ Données chargées avec succès. Shape: (10453616, 14)
+[2026-03-10T08:14:26.887+0000] {logging_mixin.py:190} INFO - 🔧 Début du préprocessing des données...
+[2026-03-10T08:14:31.688+0000] {logging_mixin.py:190} INFO - ✅ Préprocessing terminé! Shape final: X(5392, 218), y(5392,)
+[2026-03-10T08:14:31.691+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-03-10T08:14:31.692+0000] {logging_mixin.py:190} INFO - 🤖 ENTRAÎNEMENT DU MODÈLE LINEARREGRESSION
+[2026-03-10T08:14:31.692+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-03-10T08:14:31.699+0000] {logging_mixin.py:190} INFO - 
+🔧 Entraînement du modèle LinearRegression...
+[2026-03-10T08:14:31.817+0000] {logging_mixin.py:190} INFO - LinearRegression :
+[2026-03-10T08:14:31.829+0000] {logging_mixin.py:190} INFO - train : 0.6334270238876343
+[2026-03-10T08:14:31.836+0000] {logging_mixin.py:190} INFO - test  : 0.5234984159469604
+[2026-03-10T08:14:31.840+0000] {logging_mixin.py:190} INFO - 💾 Sauvegarde du modèle LinearRegression...
+[2026-03-10T08:14:31.932+0000] {logging_mixin.py:190} INFO - ✅ Modèle LinearRegression sauvegardé: /opt/project/src/ml/models/lr_model_revenue.joblib
+[2026-03-10T08:14:31.933+0000] {logging_mixin.py:190} INFO - ✅ Métadonnées sauvegardées: /opt/project/src/ml/models/lr_metadata_revenue.joblib
+[2026-03-10T08:14:31.935+0000] {logging_mixin.py:190} INFO - 📊 Scores - Train: 0.6334, Test: 0.5235
+[2026-03-10T08:14:31.935+0000] {logging_mixin.py:190} INFO - 🔧 Features: 218, Échantillons: 5392
+[2026-03-10T08:14:32.136+0000] {logging_mixin.py:190} INFO - 
+🎉 Entrainement terminé et sauvegardés avec succès pour revenue!
+[2026-03-10T08:14:35.022+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-03-10T08:14:35.023+0000] {logging_mixin.py:190} INFO - 🎯 TRAITEMENT POUR LA VARIABLE CIBLE: POPULARITY
+[2026-03-10T08:14:35.024+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-03-10T08:14:35.025+0000] {logging_mixin.py:190} INFO - 🔍 Construction de la requête SQL...
+[2026-03-10T08:14:35.026+0000] {logging_mixin.py:190} INFO - 📥 Chargement des données complètes...
+[2026-03-10T08:14:35.026+0000] {logging_mixin.py:190} INFO - 🔗 Test de connexion à la base de données...
+[2026-03-10T08:14:47.529+0000] {logging_mixin.py:190} INFO - ✅ Connexion PostgreSQL réussie!
+[2026-03-10T08:17:02.700+0000] {logging_mixin.py:190} INFO - ✅ Données chargées avec succès. Shape: (10453616, 14)
+[2026-03-10T08:17:02.703+0000] {logging_mixin.py:190} INFO - 🔧 Début du préprocessing des données...
+[2026-03-10T08:17:06.552+0000] {logging_mixin.py:190} INFO - ✅ Préprocessing terminé! Shape final: X(5392, 218), y(5392,)
+[2026-03-10T08:17:06.553+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-03-10T08:17:06.554+0000] {logging_mixin.py:190} INFO - 🤖 ENTRAÎNEMENT DU MODÈLE LINEARREGRESSION
+[2026-03-10T08:17:06.555+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-03-10T08:17:06.560+0000] {logging_mixin.py:190} INFO - 
+🔧 Entraînement du modèle LinearRegression...
+[2026-03-10T08:17:06.694+0000] {logging_mixin.py:190} INFO - LinearRegression :
+[2026-03-10T08:17:06.711+0000] {logging_mixin.py:190} INFO - train : 0.2729491591453552
+[2026-03-10T08:17:06.726+0000] {logging_mixin.py:190} INFO - test  : 0.09296387434005737
+[2026-03-10T08:17:06.732+0000] {logging_mixin.py:190} INFO - 💾 Sauvegarde du modèle LinearRegression...
+[2026-03-10T08:17:06.856+0000] {logging_mixin.py:190} INFO - ✅ Modèle LinearRegression sauvegardé: /opt/project/src/ml/models/lr_model_popularity.joblib
+[2026-03-10T08:17:06.857+0000] {logging_mixin.py:190} INFO - ✅ Métadonnées sauvegardées: /opt/project/src/ml/models/lr_metadata_popularity.joblib
+[2026-03-10T08:17:06.858+0000] {logging_mixin.py:190} INFO - 📊 Scores - Train: 0.2729, Test: 0.0930
+[2026-03-10T08:17:06.859+0000] {logging_mixin.py:190} INFO - 🔧 Features: 218, Échantillons: 5392
+[2026-03-10T08:17:07.082+0000] {logging_mixin.py:190} INFO - 
+🎉 Entrainement terminé et sauvegardés avec succès pour popularity!
+[2026-03-10T08:17:09.874+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-03-10T08:17:09.876+0000] {logging_mixin.py:190} INFO - 🎯 TRAITEMENT POUR LA VARIABLE CIBLE: VOTE_AVERAGE
+[2026-03-10T08:17:09.878+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-03-10T08:17:09.879+0000] {logging_mixin.py:190} INFO - 🔍 Construction de la requête SQL...
+[2026-03-10T08:17:09.880+0000] {logging_mixin.py:190} INFO - 📥 Chargement des données complètes...
+[2026-03-10T08:17:09.881+0000] {logging_mixin.py:190} INFO - 🔗 Test de connexion à la base de données...
+[2026-03-10T08:17:09.888+0000] {logging_mixin.py:190} INFO - ✅ Connexion PostgreSQL réussie!
+[2026-03-10T08:19:28.805+0000] {logging_mixin.py:190} INFO - ✅ Données chargées avec succès. Shape: (10453616, 14)
+[2026-03-10T08:19:28.807+0000] {logging_mixin.py:190} INFO - 🔧 Début du préprocessing des données...
+[2026-03-10T08:19:32.594+0000] {logging_mixin.py:190} INFO - ✅ Préprocessing terminé! Shape final: X(5392, 218), y(5392,)
+[2026-03-10T08:19:32.595+0000] {logging_mixin.py:190} INFO - 
+==================================================
+[2026-03-10T08:19:32.596+0000] {logging_mixin.py:190} INFO - 🤖 ENTRAÎNEMENT DU MODÈLE LINEARREGRESSION
+[2026-03-10T08:19:32.597+0000] {logging_mixin.py:190} INFO - ==================================================
+[2026-03-10T08:19:32.601+0000] {logging_mixin.py:190} INFO - 
+🔧 Entraînement du modèle LinearRegression...
+[2026-03-10T08:19:32.628+0000] {logging_mixin.py:190} INFO - LinearRegression :
+[2026-03-10T08:19:32.636+0000] {logging_mixin.py:190} INFO - train : 0.3819313049316406
+[2026-03-10T08:19:32.648+0000] {logging_mixin.py:190} INFO - test  : 0.27620017528533936
+[2026-03-10T08:19:32.652+0000] {logging_mixin.py:190} INFO - 💾 Sauvegarde du modèle LinearRegression...
+[2026-03-10T08:19:32.746+0000] {logging_mixin.py:190} INFO - ✅ Modèle LinearRegression sauvegardé: /opt/project/src/ml/models/lr_model_vote_average.joblib
+[2026-03-10T08:19:32.747+0000] {logging_mixin.py:190} INFO - ✅ Métadonnées sauvegardées: /opt/project/src/ml/models/lr_metadata_vote_average.joblib
+[2026-03-10T08:19:32.748+0000] {logging_mixin.py:190} INFO - 📊 Scores - Train: 0.3819, Test: 0.2762
+[2026-03-10T08:19:32.748+0000] {logging_mixin.py:190} INFO - 🔧 Features: 218, Échantillons: 5392
+[2026-03-10T08:19:32.914+0000] {logging_mixin.py:190} INFO - 
+🎉 Entrainement terminé et sauvegardés avec succès pour vote_average!
+[2026-03-10T08:19:35.388+0000] {logging_mixin.py:190} INFO - 
+✅ Entrainement terminé pour toutes les variables cibles.
+[2026-03-10T08:19:35.389+0000] {logging_mixin.py:190} INFO - 
+⏱️ Temps total d'exécution du script: 451.97 secondes
+[2026-03-10T08:19:35.390+0000] {python.py:240} INFO - Done. Returned value was: None
+[2026-03-10T08:19:35.403+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2026-03-10T08:19:35.404+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=db_and_model_update, task_id=run_lr_model_update, run_id=scheduled__2026-03-02T14:00:00+00:00, execution_date=20260302T140000, start_date=20260310T081201, end_date=20260310T081935
+[2026-03-10T08:19:35.995+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-03-10T08:19:36.060+0000] {taskinstance.py:3901} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-03-10T08:19:36.067+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
