@@ -97,3 +97,5 @@ Suivi de l'ingestion PostgreSQL (PromQL / Grafana):
     - `sum(increase(pg_stat_database_tup_inserted{datname="movie_db"}[1h]))`
 
 Le dashboard `Movie API + PostgreSQL Monitoring` contient maintenant ces 3 panneaux dédiés à l'ingestion.
+
+test protection main
