@@ -99,3 +99,5 @@ Suivi de l'ingestion PostgreSQL (PromQL / Grafana):
 Le dashboard `Movie API + PostgreSQL Monitoring` contient maintenant ces 3 panneaux dédiés à l'ingestion.
 
 test protection main
+
+test
