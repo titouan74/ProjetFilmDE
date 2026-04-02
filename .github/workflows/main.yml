@@ -1,8 +1,8 @@
 name: Mirror to GitLab
 on:
   push:
-    branches-ignore:
-      - main  # ignore main pour ne pas forcer les commits protégés
+    branches:
+      - '**'  # toutes les branches
 
 jobs:
   mirror:
