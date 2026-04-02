@@ -351,6 +351,25 @@ def predict_movie_target(movie_info: Dict, model, metadata: Dict = None) -> floa
     # Créer un DataFrame vide avec les colonnes et dtype numérique
     movie_df = pd.DataFrame(columns=X_columns, index=[0], dtype=float)
     movie_df = movie_df.fillna(0).infer_objects(copy=False)  # Initialiser tout à 0
+
+    def _set_sparse_feature(prefix: str, raw_id) -> None:
+        """Active une feature one-hot en gérant les variantes int/float des IDs."""
+        if raw_id is None:
+            return
+
+        candidates = [f"{prefix}_{raw_id}"]
+        try:
+            as_float = float(raw_id)
+            candidates.append(f"{prefix}_{as_float}")
+            if as_float.is_integer():
+                candidates.append(f"{prefix}_{int(as_float)}")
+        except (TypeError, ValueError):
+            pass
+
+        for col in candidates:
+            if col in movie_df.columns:
+                movie_df.loc[0, col] = 1
+                return
     
     # === VARIABLES DE BASE (normalisées approximativement) ===
     if 'budget' in movie_info and 'budget' in movie_df.columns:
@@ -391,38 +410,41 @@ def predict_movie_target(movie_info: Dict, model, metadata: Dict = None) -> floa
     # === GENRES ===
     if 'genres' in movie_info and movie_info['genres']:
         for genre_id in movie_info['genres']:
-            genre_col = f"genre_id_{genre_id}"
-            if genre_col in movie_df.columns:
-                movie_df.loc[0, genre_col] = 1
+            _set_sparse_feature("genre_id", genre_id)
     
     # === ACTEURS ===
     if 'actors' in movie_info and movie_info['actors']:
         for person_id in movie_info['actors']:
-            person_col = f"person_id_{person_id}"
-            if person_col in movie_df.columns:
-                movie_df.loc[0, person_col] = 1
+            _set_sparse_feature("person_id", person_id)
     
     # === MOTS-CLÉS ===
     if 'keywords' in movie_info and movie_info['keywords']:
         for keyword_id in movie_info['keywords']:
-            keyword_col = f"keyword_id_{keyword_id}"
-            if keyword_col in movie_df.columns:
-                movie_df.loc[0, keyword_col] = 1
+            _set_sparse_feature("keyword_id", keyword_id)
     
     # === PRODUCTIONS ===
     if 'productions' in movie_info and movie_info['productions']:
         for prod_id in movie_info['productions']:
-            prod_col = f"production_id_{prod_id}"
-            if prod_col in movie_df.columns:
-                movie_df.loc[0, prod_col] = 1
+            _set_sparse_feature("production_id", prod_id)
+
+    # Garantit l'ordre et l'alignement exact des colonnes attendues par le modèle
+    movie_df = movie_df.reindex(columns=X_columns, fill_value=0).astype(np.float32)
     
     # Faire la prédiction
     try:
         prediction = model.predict(movie_df)[0]
         return prediction
     except Exception as e:
-        print(f"❌ Erreur lors de la prédiction: {e}")
-        return 0.0
+        # Certains modèles XGBoost sérialisés avec une autre version perdent
+        # la gestion des noms de colonnes; on garde l'ordre des features et
+        # on désactive uniquement la validation des noms dans ce cas précis.
+        if hasattr(model, "get_booster") and "feature names" in str(e).lower():
+            try:
+                prediction = model.predict(movie_df, validate_features=False)[0]
+                return prediction
+            except Exception:
+                pass
+        raise RuntimeError(f"Erreur lors de la prédiction du modèle: {e}") from e
 
 def get_movie_info_from_db(movie_title: str, engine) -> Dict:
     """

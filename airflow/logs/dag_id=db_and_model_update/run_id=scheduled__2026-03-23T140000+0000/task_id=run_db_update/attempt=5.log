@@ -1,0 +1,1271 @@
+[2026-03-31T18:27:28.502+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-03-31T18:27:28.523+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: db_and_model_update.run_db_update scheduled__2026-03-23T14:00:00+00:00 [queued]>
+[2026-03-31T18:27:28.537+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: db_and_model_update.run_db_update scheduled__2026-03-23T14:00:00+00:00 [queued]>
+[2026-03-31T18:27:28.539+0000] {taskinstance.py:2867} INFO - Starting attempt 5 of 6
+[2026-03-31T18:27:28.554+0000] {taskinstance.py:2890} INFO - Executing <Task(BashOperator): run_db_update> on 2026-03-23 14:00:00+00:00
+[2026-03-31T18:27:28.563+0000] {standard_task_runner.py:72} INFO - Started process 277 to run task
+[2026-03-31T18:27:28.567+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'db_and_model_update', 'run_db_update', 'scheduled__2026-03-23T14:00:00+00:00', '--job-id', '133', '--raw', '--subdir', 'DAGS_FOLDER/db_and_model_update_dag.py', '--cfg-path', '/tmp/tmp6w9wx8xc']
+[2026-03-31T18:27:28.570+0000] {standard_task_runner.py:105} INFO - Job 133: Subtask run_db_update
+[2026-03-31T18:27:28.648+0000] {task_command.py:467} INFO - Running <TaskInstance: db_and_model_update.run_db_update scheduled__2026-03-23T14:00:00+00:00 [running]> on host 5a32e08586f8
+[2026-03-31T18:27:28.762+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='db_and_model_update' AIRFLOW_CTX_TASK_ID='run_db_update' AIRFLOW_CTX_EXECUTION_DATE='2026-03-23T14:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='5' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-03-23T14:00:00+00:00'
+[2026-03-31T18:27:28.764+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2026-03-31T18:27:28.778+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2026-03-31T18:27:28.780+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', 'python /opt/project/src/ingestion/main_update_postgres.py']
+[2026-03-31T18:27:28.798+0000] {subprocess.py:99} INFO - Output:
+[2026-03-31T18:28:01.839+0000] {subprocess.py:106} INFO - 🔌 Connexion à la base de données...
+[2026-03-31T18:28:01.841+0000] {subprocess.py:106} INFO - ✅ Connexion réussie!
+[2026-03-31T18:28:01.842+0000] {subprocess.py:106} INFO - Démarrage de l'ingestion des données depuis l'API TMDB avec les paramètres suivants :
+[2026-03-31T18:28:01.843+0000] {subprocess.py:106} INFO -   - Mise à jour des films : True
+[2026-03-31T18:28:01.843+0000] {subprocess.py:106} INFO -   - Mise à jour des personnes : True
+[2026-03-31T18:28:01.844+0000] {subprocess.py:106} INFO -   - Mise à jour des genres : True
+[2026-03-31T18:28:01.845+0000] {subprocess.py:106} INFO - ✅ Mise à jour des genres terminée. 19 genres insérés ou mis à jour dans la base de données.
+[2026-03-31T18:28:01.845+0000] {subprocess.py:106} INFO - Nombre de films dans la base de données à mettre à jour : 5445
+[2026-03-31T18:28:01.846+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1284120 ont bien été récupérées.
+[2026-03-31T18:28:01.846+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1284120
+[2026-03-31T18:28:01.847+0000] {subprocess.py:106} INFO - Progression : 1/5445 films.
+[2026-03-31T18:28:01.847+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 505026 ont bien été récupérées.
+[2026-03-31T18:28:01.848+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 505026
+[2026-03-31T18:28:01.849+0000] {subprocess.py:106} INFO - Progression : 2/5445 films.
+[2026-03-31T18:28:01.849+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 393457 ont bien été récupérées.
+[2026-03-31T18:28:01.850+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 393457
+[2026-03-31T18:28:01.851+0000] {subprocess.py:106} INFO - Progression : 3/5445 films.
+[2026-03-31T18:28:01.851+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1205515 ont bien été récupérées.
+[2026-03-31T18:28:01.852+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1205515
+[2026-03-31T18:28:01.852+0000] {subprocess.py:106} INFO - Progression : 4/5445 films.
+[2026-03-31T18:28:01.853+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1078605 ont bien été récupérées.
+[2026-03-31T18:28:01.853+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1078605
+[2026-03-31T18:28:01.854+0000] {subprocess.py:106} INFO - Progression : 5/5445 films.
+[2026-03-31T18:28:01.855+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 77174 ont bien été récupérées.
+[2026-03-31T18:28:01.856+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 77174
+[2026-03-31T18:28:01.856+0000] {subprocess.py:106} INFO - Progression : 6/5445 films.
+[2026-03-31T18:28:01.857+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 533 ont bien été récupérées.
+[2026-03-31T18:28:01.857+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 533
+[2026-03-31T18:28:01.858+0000] {subprocess.py:106} INFO - Progression : 7/5445 films.
+[2026-03-31T18:28:01.858+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 651881 ont bien été récupérées.
+[2026-03-31T18:28:01.859+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 651881
+[2026-03-31T18:28:01.859+0000] {subprocess.py:106} INFO - Progression : 8/5445 films.
+[2026-03-31T18:28:01.860+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 660120 ont bien été récupérées.
+[2026-03-31T18:28:01.860+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 660120
+[2026-03-31T18:28:01.861+0000] {subprocess.py:106} INFO - Progression : 9/5445 films.
+[2026-03-31T18:28:01.861+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1244944 ont bien été récupérées.
+[2026-03-31T18:28:01.862+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1244944
+[2026-03-31T18:28:01.862+0000] {subprocess.py:106} INFO - Progression : 10/5445 films.
+[2026-03-31T18:28:01.862+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 481084 ont bien été récupérées.
+[2026-03-31T18:28:01.863+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 481084
+[2026-03-31T18:28:01.864+0000] {subprocess.py:106} INFO - Progression : 11/5445 films.
+[2026-03-31T18:28:01.864+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 700391 ont bien été récupérées.
+[2026-03-31T18:28:01.865+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 700391
+[2026-03-31T18:28:01.866+0000] {subprocess.py:106} INFO - Progression : 12/5445 films.
+[2026-03-31T18:28:01.866+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 61791 ont bien été récupérées.
+[2026-03-31T18:28:01.867+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 61791
+[2026-03-31T18:28:01.868+0000] {subprocess.py:106} INFO - Progression : 13/5445 films.
+[2026-03-31T18:28:01.869+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 55 ont bien été récupérées.
+[2026-03-31T18:28:01.870+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 55
+[2026-03-31T18:28:01.871+0000] {subprocess.py:106} INFO - Progression : 14/5445 films.
+[2026-03-31T18:28:01.873+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1007734 ont bien été récupérées.
+[2026-03-31T18:28:01.873+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1007734
+[2026-03-31T18:28:01.878+0000] {subprocess.py:106} INFO - Progression : 15/5445 films.
+[2026-03-31T18:28:01.879+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1267905 ont bien été récupérées.
+[2026-03-31T18:28:01.880+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1267905
+[2026-03-31T18:28:01.881+0000] {subprocess.py:106} INFO - Progression : 16/5445 films.
+[2026-03-31T18:28:01.882+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1042834 ont bien été récupérées.
+[2026-03-31T18:28:01.883+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1042834
+[2026-03-31T18:28:01.884+0000] {subprocess.py:106} INFO - Progression : 17/5445 films.
+[2026-03-31T18:28:01.885+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 20943 ont bien été récupérées.
+[2026-03-31T18:28:01.886+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 20943
+[2026-03-31T18:28:01.886+0000] {subprocess.py:106} INFO - Progression : 18/5445 films.
+[2026-03-31T18:28:01.887+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1422096 ont bien été récupérées.
+[2026-03-31T18:28:01.888+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1422096
+[2026-03-31T18:28:01.889+0000] {subprocess.py:106} INFO - Progression : 19/5445 films.
+[2026-03-31T18:28:01.889+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1245993 ont bien été récupérées.
+[2026-03-31T18:28:01.890+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1245993
+[2026-03-31T18:28:01.891+0000] {subprocess.py:106} INFO - Progression : 20/5445 films.
+[2026-03-31T18:28:01.891+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 424783 ont bien été récupérées.
+[2026-03-31T18:28:01.892+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 424783
+[2026-03-31T18:28:01.893+0000] {subprocess.py:106} INFO - Progression : 21/5445 films.
+[2026-03-31T18:28:01.893+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1246049 ont bien été récupérées.
+[2026-03-31T18:28:01.894+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1246049
+[2026-03-31T18:28:01.895+0000] {subprocess.py:106} INFO - Progression : 22/5445 films.
+[2026-03-31T18:28:01.895+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1197137 ont bien été récupérées.
+[2026-03-31T18:28:01.896+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1197137
+[2026-03-31T18:28:01.898+0000] {subprocess.py:106} INFO - Progression : 23/5445 films.
+[2026-03-31T18:28:01.898+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 9392 ont bien été récupérées.
+[2026-03-31T18:28:01.902+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 9392
+[2026-03-31T18:28:01.903+0000] {subprocess.py:106} INFO - Progression : 24/5445 films.
+[2026-03-31T18:28:01.903+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 82525 ont bien été récupérées.
+[2026-03-31T18:28:01.904+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 82525
+[2026-03-31T18:28:01.905+0000] {subprocess.py:106} INFO - Progression : 25/5445 films.
+[2026-03-31T18:28:01.907+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 118 ont bien été récupérées.
+[2026-03-31T18:28:01.908+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 118
+[2026-03-31T18:28:01.909+0000] {subprocess.py:106} INFO - Progression : 26/5445 films.
+[2026-03-31T18:28:01.909+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 141 ont bien été récupérées.
+[2026-03-31T18:28:01.910+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 141
+[2026-03-31T18:28:01.910+0000] {subprocess.py:106} INFO - Progression : 27/5445 films.
+[2026-03-31T18:28:01.911+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 393519 ont bien été récupérées.
+[2026-03-31T18:28:01.912+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 393519
+[2026-03-31T18:28:01.912+0000] {subprocess.py:106} INFO - Progression : 28/5445 films.
+[2026-03-31T18:28:01.913+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 262500 ont bien été récupérées.
+[2026-03-31T18:28:01.914+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 262500
+[2026-03-31T18:28:01.914+0000] {subprocess.py:106} INFO - Progression : 29/5445 films.
+[2026-03-31T18:28:01.915+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 504 ont bien été récupérées.
+[2026-03-31T18:28:01.915+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 504
+[2026-03-31T18:28:01.916+0000] {subprocess.py:106} INFO - Progression : 30/5445 films.
+[2026-03-31T18:28:01.916+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 115210 ont bien été récupérées.
+[2026-03-31T18:28:01.917+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 115210
+[2026-03-31T18:28:01.918+0000] {subprocess.py:106} INFO - Progression : 31/5445 films.
+[2026-03-31T18:28:01.918+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 82505 ont bien été récupérées.
+[2026-03-31T18:28:01.919+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 82505
+[2026-03-31T18:28:01.919+0000] {subprocess.py:106} INFO - Progression : 32/5445 films.
+[2026-03-31T18:28:01.920+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 672 ont bien été récupérées.
+[2026-03-31T18:28:01.921+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 672
+[2026-03-31T18:28:01.922+0000] {subprocess.py:106} INFO - Progression : 33/5445 films.
+[2026-03-31T18:28:01.923+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 673 ont bien été récupérées.
+[2026-03-31T18:28:01.923+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 673
+[2026-03-31T18:28:01.924+0000] {subprocess.py:106} INFO - Progression : 34/5445 films.
+[2026-03-31T18:28:01.924+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 674 ont bien été récupérées.
+[2026-03-31T18:28:01.926+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 674
+[2026-03-31T18:28:01.926+0000] {subprocess.py:106} INFO - Progression : 35/5445 films.
+[2026-03-31T18:28:01.927+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 675 ont bien été récupérées.
+[2026-03-31T18:28:01.928+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 675
+[2026-03-31T18:28:01.929+0000] {subprocess.py:106} INFO - Progression : 36/5445 films.
+[2026-03-31T18:28:01.929+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 676 ont bien été récupérées.
+[2026-03-31T18:28:01.930+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 676
+[2026-03-31T18:28:01.931+0000] {subprocess.py:106} INFO - Progression : 37/5445 films.
+[2026-03-31T18:28:01.931+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 767 ont bien été récupérées.
+[2026-03-31T18:28:01.932+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 767
+[2026-03-31T18:28:01.932+0000] {subprocess.py:106} INFO - Progression : 38/5445 films.
+[2026-03-31T18:28:01.933+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 394117 ont bien été récupérées.
+[2026-03-31T18:28:01.934+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 394117
+[2026-03-31T18:28:01.934+0000] {subprocess.py:106} INFO - Progression : 39/5445 films.
+[2026-03-31T18:28:01.935+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 508883 ont bien été récupérées.
+[2026-03-31T18:28:01.936+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 508883
+[2026-03-31T18:28:01.939+0000] {subprocess.py:106} INFO - Progression : 40/5445 films.
+[2026-03-31T18:28:01.941+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 803796 ont bien été récupérées.
+[2026-03-31T18:28:01.942+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 803796
+[2026-03-31T18:28:01.943+0000] {subprocess.py:106} INFO - Progression : 41/5445 films.
+[2026-03-31T18:28:01.944+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 82990 ont bien été récupérées.
+[2026-03-31T18:28:01.944+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 82990
+[2026-03-31T18:28:01.945+0000] {subprocess.py:106} INFO - Progression : 42/5445 films.
+[2026-03-31T18:28:01.945+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 492611 ont bien été récupérées.
+[2026-03-31T18:28:01.946+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 492611
+[2026-03-31T18:28:01.946+0000] {subprocess.py:106} INFO - Progression : 43/5445 films.
+[2026-03-31T18:28:01.947+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 17610 ont bien été récupérées.
+[2026-03-31T18:28:01.947+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 17610
+[2026-03-31T18:28:01.948+0000] {subprocess.py:106} INFO - Progression : 44/5445 films.
+[2026-03-31T18:28:01.949+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1250 ont bien été récupérées.
+[2026-03-31T18:28:01.949+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1250
+[2026-03-31T18:28:01.950+0000] {subprocess.py:106} INFO - Progression : 45/5445 films.
+[2026-03-31T18:28:01.950+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 460019 ont bien été récupérées.
+[2026-03-31T18:28:01.951+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 460019
+[2026-03-31T18:28:01.951+0000] {subprocess.py:106} INFO - Progression : 46/5445 films.
+[2026-03-31T18:28:01.952+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1197306 ont bien été récupérées.
+[2026-03-31T18:28:01.952+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1197306
+[2026-03-31T18:28:01.953+0000] {subprocess.py:106} INFO - Progression : 47/5445 films.
+[2026-03-31T18:28:01.953+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 17680 ont bien été récupérées.
+[2026-03-31T18:28:01.954+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 17680
+[2026-03-31T18:28:01.955+0000] {subprocess.py:106} INFO - Progression : 48/5445 films.
+[2026-03-31T18:28:01.955+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1378 ont bien été récupérées.
+[2026-03-31T18:28:01.956+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1378
+[2026-03-31T18:28:01.956+0000] {subprocess.py:106} INFO - Progression : 49/5445 films.
+[2026-03-31T18:28:01.956+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1000837 ont bien été récupérées.
+[2026-03-31T18:28:01.957+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1000837
+[2026-03-31T18:28:35.146+0000] {subprocess.py:106} INFO - Progression : 50/5445 films.
+[2026-03-31T18:28:35.147+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1312157 ont bien été récupérées.
+[2026-03-31T18:28:35.149+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1312157
+[2026-03-31T18:28:35.149+0000] {subprocess.py:106} INFO - Progression : 51/5445 films.
+[2026-03-31T18:28:35.150+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1440 ont bien été récupérées.
+[2026-03-31T18:28:35.150+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1440
+[2026-03-31T18:28:35.152+0000] {subprocess.py:106} INFO - Progression : 52/5445 films.
+[2026-03-31T18:28:35.153+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1441 ont bien été récupérées.
+[2026-03-31T18:28:35.154+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1441
+[2026-03-31T18:28:35.154+0000] {subprocess.py:106} INFO - Progression : 53/5445 films.
+[2026-03-31T18:28:35.155+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1181107 ont bien été récupérées.
+[2026-03-31T18:28:35.155+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1181107
+[2026-03-31T18:28:35.156+0000] {subprocess.py:106} INFO - Progression : 54/5445 films.
+[2026-03-31T18:28:35.157+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 50619 ont bien été récupérées.
+[2026-03-31T18:28:35.158+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 50619
+[2026-03-31T18:28:35.158+0000] {subprocess.py:106} INFO - Progression : 55/5445 films.
+[2026-03-31T18:28:35.159+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 50620 ont bien été récupérées.
+[2026-03-31T18:28:35.160+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 50620
+[2026-03-31T18:28:35.160+0000] {subprocess.py:106} INFO - Progression : 56/5445 films.
+[2026-03-31T18:28:35.161+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1535 ont bien été récupérées.
+[2026-03-31T18:28:35.161+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1535
+[2026-03-31T18:28:35.162+0000] {subprocess.py:106} INFO - Progression : 57/5445 films.
+[2026-03-31T18:28:35.163+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1548 ont bien été récupérées.
+[2026-03-31T18:28:35.163+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1548
+[2026-03-31T18:28:35.164+0000] {subprocess.py:106} INFO - Progression : 58/5445 films.
+[2026-03-31T18:28:35.166+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 542224 ont bien été récupérées.
+[2026-03-31T18:28:35.166+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 542224
+[2026-03-31T18:28:35.168+0000] {subprocess.py:106} INFO - Progression : 59/5445 films.
+[2026-03-31T18:28:35.168+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 198184 ont bien été récupérées.
+[2026-03-31T18:28:35.169+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 198184
+[2026-03-31T18:28:35.169+0000] {subprocess.py:106} INFO - Progression : 60/5445 films.
+[2026-03-31T18:28:35.170+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 427641 ont bien été récupérées.
+[2026-03-31T18:28:35.171+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 427641
+[2026-03-31T18:28:35.171+0000] {subprocess.py:106} INFO - Progression : 61/5445 films.
+[2026-03-31T18:28:35.172+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1683 ont bien été récupérées.
+[2026-03-31T18:28:35.172+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1683
+[2026-03-31T18:28:35.173+0000] {subprocess.py:106} INFO - Progression : 62/5445 films.
+[2026-03-31T18:28:35.174+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1791 ont bien été récupérées.
+[2026-03-31T18:28:35.174+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1791
+[2026-03-31T18:28:35.175+0000] {subprocess.py:106} INFO - Progression : 63/5445 films.
+[2026-03-31T18:28:35.175+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 345887 ont bien été récupérées.
+[2026-03-31T18:28:35.176+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 345887
+[2026-03-31T18:28:35.177+0000] {subprocess.py:106} INFO - Progression : 64/5445 films.
+[2026-03-31T18:28:35.177+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 18239 ont bien été récupérées.
+[2026-03-31T18:28:35.178+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 18239
+[2026-03-31T18:28:35.178+0000] {subprocess.py:106} INFO - Progression : 65/5445 films.
+[2026-03-31T18:28:35.179+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1903 ont bien été récupérées.
+[2026-03-31T18:28:35.179+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1903
+[2026-03-31T18:28:35.180+0000] {subprocess.py:106} INFO - Progression : 66/5445 films.
+[2026-03-31T18:28:35.181+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1933 ont bien été récupérées.
+[2026-03-31T18:28:35.181+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1933
+[2026-03-31T18:28:35.182+0000] {subprocess.py:106} INFO - Progression : 67/5445 films.
+[2026-03-31T18:28:35.182+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 34806 ont bien été récupérées.
+[2026-03-31T18:28:35.183+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 34806
+[2026-03-31T18:28:35.183+0000] {subprocess.py:106} INFO - Progression : 68/5445 films.
+[2026-03-31T18:28:35.184+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 2043 ont bien été récupérées.
+[2026-03-31T18:28:35.184+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 2043
+[2026-03-31T18:28:35.185+0000] {subprocess.py:106} INFO - Progression : 69/5445 films.
+[2026-03-31T18:28:35.186+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 2046 ont bien été récupérées.
+[2026-03-31T18:28:35.186+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 2046
+[2026-03-31T18:28:35.187+0000] {subprocess.py:106} INFO - Progression : 70/5445 films.
+[2026-03-31T18:28:35.188+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 2057 ont bien été récupérées.
+[2026-03-31T18:28:35.188+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 2057
+[2026-03-31T18:28:35.189+0000] {subprocess.py:106} INFO - Progression : 71/5445 films.
+[2026-03-31T18:28:35.189+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1083433 ont bien été récupérées.
+[2026-03-31T18:28:35.190+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1083433
+[2026-03-31T18:28:35.190+0000] {subprocess.py:106} INFO - Progression : 72/5445 films.
+[2026-03-31T18:28:35.191+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 18476 ont bien été récupérées.
+[2026-03-31T18:28:35.192+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 18476
+[2026-03-31T18:28:35.193+0000] {subprocess.py:106} INFO - Progression : 73/5445 films.
+[2026-03-31T18:28:35.193+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 18480 ont bien été récupérées.
+[2026-03-31T18:28:35.194+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 18480
+[2026-03-31T18:28:35.194+0000] {subprocess.py:106} INFO - Progression : 74/5445 films.
+[2026-03-31T18:28:35.195+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 18501 ont bien été récupérées.
+[2026-03-31T18:28:35.196+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 18501
+[2026-03-31T18:28:35.196+0000] {subprocess.py:106} INFO - Progression : 75/5445 films.
+[2026-03-31T18:28:35.197+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 2135 ont bien été récupérées.
+[2026-03-31T18:28:35.198+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 2135
+[2026-03-31T18:28:35.198+0000] {subprocess.py:106} INFO - Progression : 76/5445 films.
+[2026-03-31T18:28:35.199+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 395458 ont bien été récupérées.
+[2026-03-31T18:28:35.199+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 395458
+[2026-03-31T18:28:35.201+0000] {subprocess.py:106} INFO - Progression : 77/5445 films.
+[2026-03-31T18:28:35.202+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 84174 ont bien été récupérées.
+[2026-03-31T18:28:35.203+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 84174
+[2026-03-31T18:28:35.203+0000] {subprocess.py:106} INFO - Progression : 78/5445 films.
+[2026-03-31T18:28:35.204+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 2295 ont bien été récupérées.
+[2026-03-31T18:28:35.205+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 2295
+[2026-03-31T18:28:35.206+0000] {subprocess.py:106} INFO - Progression : 79/5445 films.
+[2026-03-31T18:28:35.207+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 395834 ont bien été récupérées.
+[2026-03-31T18:28:35.207+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 395834
+[2026-03-31T18:28:35.208+0000] {subprocess.py:106} INFO - Progression : 80/5445 films.
+[2026-03-31T18:28:35.209+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1149504 ont bien été récupérées.
+[2026-03-31T18:28:35.209+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1149504
+[2026-03-31T18:28:35.210+0000] {subprocess.py:106} INFO - Progression : 81/5445 films.
+[2026-03-31T18:28:35.211+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 838240 ont bien été récupérées.
+[2026-03-31T18:28:35.214+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 838240
+[2026-03-31T18:28:35.215+0000] {subprocess.py:106} INFO - Progression : 82/5445 films.
+[2026-03-31T18:28:35.215+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 395990 ont bien été récupérées.
+[2026-03-31T18:28:35.216+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 395990
+[2026-03-31T18:28:35.217+0000] {subprocess.py:106} INFO - Progression : 83/5445 films.
+[2026-03-31T18:28:35.217+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 986097 ont bien été récupérées.
+[2026-03-31T18:28:35.218+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 986097
+[2026-03-31T18:28:35.219+0000] {subprocess.py:106} INFO - Progression : 84/5445 films.
+[2026-03-31T18:28:35.220+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 429200 ont bien été récupérées.
+[2026-03-31T18:28:35.221+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 429200
+[2026-03-31T18:28:35.221+0000] {subprocess.py:106} INFO - Progression : 85/5445 films.
+[2026-03-31T18:28:35.222+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 347375 ont bien été récupérées.
+[2026-03-31T18:28:35.222+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 347375
+[2026-03-31T18:28:35.223+0000] {subprocess.py:106} INFO - Progression : 86/5445 films.
+[2026-03-31T18:28:35.223+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 298250 ont bien été récupérées.
+[2026-03-31T18:28:35.224+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 298250
+[2026-03-31T18:28:35.225+0000] {subprocess.py:106} INFO - Progression : 87/5445 films.
+[2026-03-31T18:28:35.225+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 429351 ont bien été récupérées.
+[2026-03-31T18:28:35.226+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 429351
+[2026-03-31T18:28:35.226+0000] {subprocess.py:106} INFO - Progression : 88/5445 films.
+[2026-03-31T18:28:35.227+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 3536 ont bien été récupérées.
+[2026-03-31T18:28:35.228+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 3536
+[2026-03-31T18:28:35.228+0000] {subprocess.py:106} INFO - Progression : 89/5445 films.
+[2026-03-31T18:28:35.229+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 315011 ont bien été récupérées.
+[2026-03-31T18:28:35.230+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 315011
+[2026-03-31T18:28:35.230+0000] {subprocess.py:106} INFO - Progression : 90/5445 films.
+[2026-03-31T18:28:35.232+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 3933 ont bien été récupérées.
+[2026-03-31T18:28:35.233+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 3933
+[2026-03-31T18:28:35.234+0000] {subprocess.py:106} INFO - Progression : 91/5445 films.
+[2026-03-31T18:28:35.235+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1151031 ont bien été récupérées.
+[2026-03-31T18:28:35.235+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1151031
+[2026-03-31T18:28:35.236+0000] {subprocess.py:106} INFO - Progression : 92/5445 films.
+[2026-03-31T18:28:35.236+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 872585 ont bien été récupérées.
+[2026-03-31T18:28:35.237+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 872585
+[2026-03-31T18:28:35.238+0000] {subprocess.py:106} INFO - Progression : 93/5445 films.
+[2026-03-31T18:28:35.239+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 250124 ont bien été récupérées.
+[2026-03-31T18:28:35.240+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 250124
+[2026-03-31T18:28:35.241+0000] {subprocess.py:106} INFO - Progression : 94/5445 films.
+[2026-03-31T18:28:35.242+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 168259 ont bien été récupérées.
+[2026-03-31T18:28:35.243+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 168259
+[2026-03-31T18:28:35.246+0000] {subprocess.py:106} INFO - Progression : 95/5445 films.
+[2026-03-31T18:28:35.246+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 201088 ont bien été récupérées.
+[2026-03-31T18:28:35.247+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 201088
+[2026-03-31T18:28:35.248+0000] {subprocess.py:106} INFO - Progression : 96/5445 films.
+[2026-03-31T18:28:35.248+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 4547 ont bien été récupérées.
+[2026-03-31T18:28:35.249+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 4547
+[2026-03-31T18:28:35.249+0000] {subprocess.py:106} INFO - Progression : 97/5445 films.
+[2026-03-31T18:28:35.250+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1233413 ont bien été récupérées.
+[2026-03-31T18:28:35.251+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1233413
+[2026-03-31T18:28:35.251+0000] {subprocess.py:106} INFO - Progression : 98/5445 films.
+[2026-03-31T18:28:35.252+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 840326 ont bien été récupérées.
+[2026-03-31T18:28:35.253+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 840326
+[2026-03-31T18:28:35.253+0000] {subprocess.py:106} INFO - Progression : 99/5445 films.
+[2026-03-31T18:28:35.254+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 447200 ont bien été récupérées.
+[2026-03-31T18:28:35.254+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 447200
+[2026-03-31T18:28:35.255+0000] {subprocess.py:106} INFO - Progression : 100/5445 films.
+[2026-03-31T18:28:35.256+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 37786 ont bien été récupérées.
+[2026-03-31T18:28:35.257+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 37786
+[2026-03-31T18:28:35.258+0000] {subprocess.py:106} INFO - Progression : 101/5445 films.
+[2026-03-31T18:28:35.259+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 283566 ont bien été récupérées.
+[2026-03-31T18:28:35.259+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 283566
+[2026-03-31T18:28:35.260+0000] {subprocess.py:106} INFO - Progression : 102/5445 films.
+[2026-03-31T18:28:35.262+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 5175 ont bien été récupérées.
+[2026-03-31T18:29:06.937+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 5175
+[2026-03-31T18:29:06.939+0000] {subprocess.py:106} INFO - Progression : 103/5445 films.
+[2026-03-31T18:29:06.941+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 431530 ont bien été récupérées.
+[2026-03-31T18:29:06.942+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 431530
+[2026-03-31T18:29:06.942+0000] {subprocess.py:106} INFO - Progression : 104/5445 films.
+[2026-03-31T18:29:06.944+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 399031 ont bien été récupérées.
+[2026-03-31T18:29:06.945+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 399031
+[2026-03-31T18:29:06.946+0000] {subprocess.py:106} INFO - Progression : 105/5445 films.
+[2026-03-31T18:29:06.948+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 399055 ont bien été récupérées.
+[2026-03-31T18:29:06.948+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 399055
+[2026-03-31T18:29:06.949+0000] {subprocess.py:106} INFO - Progression : 106/5445 films.
+[2026-03-31T18:29:06.950+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 399057 ont bien été récupérées.
+[2026-03-31T18:29:06.950+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 399057
+[2026-03-31T18:29:06.951+0000] {subprocess.py:106} INFO - Progression : 107/5445 films.
+[2026-03-31T18:29:06.951+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1234821 ont bien été récupérées.
+[2026-03-31T18:29:06.952+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1234821
+[2026-03-31T18:29:06.953+0000] {subprocess.py:106} INFO - Progression : 108/5445 films.
+[2026-03-31T18:29:06.954+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 71668 ont bien été récupérées.
+[2026-03-31T18:29:06.954+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 71668
+[2026-03-31T18:29:06.955+0000] {subprocess.py:106} INFO - Progression : 109/5445 films.
+[2026-03-31T18:29:06.956+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 661539 ont bien été récupérées.
+[2026-03-31T18:29:06.956+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 661539
+[2026-03-31T18:29:06.957+0000] {subprocess.py:106} INFO - Progression : 110/5445 films.
+[2026-03-31T18:29:06.957+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 399402 ont bien été récupérées.
+[2026-03-31T18:29:06.958+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 399402
+[2026-03-31T18:29:06.959+0000] {subprocess.py:106} INFO - Progression : 111/5445 films.
+[2026-03-31T18:29:06.959+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 415842 ont bien été récupérées.
+[2026-03-31T18:29:06.960+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 415842
+[2026-03-31T18:29:06.960+0000] {subprocess.py:106} INFO - Progression : 112/5445 films.
+[2026-03-31T18:29:06.961+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 350312 ont bien été récupérées.
+[2026-03-31T18:29:06.962+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 350312
+[2026-03-31T18:29:06.962+0000] {subprocess.py:106} INFO - Progression : 113/5445 films.
+[2026-03-31T18:29:06.963+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1136867 ont bien été récupérées.
+[2026-03-31T18:29:06.963+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1136867
+[2026-03-31T18:29:06.964+0000] {subprocess.py:106} INFO - Progression : 114/5445 films.
+[2026-03-31T18:29:06.964+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 22804 ont bien été récupérées.
+[2026-03-31T18:29:06.965+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 22804
+[2026-03-31T18:29:06.966+0000] {subprocess.py:106} INFO - Progression : 115/5445 films.
+[2026-03-31T18:29:06.966+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 301337 ont bien été récupérées.
+[2026-03-31T18:29:06.967+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 301337
+[2026-03-31T18:29:06.967+0000] {subprocess.py:106} INFO - Progression : 116/5445 films.
+[2026-03-31T18:29:06.968+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 22832 ont bien été récupérées.
+[2026-03-31T18:29:06.969+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 22832
+[2026-03-31T18:29:06.970+0000] {subprocess.py:106} INFO - Progression : 117/5445 films.
+[2026-03-31T18:29:06.970+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 22843 ont bien été récupérées.
+[2026-03-31T18:29:06.971+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 22843
+[2026-03-31T18:29:06.972+0000] {subprocess.py:106} INFO - Progression : 118/5445 films.
+[2026-03-31T18:29:06.972+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 22894 ont bien été récupérées.
+[2026-03-31T18:29:06.973+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 22894
+[2026-03-31T18:29:06.974+0000] {subprocess.py:106} INFO - Progression : 119/5445 films.
+[2026-03-31T18:29:06.974+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 416234 ont bien été récupérées.
+[2026-03-31T18:29:06.975+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 416234
+[2026-03-31T18:29:06.976+0000] {subprocess.py:106} INFO - Progression : 120/5445 films.
+[2026-03-31T18:29:06.976+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 383498 ont bien été récupérées.
+[2026-03-31T18:29:06.977+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 383498
+[2026-03-31T18:29:06.978+0000] {subprocess.py:106} INFO - Progression : 121/5445 films.
+[2026-03-31T18:29:06.978+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 334394 ont bien été récupérées.
+[2026-03-31T18:29:06.979+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 334394
+[2026-03-31T18:29:06.980+0000] {subprocess.py:106} INFO - Progression : 122/5445 films.
+[2026-03-31T18:29:06.981+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 940721 ont bien été récupérées.
+[2026-03-31T18:29:06.982+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 940721
+[2026-03-31T18:29:06.983+0000] {subprocess.py:106} INFO - Progression : 123/5445 films.
+[2026-03-31T18:29:06.984+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1022787 ont bien été récupérées.
+[2026-03-31T18:29:06.985+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1022787
+[2026-03-31T18:29:06.985+0000] {subprocess.py:106} INFO - Progression : 124/5445 films.
+[2026-03-31T18:29:06.986+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 351211 ont bien été récupérées.
+[2026-03-31T18:29:06.987+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 351211
+[2026-03-31T18:29:06.988+0000] {subprocess.py:106} INFO - Progression : 125/5445 films.
+[2026-03-31T18:29:06.988+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 859235 ont bien été récupérées.
+[2026-03-31T18:29:06.989+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 859235
+[2026-03-31T18:29:06.989+0000] {subprocess.py:106} INFO - Progression : 126/5445 films.
+[2026-03-31T18:29:06.990+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 842924 ont bien été récupérées.
+[2026-03-31T18:29:06.991+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 842924
+[2026-03-31T18:29:06.991+0000] {subprocess.py:106} INFO - Progression : 127/5445 films.
+[2026-03-31T18:29:06.992+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 23742 ont bien été récupérées.
+[2026-03-31T18:29:06.992+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 23742
+[2026-03-31T18:29:06.993+0000] {subprocess.py:106} INFO - Progression : 128/5445 films.
+[2026-03-31T18:29:06.993+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 7443 ont bien été récupérées.
+[2026-03-31T18:29:06.994+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 7443
+[2026-03-31T18:29:06.995+0000] {subprocess.py:106} INFO - Progression : 129/5445 films.
+[2026-03-31T18:29:06.995+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 400710 ont bien été récupérées.
+[2026-03-31T18:29:06.996+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 400710
+[2026-03-31T18:29:06.997+0000] {subprocess.py:106} INFO - Progression : 130/5445 films.
+[2026-03-31T18:29:06.997+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 7516 ont bien été récupérées.
+[2026-03-31T18:29:06.998+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 7516
+[2026-03-31T18:29:07.001+0000] {subprocess.py:106} INFO - Progression : 131/5445 films.
+[2026-03-31T18:29:07.002+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 56715 ont bien été récupérées.
+[2026-03-31T18:29:07.003+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 56715
+[2026-03-31T18:29:07.004+0000] {subprocess.py:106} INFO - Progression : 132/5445 films.
+[2026-03-31T18:29:07.005+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 24021 ont bien été récupérées.
+[2026-03-31T18:29:07.006+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 24021
+[2026-03-31T18:29:07.007+0000] {subprocess.py:106} INFO - Progression : 133/5445 films.
+[2026-03-31T18:29:07.008+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 925263 ont bien été récupérées.
+[2026-03-31T18:29:07.009+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 925263
+[2026-03-31T18:29:07.010+0000] {subprocess.py:106} INFO - Progression : 134/5445 films.
+[2026-03-31T18:29:07.011+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 7980 ont bien été récupérées.
+[2026-03-31T18:29:07.011+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 7980
+[2026-03-31T18:29:07.012+0000] {subprocess.py:106} INFO - Progression : 135/5445 films.
+[2026-03-31T18:29:07.013+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 8054 ont bien été récupérées.
+[2026-03-31T18:29:07.013+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 8054
+[2026-03-31T18:29:07.014+0000] {subprocess.py:106} INFO - Progression : 136/5445 films.
+[2026-03-31T18:29:07.016+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 8080 ont bien été récupérées.
+[2026-03-31T18:29:07.017+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 8080
+[2026-03-31T18:29:07.018+0000] {subprocess.py:106} INFO - Progression : 137/5445 films.
+[2026-03-31T18:29:07.019+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 450720 ont bien été récupérées.
+[2026-03-31T18:29:07.020+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 450720
+[2026-03-31T18:29:07.021+0000] {subprocess.py:106} INFO - Progression : 138/5445 films.
+[2026-03-31T18:29:07.022+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 8398 ont bien été récupérées.
+[2026-03-31T18:29:07.023+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 8398
+[2026-03-31T18:29:07.024+0000] {subprocess.py:106} INFO - Progression : 139/5445 films.
+[2026-03-31T18:29:07.024+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1155281 ont bien été récupérées.
+[2026-03-31T18:29:07.026+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1155281
+[2026-03-31T18:29:07.027+0000] {subprocess.py:106} INFO - Progression : 140/5445 films.
+[2026-03-31T18:29:07.029+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 24804 ont bien été récupérées.
+[2026-03-31T18:29:07.030+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 24804
+[2026-03-31T18:29:07.030+0000] {subprocess.py:106} INFO - Progression : 141/5445 films.
+[2026-03-31T18:29:07.031+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 24936 ont bien été récupérées.
+[2026-03-31T18:29:07.032+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 24936
+[2026-03-31T18:29:07.033+0000] {subprocess.py:106} INFO - Progression : 142/5445 films.
+[2026-03-31T18:29:07.034+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 254472 ont bien été récupérées.
+[2026-03-31T18:29:07.035+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 254472
+[2026-03-31T18:29:07.036+0000] {subprocess.py:106} INFO - Progression : 143/5445 films.
+[2026-03-31T18:29:07.036+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 401981 ont bien été récupérées.
+[2026-03-31T18:29:07.038+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 401981
+[2026-03-31T18:29:07.039+0000] {subprocess.py:106} INFO - Progression : 144/5445 films.
+[2026-03-31T18:29:07.039+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 8832 ont bien été récupérées.
+[2026-03-31T18:29:07.040+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 8832
+[2026-03-31T18:29:07.041+0000] {subprocess.py:106} INFO - Progression : 145/5445 films.
+[2026-03-31T18:29:07.041+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 975511 ont bien été récupérées.
+[2026-03-31T18:29:07.042+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 975511
+[2026-03-31T18:29:07.043+0000] {subprocess.py:106} INFO - Progression : 146/5445 films.
+[2026-03-31T18:29:07.043+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 467660 ont bien été récupérées.
+[2026-03-31T18:29:07.044+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 467660
+[2026-03-31T18:29:07.045+0000] {subprocess.py:106} INFO - Progression : 147/5445 films.
+[2026-03-31T18:29:07.045+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 8966 ont bien été récupérées.
+[2026-03-31T18:29:07.046+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 8966
+[2026-03-31T18:29:07.047+0000] {subprocess.py:106} INFO - Progression : 148/5445 films.
+[2026-03-31T18:29:07.047+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 336843 ont bien été récupérées.
+[2026-03-31T18:29:07.048+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 336843
+[2026-03-31T18:29:07.049+0000] {subprocess.py:106} INFO - Progression : 149/5445 films.
+[2026-03-31T18:29:07.049+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 402431 ont bien été récupérées.
+[2026-03-31T18:29:07.050+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 402431
+[2026-03-31T18:29:07.051+0000] {subprocess.py:106} INFO - Progression : 150/5445 films.
+[2026-03-31T18:29:07.052+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 238713 ont bien été récupérées.
+[2026-03-31T18:29:07.052+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 238713
+[2026-03-31T18:29:07.053+0000] {subprocess.py:106} INFO - Progression : 151/5445 films.
+[2026-03-31T18:29:07.054+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 287948 ont bien été récupérées.
+[2026-03-31T18:29:07.055+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 287948
+[2026-03-31T18:29:07.055+0000] {subprocess.py:106} INFO - Progression : 152/5445 films.
+[2026-03-31T18:29:07.056+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 353486 ont bien été récupérées.
+[2026-03-31T18:29:07.057+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 353486
+[2026-03-31T18:29:07.058+0000] {subprocess.py:106} INFO - Progression : 153/5445 films.
+[2026-03-31T18:29:07.058+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 9470 ont bien été récupérées.
+[2026-03-31T18:29:07.059+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 9470
+[2026-03-31T18:29:07.059+0000] {subprocess.py:106} INFO - Progression : 154/5445 films.
+[2026-03-31T18:29:07.060+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 353616 ont bien été récupérées.
+[2026-03-31T18:29:07.061+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 353616
+[2026-03-31T18:29:37.441+0000] {subprocess.py:106} INFO - Progression : 155/5445 films.
+[2026-03-31T18:29:37.443+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 451945 ont bien été récupérées.
+[2026-03-31T18:29:37.444+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 451945
+[2026-03-31T18:29:37.445+0000] {subprocess.py:106} INFO - Progression : 156/5445 films.
+[2026-03-31T18:29:37.445+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 451955 ont bien été récupérées.
+[2026-03-31T18:29:37.446+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 451955
+[2026-03-31T18:29:37.447+0000] {subprocess.py:106} INFO - Progression : 157/5445 films.
+[2026-03-31T18:29:37.447+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 9682 ont bien été récupérées.
+[2026-03-31T18:29:37.448+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 9682
+[2026-03-31T18:29:37.449+0000] {subprocess.py:106} INFO - Progression : 158/5445 films.
+[2026-03-31T18:29:37.449+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 402900 ont bien été récupérées.
+[2026-03-31T18:29:37.450+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 402900
+[2026-03-31T18:29:37.451+0000] {subprocess.py:106} INFO - Progression : 159/5445 films.
+[2026-03-31T18:29:37.451+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 9793 ont bien été récupérées.
+[2026-03-31T18:29:37.452+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 9793
+[2026-03-31T18:29:37.452+0000] {subprocess.py:106} INFO - Progression : 160/5445 films.
+[2026-03-31T18:29:37.453+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 419478 ont bien été récupérées.
+[2026-03-31T18:29:37.454+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 419478
+[2026-03-31T18:29:37.454+0000] {subprocess.py:106} INFO - Progression : 161/5445 films.
+[2026-03-31T18:29:37.455+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 648878 ont bien été récupérées.
+[2026-03-31T18:29:37.456+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 648878
+[2026-03-31T18:29:37.456+0000] {subprocess.py:106} INFO - Progression : 162/5445 films.
+[2026-03-31T18:29:37.462+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 157544 ont bien été récupérées.
+[2026-03-31T18:29:37.462+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 157544
+[2026-03-31T18:29:37.463+0000] {subprocess.py:106} INFO - Progression : 163/5445 films.
+[2026-03-31T18:29:37.464+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 75629 ont bien été récupérées.
+[2026-03-31T18:29:37.464+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 75629
+[2026-03-31T18:29:37.464+0000] {subprocess.py:106} INFO - Progression : 164/5445 films.
+[2026-03-31T18:29:37.465+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 419709 ont bien été récupérées.
+[2026-03-31T18:29:37.466+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 419709
+[2026-03-31T18:29:37.467+0000] {subprocess.py:106} INFO - Progression : 165/5445 films.
+[2026-03-31T18:29:37.467+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 10147 ont bien été récupérées.
+[2026-03-31T18:29:37.467+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 10147
+[2026-03-31T18:29:37.468+0000] {subprocess.py:106} INFO - Progression : 166/5445 films.
+[2026-03-31T18:29:37.468+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 10159 ont bien été récupérées.
+[2026-03-31T18:29:37.468+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 10159
+[2026-03-31T18:29:37.469+0000] {subprocess.py:106} INFO - Progression : 167/5445 films.
+[2026-03-31T18:29:37.469+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 256040 ont bien été récupérées.
+[2026-03-31T18:29:37.469+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 256040
+[2026-03-31T18:29:37.470+0000] {subprocess.py:106} INFO - Progression : 168/5445 films.
+[2026-03-31T18:29:37.470+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 911430 ont bien été récupérées.
+[2026-03-31T18:29:37.471+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 911430
+[2026-03-31T18:29:37.471+0000] {subprocess.py:106} INFO - Progression : 169/5445 films.
+[2026-03-31T18:29:37.471+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 10313 ont bien été récupérées.
+[2026-03-31T18:29:37.472+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 10313
+[2026-03-31T18:29:37.472+0000] {subprocess.py:106} INFO - Progression : 170/5445 films.
+[2026-03-31T18:29:37.472+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 10358 ont bien été récupérées.
+[2026-03-31T18:29:37.473+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 10358
+[2026-03-31T18:29:37.473+0000] {subprocess.py:106} INFO - Progression : 171/5445 films.
+[2026-03-31T18:29:37.473+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 534780 ont bien été récupérées.
+[2026-03-31T18:29:37.474+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 534780
+[2026-03-31T18:29:37.474+0000] {subprocess.py:106} INFO - Progression : 172/5445 films.
+[2026-03-31T18:29:37.474+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1124620 ont bien été récupérées.
+[2026-03-31T18:29:37.475+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1124620
+[2026-03-31T18:29:37.475+0000] {subprocess.py:106} INFO - Progression : 173/5445 films.
+[2026-03-31T18:29:37.475+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 10744 ont bien été récupérées.
+[2026-03-31T18:29:37.476+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 10744
+[2026-03-31T18:29:37.476+0000] {subprocess.py:106} INFO - Progression : 174/5445 films.
+[2026-03-31T18:29:37.476+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 10866 ont bien été récupérées.
+[2026-03-31T18:29:37.477+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 10866
+[2026-03-31T18:29:37.477+0000] {subprocess.py:106} INFO - Progression : 175/5445 films.
+[2026-03-31T18:29:37.478+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 617126 ont bien été récupérées.
+[2026-03-31T18:29:37.478+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 617126
+[2026-03-31T18:29:37.478+0000] {subprocess.py:106} INFO - Progression : 176/5445 films.
+[2026-03-31T18:29:37.480+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 11013 ont bien été récupérées.
+[2026-03-31T18:29:37.482+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 11013
+[2026-03-31T18:29:37.483+0000] {subprocess.py:106} INFO - Progression : 177/5445 films.
+[2026-03-31T18:29:37.484+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 11075 ont bien été récupérées.
+[2026-03-31T18:29:37.485+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 11075
+[2026-03-31T18:29:37.485+0000] {subprocess.py:106} INFO - Progression : 178/5445 films.
+[2026-03-31T18:29:37.486+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1125257 ont bien été récupérées.
+[2026-03-31T18:29:37.487+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1125257
+[2026-03-31T18:29:37.488+0000] {subprocess.py:106} INFO - Progression : 179/5445 films.
+[2026-03-31T18:29:37.488+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 60304 ont bien été récupérées.
+[2026-03-31T18:29:37.489+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 60304
+[2026-03-31T18:29:37.490+0000] {subprocess.py:106} INFO - Progression : 180/5445 films.
+[2026-03-31T18:29:37.491+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 371608 ont bien été récupérées.
+[2026-03-31T18:29:37.491+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 371608
+[2026-03-31T18:29:37.492+0000] {subprocess.py:106} INFO - Progression : 181/5445 films.
+[2026-03-31T18:29:37.492+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 27583 ont bien été récupérées.
+[2026-03-31T18:29:37.493+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 27583
+[2026-03-31T18:29:37.494+0000] {subprocess.py:106} INFO - Progression : 182/5445 films.
+[2026-03-31T18:29:37.496+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 11358 ont bien été récupérées.
+[2026-03-31T18:29:37.496+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 11358
+[2026-03-31T18:29:37.497+0000] {subprocess.py:106} INFO - Progression : 183/5445 films.
+[2026-03-31T18:29:37.497+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 11397 ont bien été récupérées.
+[2026-03-31T18:29:37.498+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 11397
+[2026-03-31T18:29:37.499+0000] {subprocess.py:106} INFO - Progression : 184/5445 films.
+[2026-03-31T18:29:37.500+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 11456 ont bien été récupérées.
+[2026-03-31T18:29:37.500+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 11456
+[2026-03-31T18:29:37.501+0000] {subprocess.py:106} INFO - Progression : 185/5445 films.
+[2026-03-31T18:29:37.501+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 11559 ont bien été récupérées.
+[2026-03-31T18:29:37.502+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 11559
+[2026-03-31T18:29:37.503+0000] {subprocess.py:106} INFO - Progression : 186/5445 films.
+[2026-03-31T18:29:37.503+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 437557 ont bien été récupérées.
+[2026-03-31T18:29:37.504+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 437557
+[2026-03-31T18:29:37.505+0000] {subprocess.py:106} INFO - Progression : 187/5445 films.
+[2026-03-31T18:29:37.505+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 372343 ont bien été récupérées.
+[2026-03-31T18:29:37.506+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 372343
+[2026-03-31T18:29:37.508+0000] {subprocess.py:106} INFO - Progression : 188/5445 films.
+[2026-03-31T18:29:37.509+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 634492 ont bien été récupérées.
+[2026-03-31T18:29:37.510+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 634492
+[2026-03-31T18:29:37.511+0000] {subprocess.py:106} INFO - Progression : 189/5445 films.
+[2026-03-31T18:29:37.512+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1289936 ont bien été récupérées.
+[2026-03-31T18:29:37.525+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1289936
+[2026-03-31T18:29:37.533+0000] {subprocess.py:106} INFO - Progression : 190/5445 films.
+[2026-03-31T18:29:37.535+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 340022 ont bien été récupérées.
+[2026-03-31T18:29:37.538+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 340022
+[2026-03-31T18:29:37.541+0000] {subprocess.py:106} INFO - Progression : 191/5445 films.
+[2026-03-31T18:29:37.543+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 667717 ont bien été récupérées.
+[2026-03-31T18:29:37.545+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 667717
+[2026-03-31T18:29:37.546+0000] {subprocess.py:106} INFO - Progression : 192/5445 films.
+[2026-03-31T18:29:37.548+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 12444 ont bien été récupérées.
+[2026-03-31T18:29:37.549+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 12444
+[2026-03-31T18:29:37.551+0000] {subprocess.py:106} INFO - Progression : 193/5445 films.
+[2026-03-31T18:29:37.560+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 12445 ont bien été récupérées.
+[2026-03-31T18:29:37.562+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 12445
+[2026-03-31T18:29:37.563+0000] {subprocess.py:106} INFO - Progression : 194/5445 films.
+[2026-03-31T18:29:37.564+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1175942 ont bien été récupérées.
+[2026-03-31T18:29:37.564+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1175942
+[2026-03-31T18:29:37.565+0000] {subprocess.py:106} INFO - Progression : 195/5445 films.
+[2026-03-31T18:29:37.566+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 274855 ont bien été récupérées.
+[2026-03-31T18:29:37.566+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 274855
+[2026-03-31T18:29:37.567+0000] {subprocess.py:106} INFO - Progression : 196/5445 films.
+[2026-03-31T18:29:37.568+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 291270 ont bien été récupérées.
+[2026-03-31T18:29:37.568+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 291270
+[2026-03-31T18:29:37.569+0000] {subprocess.py:106} INFO - Progression : 197/5445 films.
+[2026-03-31T18:29:37.570+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 78381 ont bien été récupérées.
+[2026-03-31T18:29:37.570+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 78381
+[2026-03-31T18:29:37.571+0000] {subprocess.py:106} INFO - Progression : 198/5445 films.
+[2026-03-31T18:29:37.572+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1094274 ont bien été récupérées.
+[2026-03-31T18:29:37.572+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1094274
+[2026-03-31T18:29:37.573+0000] {subprocess.py:106} INFO - Progression : 199/5445 films.
+[2026-03-31T18:29:37.574+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1356670 ont bien été récupérées.
+[2026-03-31T18:29:37.575+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1356670
+[2026-03-31T18:29:37.575+0000] {subprocess.py:106} INFO - Progression : 200/5445 films.
+[2026-03-31T18:29:37.576+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 455551 ont bien été récupérées.
+[2026-03-31T18:29:37.577+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 455551
+[2026-03-31T18:29:37.578+0000] {subprocess.py:106} INFO - Progression : 201/5445 films.
+[2026-03-31T18:29:37.578+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1242011 ont bien été récupérées.
+[2026-03-31T18:29:37.579+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1242011
+[2026-03-31T18:29:37.580+0000] {subprocess.py:106} INFO - Progression : 202/5445 films.
+[2026-03-31T18:29:37.580+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 324544 ont bien été récupérées.
+[2026-03-31T18:29:37.581+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 324544
+[2026-03-31T18:29:37.581+0000] {subprocess.py:106} INFO - Progression : 203/5445 films.
+[2026-03-31T18:29:37.582+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1160164 ont bien été récupérées.
+[2026-03-31T18:29:37.583+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1160164
+[2026-03-31T18:29:37.583+0000] {subprocess.py:106} INFO - Progression : 204/5445 films.
+[2026-03-31T18:29:37.584+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 406761 ont bien été récupérées.
+[2026-03-31T18:29:37.585+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 406761
+[2026-03-31T18:29:37.585+0000] {subprocess.py:106} INFO - Progression : 205/5445 films.
+[2026-03-31T18:29:37.586+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 455980 ont bien été récupérées.
+[2026-03-31T18:29:37.587+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 455980
+[2026-03-31T18:29:37.587+0000] {subprocess.py:106} INFO - Progression : 206/5445 films.
+[2026-03-31T18:29:37.588+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 308639 ont bien été récupérées.
+[2026-03-31T18:29:37.597+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 308639
+[2026-03-31T18:29:37.601+0000] {subprocess.py:106} INFO - Progression : 207/5445 films.
+[2026-03-31T18:30:08.473+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 292280 ont bien été récupérées.
+[2026-03-31T18:30:08.475+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 292280
+[2026-03-31T18:30:08.476+0000] {subprocess.py:106} INFO - Progression : 208/5445 films.
+[2026-03-31T18:30:08.477+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 406990 ont bien été récupérées.
+[2026-03-31T18:30:08.479+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 406990
+[2026-03-31T18:30:08.479+0000] {subprocess.py:106} INFO - Progression : 209/5445 films.
+[2026-03-31T18:30:08.480+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 980477 ont bien été récupérées.
+[2026-03-31T18:30:08.480+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 980477
+[2026-03-31T18:30:08.481+0000] {subprocess.py:106} INFO - Progression : 210/5445 films.
+[2026-03-31T18:30:08.481+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 13827 ont bien été récupérées.
+[2026-03-31T18:30:08.482+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 13827
+[2026-03-31T18:30:08.482+0000] {subprocess.py:106} INFO - Progression : 211/5445 films.
+[2026-03-31T18:30:08.483+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 14161 ont bien été récupérées.
+[2026-03-31T18:30:08.484+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 14161
+[2026-03-31T18:30:08.484+0000] {subprocess.py:106} INFO - Progression : 212/5445 films.
+[2026-03-31T18:30:08.485+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 604079 ont bien été récupérées.
+[2026-03-31T18:30:08.486+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 604079
+[2026-03-31T18:30:08.487+0000] {subprocess.py:106} INFO - Progression : 213/5445 films.
+[2026-03-31T18:30:08.487+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1079485 ont bien été récupérées.
+[2026-03-31T18:30:08.488+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1079485
+[2026-03-31T18:30:08.488+0000] {subprocess.py:106} INFO - Progression : 214/5445 films.
+[2026-03-31T18:30:08.489+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 555285 ont bien été récupérées.
+[2026-03-31T18:30:08.490+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 555285
+[2026-03-31T18:30:08.491+0000] {subprocess.py:106} INFO - Progression : 215/5445 films.
+[2026-03-31T18:30:08.493+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 31002 ont bien été récupérées.
+[2026-03-31T18:30:08.494+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 31002
+[2026-03-31T18:30:08.495+0000] {subprocess.py:106} INFO - Progression : 216/5445 films.
+[2026-03-31T18:30:08.496+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 489999 ont bien été récupérées.
+[2026-03-31T18:30:08.496+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 489999
+[2026-03-31T18:30:08.497+0000] {subprocess.py:106} INFO - Progression : 217/5445 films.
+[2026-03-31T18:30:08.498+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 15137 ont bien été récupérées.
+[2026-03-31T18:30:08.499+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 15137
+[2026-03-31T18:30:08.499+0000] {subprocess.py:106} INFO - Progression : 218/5445 films.
+[2026-03-31T18:30:08.501+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 277685 ont bien été récupérées.
+[2026-03-31T18:30:08.501+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 277685
+[2026-03-31T18:30:08.502+0000] {subprocess.py:106} INFO - Progression : 219/5445 films.
+[2026-03-31T18:30:08.503+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 310593 ont bien été récupérées.
+[2026-03-31T18:30:08.507+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 310593
+[2026-03-31T18:30:08.508+0000] {subprocess.py:106} INFO - Progression : 220/5445 films.
+[2026-03-31T18:30:08.508+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 97614 ont bien été récupérées.
+[2026-03-31T18:30:08.509+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 97614
+[2026-03-31T18:30:08.510+0000] {subprocess.py:106} INFO - Progression : 221/5445 films.
+[2026-03-31T18:30:08.510+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 114150 ont bien été récupérées.
+[2026-03-31T18:30:08.511+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 114150
+[2026-03-31T18:30:08.512+0000] {subprocess.py:106} INFO - Progression : 222/5445 films.
+[2026-03-31T18:30:08.513+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 228970 ont bien été récupérées.
+[2026-03-31T18:30:08.514+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 228970
+[2026-03-31T18:30:08.515+0000] {subprocess.py:106} INFO - Progression : 223/5445 films.
+[2026-03-31T18:30:08.515+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1097549 ont bien été récupérées.
+[2026-03-31T18:30:08.516+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1097549
+[2026-03-31T18:30:08.517+0000] {subprocess.py:106} INFO - Progression : 224/5445 films.
+[2026-03-31T18:30:08.517+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 442249 ont bien été récupérées.
+[2026-03-31T18:30:08.518+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 442249
+[2026-03-31T18:30:08.518+0000] {subprocess.py:106} INFO - Progression : 225/5445 films.
+[2026-03-31T18:30:08.519+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 81836 ont bien été récupérées.
+[2026-03-31T18:30:08.520+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 81836
+[2026-03-31T18:30:08.521+0000] {subprocess.py:106} INFO - Progression : 226/5445 films.
+[2026-03-31T18:30:08.522+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 16411 ont bien été récupérées.
+[2026-03-31T18:30:08.523+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 16411
+[2026-03-31T18:30:08.523+0000] {subprocess.py:106} INFO - Progression : 227/5445 films.
+[2026-03-31T18:30:08.524+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 120 ont bien été récupérées.
+[2026-03-31T18:30:08.524+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 120
+[2026-03-31T18:30:08.525+0000] {subprocess.py:106} INFO - Progression : 228/5445 films.
+[2026-03-31T18:30:08.526+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 936108 ont bien été récupérées.
+[2026-03-31T18:30:08.526+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 936108
+[2026-03-31T18:30:08.527+0000] {subprocess.py:106} INFO - Progression : 229/5445 films.
+[2026-03-31T18:30:08.528+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 989672 ont bien été récupérées.
+[2026-03-31T18:30:08.528+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 989672
+[2026-03-31T18:30:08.529+0000] {subprocess.py:106} INFO - Progression : 230/5445 films.
+[2026-03-31T18:30:08.529+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 14836 ont bien été récupérées.
+[2026-03-31T18:30:08.530+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 14836
+[2026-03-31T18:30:08.531+0000] {subprocess.py:106} INFO - Progression : 231/5445 films.
+[2026-03-31T18:30:08.532+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 76338 ont bien été récupérées.
+[2026-03-31T18:30:08.532+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 76338
+[2026-03-31T18:30:08.533+0000] {subprocess.py:106} INFO - Progression : 232/5445 films.
+[2026-03-31T18:30:08.534+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1239655 ont bien été récupérées.
+[2026-03-31T18:30:08.538+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1239655
+[2026-03-31T18:30:08.539+0000] {subprocess.py:106} INFO - Progression : 233/5445 films.
+[2026-03-31T18:30:08.539+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 713364 ont bien été récupérées.
+[2026-03-31T18:30:08.540+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 713364
+[2026-03-31T18:30:08.541+0000] {subprocess.py:106} INFO - Progression : 234/5445 films.
+[2026-03-31T18:30:08.547+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 671 ont bien été récupérées.
+[2026-03-31T18:30:08.549+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 671
+[2026-03-31T18:30:08.551+0000] {subprocess.py:106} INFO - Progression : 235/5445 films.
+[2026-03-31T18:30:08.552+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 205596 ont bien été récupérées.
+[2026-03-31T18:30:08.552+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 205596
+[2026-03-31T18:30:08.553+0000] {subprocess.py:106} INFO - Progression : 236/5445 films.
+[2026-03-31T18:30:08.554+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 420809 ont bien été récupérées.
+[2026-03-31T18:30:08.555+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 420809
+[2026-03-31T18:30:08.556+0000] {subprocess.py:106} INFO - Progression : 237/5445 films.
+[2026-03-31T18:30:08.556+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 574475 ont bien été récupérées.
+[2026-03-31T18:30:08.557+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 574475
+[2026-03-31T18:30:08.558+0000] {subprocess.py:106} INFO - Progression : 238/5445 films.
+[2026-03-31T18:30:08.558+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1016848 ont bien été récupérées.
+[2026-03-31T18:30:08.559+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1016848
+[2026-03-31T18:30:08.559+0000] {subprocess.py:106} INFO - Progression : 239/5445 films.
+[2026-03-31T18:30:08.560+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 25941 ont bien été récupérées.
+[2026-03-31T18:30:08.561+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 25941
+[2026-03-31T18:30:08.561+0000] {subprocess.py:106} INFO - Progression : 240/5445 films.
+[2026-03-31T18:30:08.562+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1100988 ont bien été récupérées.
+[2026-03-31T18:30:08.562+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1100988
+[2026-03-31T18:30:08.563+0000] {subprocess.py:106} INFO - Progression : 241/5445 films.
+[2026-03-31T18:30:08.564+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 9471 ont bien été récupérées.
+[2026-03-31T18:30:08.564+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 9471
+[2026-03-31T18:30:08.565+0000] {subprocess.py:106} INFO - Progression : 242/5445 films.
+[2026-03-31T18:30:08.565+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 829051 ont bien été récupérées.
+[2026-03-31T18:30:08.566+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 829051
+[2026-03-31T18:30:08.567+0000] {subprocess.py:106} INFO - Progression : 243/5445 films.
+[2026-03-31T18:30:08.567+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1072790 ont bien été récupérées.
+[2026-03-31T18:30:08.568+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1072790
+[2026-03-31T18:30:08.568+0000] {subprocess.py:106} INFO - Progression : 244/5445 films.
+[2026-03-31T18:30:08.569+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 573164 ont bien été récupérées.
+[2026-03-31T18:30:08.570+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 573164
+[2026-03-31T18:30:08.570+0000] {subprocess.py:106} INFO - Progression : 245/5445 films.
+[2026-03-31T18:30:08.571+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1996 ont bien été récupérées.
+[2026-03-31T18:30:08.571+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1996
+[2026-03-31T18:30:08.572+0000] {subprocess.py:106} INFO - Progression : 246/5445 films.
+[2026-03-31T18:30:08.572+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 24 ont bien été récupérées.
+[2026-03-31T18:30:08.573+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 24
+[2026-03-31T18:30:08.574+0000] {subprocess.py:106} INFO - Progression : 247/5445 films.
+[2026-03-31T18:30:08.575+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 983044 ont bien été récupérées.
+[2026-03-31T18:30:08.575+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 983044
+[2026-03-31T18:30:08.576+0000] {subprocess.py:106} INFO - Progression : 248/5445 films.
+[2026-03-31T18:30:08.577+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 16 ont bien été récupérées.
+[2026-03-31T18:30:08.577+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 16
+[2026-03-31T18:30:08.578+0000] {subprocess.py:106} INFO - Progression : 249/5445 films.
+[2026-03-31T18:30:08.579+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 38 ont bien été récupérées.
+[2026-03-31T18:30:08.579+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 38
+[2026-03-31T18:30:08.580+0000] {subprocess.py:106} INFO - Progression : 250/5445 films.
+[2026-03-31T18:30:08.580+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 69 ont bien été récupérées.
+[2026-03-31T18:30:08.581+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 69
+[2026-03-31T18:30:08.582+0000] {subprocess.py:106} INFO - Progression : 251/5445 films.
+[2026-03-31T18:30:08.583+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 426063 ont bien été récupérées.
+[2026-03-31T18:30:08.583+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 426063
+[2026-03-31T18:30:08.584+0000] {subprocess.py:106} INFO - Progression : 252/5445 films.
+[2026-03-31T18:30:08.585+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 112 ont bien été récupérées.
+[2026-03-31T18:30:08.586+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 112
+[2026-03-31T18:30:08.586+0000] {subprocess.py:106} INFO - Progression : 253/5445 films.
+[2026-03-31T18:30:08.587+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 950387 ont bien été récupérées.
+[2026-03-31T18:30:08.588+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 950387
+[2026-03-31T18:30:08.588+0000] {subprocess.py:106} INFO - Progression : 254/5445 films.
+[2026-03-31T18:30:08.589+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 121 ont bien été récupérées.
+[2026-03-31T18:30:08.589+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 121
+[2026-03-31T18:30:08.590+0000] {subprocess.py:106} INFO - Progression : 255/5445 films.
+[2026-03-31T18:30:08.591+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 122 ont bien été récupérées.
+[2026-03-31T18:30:08.591+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 122
+[2026-03-31T18:30:08.592+0000] {subprocess.py:106} INFO - Progression : 256/5445 films.
+[2026-03-31T18:30:08.593+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 129 ont bien été récupérées.
+[2026-03-31T18:30:08.593+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 129
+[2026-03-31T18:30:08.594+0000] {subprocess.py:106} INFO - Progression : 257/5445 films.
+[2026-03-31T18:30:08.595+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 142 ont bien été récupérées.
+[2026-03-31T18:30:08.595+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 142
+[2026-03-31T18:30:08.596+0000] {subprocess.py:106} INFO - Progression : 258/5445 films.
+[2026-03-31T18:30:08.596+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 458897 ont bien été récupérées.
+[2026-03-31T18:30:08.597+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 458897
+[2026-03-31T18:30:08.598+0000] {subprocess.py:106} INFO - Progression : 259/5445 films.
+[2026-03-31T18:30:08.599+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 170 ont bien été récupérées.
+[2026-03-31T18:30:08.599+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 170
+[2026-03-31T18:30:39.697+0000] {subprocess.py:106} INFO - Progression : 260/5445 films.
+[2026-03-31T18:30:39.698+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 176 ont bien été récupérées.
+[2026-03-31T18:30:39.699+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 176
+[2026-03-31T18:30:39.699+0000] {subprocess.py:106} INFO - Progression : 261/5445 films.
+[2026-03-31T18:30:39.700+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 194 ont bien été récupérées.
+[2026-03-31T18:30:39.700+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 194
+[2026-03-31T18:30:39.701+0000] {subprocess.py:106} INFO - Progression : 262/5445 films.
+[2026-03-31T18:30:39.702+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 214 ont bien été récupérées.
+[2026-03-31T18:30:39.703+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 214
+[2026-03-31T18:30:39.708+0000] {subprocess.py:106} INFO - Progression : 263/5445 films.
+[2026-03-31T18:30:39.709+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 215 ont bien été récupérées.
+[2026-03-31T18:30:39.710+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 215
+[2026-03-31T18:30:39.711+0000] {subprocess.py:106} INFO - Progression : 264/5445 films.
+[2026-03-31T18:30:39.712+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 245 ont bien été récupérées.
+[2026-03-31T18:30:39.712+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 245
+[2026-03-31T18:30:39.713+0000] {subprocess.py:106} INFO - Progression : 265/5445 films.
+[2026-03-31T18:30:39.713+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 459003 ont bien été récupérées.
+[2026-03-31T18:30:39.714+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 459003
+[2026-03-31T18:30:39.714+0000] {subprocess.py:106} INFO - Progression : 266/5445 films.
+[2026-03-31T18:30:39.714+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 196867 ont bien été récupérées.
+[2026-03-31T18:30:39.715+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 196867
+[2026-03-31T18:30:39.715+0000] {subprocess.py:106} INFO - Progression : 267/5445 films.
+[2026-03-31T18:30:39.716+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 272 ont bien été récupérées.
+[2026-03-31T18:30:39.716+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 272
+[2026-03-31T18:30:39.717+0000] {subprocess.py:106} INFO - Progression : 268/5445 films.
+[2026-03-31T18:30:39.717+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 852247 ont bien été récupérées.
+[2026-03-31T18:30:39.718+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 852247
+[2026-03-31T18:30:39.719+0000] {subprocess.py:106} INFO - Progression : 269/5445 films.
+[2026-03-31T18:30:39.719+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1311031 ont bien été récupérées.
+[2026-03-31T18:30:39.720+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1311031
+[2026-03-31T18:30:39.720+0000] {subprocess.py:106} INFO - Progression : 270/5445 films.
+[2026-03-31T18:30:39.721+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1278263 ont bien été récupérées.
+[2026-03-31T18:30:39.721+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1278263
+[2026-03-31T18:30:39.722+0000] {subprocess.py:106} INFO - Progression : 271/5445 films.
+[2026-03-31T18:30:39.722+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1016121 ont bien été récupérées.
+[2026-03-31T18:30:39.723+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1016121
+[2026-03-31T18:30:39.723+0000] {subprocess.py:106} INFO - Progression : 272/5445 films.
+[2026-03-31T18:30:39.724+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 318 ont bien été récupérées.
+[2026-03-31T18:30:39.724+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 318
+[2026-03-31T18:30:39.725+0000] {subprocess.py:106} INFO - Progression : 273/5445 films.
+[2026-03-31T18:30:39.725+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 320 ont bien été récupérées.
+[2026-03-31T18:30:39.726+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 320
+[2026-03-31T18:30:39.727+0000] {subprocess.py:106} INFO - Progression : 274/5445 films.
+[2026-03-31T18:30:39.727+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 338 ont bien été récupérées.
+[2026-03-31T18:30:39.728+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 338
+[2026-03-31T18:30:39.728+0000] {subprocess.py:106} INFO - Progression : 275/5445 films.
+[2026-03-31T18:30:39.729+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 350 ont bien été récupérées.
+[2026-03-31T18:30:39.729+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 350
+[2026-03-31T18:30:39.730+0000] {subprocess.py:106} INFO - Progression : 276/5445 films.
+[2026-03-31T18:30:39.731+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 360814 ont bien été récupérées.
+[2026-03-31T18:30:39.732+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 360814
+[2026-03-31T18:30:39.732+0000] {subprocess.py:106} INFO - Progression : 277/5445 films.
+[2026-03-31T18:30:39.733+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 392 ont bien été récupérées.
+[2026-03-31T18:30:39.734+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 392
+[2026-03-31T18:30:39.734+0000] {subprocess.py:106} INFO - Progression : 278/5445 films.
+[2026-03-31T18:30:39.735+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 393 ont bien été récupérées.
+[2026-03-31T18:30:39.736+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 393
+[2026-03-31T18:30:39.736+0000] {subprocess.py:106} INFO - Progression : 279/5445 films.
+[2026-03-31T18:30:39.737+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1114513 ont bien été récupérées.
+[2026-03-31T18:30:39.737+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1114513
+[2026-03-31T18:30:39.738+0000] {subprocess.py:106} INFO - Progression : 280/5445 films.
+[2026-03-31T18:30:39.738+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1212855 ont bien été récupérées.
+[2026-03-31T18:30:39.739+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1212855
+[2026-03-31T18:30:39.740+0000] {subprocess.py:106} INFO - Progression : 281/5445 films.
+[2026-03-31T18:30:39.740+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 786892 ont bien été récupérées.
+[2026-03-31T18:30:39.741+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 786892
+[2026-03-31T18:30:39.741+0000] {subprocess.py:106} INFO - Progression : 282/5445 films.
+[2026-03-31T18:30:39.742+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1016346 ont bien été récupérées.
+[2026-03-31T18:30:39.743+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1016346
+[2026-03-31T18:30:39.743+0000] {subprocess.py:106} INFO - Progression : 283/5445 films.
+[2026-03-31T18:30:39.744+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 553 ont bien été récupérées.
+[2026-03-31T18:30:39.744+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 553
+[2026-03-31T18:30:39.745+0000] {subprocess.py:106} INFO - Progression : 284/5445 films.
+[2026-03-31T18:30:39.746+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 557 ont bien été récupérées.
+[2026-03-31T18:30:39.746+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 557
+[2026-03-31T18:30:39.747+0000] {subprocess.py:106} INFO - Progression : 285/5445 films.
+[2026-03-31T18:30:39.748+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 558 ont bien été récupérées.
+[2026-03-31T18:30:39.749+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 558
+[2026-03-31T18:30:39.749+0000] {subprocess.py:106} INFO - Progression : 286/5445 films.
+[2026-03-31T18:30:39.750+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 559 ont bien été récupérées.
+[2026-03-31T18:30:39.751+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 559
+[2026-03-31T18:30:39.752+0000] {subprocess.py:106} INFO - Progression : 287/5445 films.
+[2026-03-31T18:30:39.752+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 561 ont bien été récupérées.
+[2026-03-31T18:30:39.754+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 561
+[2026-03-31T18:30:39.755+0000] {subprocess.py:106} INFO - Progression : 288/5445 films.
+[2026-03-31T18:30:39.758+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 565 ont bien été récupérées.
+[2026-03-31T18:30:39.760+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 565
+[2026-03-31T18:30:39.761+0000] {subprocess.py:106} INFO - Progression : 289/5445 films.
+[2026-03-31T18:30:39.761+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 33333 ont bien été récupérées.
+[2026-03-31T18:30:39.762+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 33333
+[2026-03-31T18:30:39.762+0000] {subprocess.py:106} INFO - Progression : 290/5445 films.
+[2026-03-31T18:30:39.763+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 608 ont bien été récupérées.
+[2026-03-31T18:30:39.764+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 608
+[2026-03-31T18:30:39.764+0000] {subprocess.py:106} INFO - Progression : 291/5445 films.
+[2026-03-31T18:30:39.765+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 634 ont bien été récupérées.
+[2026-03-31T18:30:39.766+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 634
+[2026-03-31T18:30:39.766+0000] {subprocess.py:106} INFO - Progression : 292/5445 films.
+[2026-03-31T18:30:39.767+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 641 ont bien été récupérées.
+[2026-03-31T18:30:39.767+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 641
+[2026-03-31T18:30:39.768+0000] {subprocess.py:106} INFO - Progression : 293/5445 films.
+[2026-03-31T18:30:39.769+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 164558 ont bien été récupérées.
+[2026-03-31T18:30:39.769+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 164558
+[2026-03-31T18:30:39.770+0000] {subprocess.py:106} INFO - Progression : 294/5445 films.
+[2026-03-31T18:30:39.771+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 747 ont bien été récupérées.
+[2026-03-31T18:30:39.772+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 747
+[2026-03-31T18:30:39.772+0000] {subprocess.py:106} INFO - Progression : 295/5445 films.
+[2026-03-31T18:30:39.773+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 808 ont bien été récupérées.
+[2026-03-31T18:30:39.773+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 808
+[2026-03-31T18:30:39.774+0000] {subprocess.py:106} INFO - Progression : 296/5445 films.
+[2026-03-31T18:30:39.775+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 809 ont bien été récupérées.
+[2026-03-31T18:30:39.775+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 809
+[2026-03-31T18:30:39.776+0000] {subprocess.py:106} INFO - Progression : 297/5445 films.
+[2026-03-31T18:30:39.777+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 843 ont bien été récupérées.
+[2026-03-31T18:30:39.777+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 843
+[2026-03-31T18:30:39.778+0000] {subprocess.py:106} INFO - Progression : 298/5445 films.
+[2026-03-31T18:30:39.778+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 855 ont bien été récupérées.
+[2026-03-31T18:30:39.779+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 855
+[2026-03-31T18:30:39.779+0000] {subprocess.py:106} INFO - Progression : 299/5445 films.
+[2026-03-31T18:30:39.780+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 866 ont bien été récupérées.
+[2026-03-31T18:30:39.781+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 866
+[2026-03-31T18:30:39.781+0000] {subprocess.py:106} INFO - Progression : 300/5445 films.
+[2026-03-31T18:30:39.782+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 590706 ont bien été récupérées.
+[2026-03-31T18:30:39.783+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 590706
+[2026-03-31T18:30:39.783+0000] {subprocess.py:106} INFO - Progression : 301/5445 films.
+[2026-03-31T18:30:39.784+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 953 ont bien été récupérées.
+[2026-03-31T18:30:39.785+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 953
+[2026-03-31T18:30:39.785+0000] {subprocess.py:106} INFO - Progression : 302/5445 films.
+[2026-03-31T18:30:39.786+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 955 ont bien été récupérées.
+[2026-03-31T18:30:39.786+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 955
+[2026-03-31T18:30:39.787+0000] {subprocess.py:106} INFO - Progression : 303/5445 films.
+[2026-03-31T18:30:39.788+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 956 ont bien été récupérées.
+[2026-03-31T18:30:39.788+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 956
+[2026-03-31T18:30:39.789+0000] {subprocess.py:106} INFO - Progression : 304/5445 films.
+[2026-03-31T18:30:39.790+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1018 ont bien été récupérées.
+[2026-03-31T18:30:39.790+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1018
+[2026-03-31T18:30:39.791+0000] {subprocess.py:106} INFO - Progression : 305/5445 films.
+[2026-03-31T18:30:39.791+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1165 ont bien été récupérées.
+[2026-03-31T18:30:39.792+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1165
+[2026-03-31T18:30:39.793+0000] {subprocess.py:106} INFO - Progression : 306/5445 films.
+[2026-03-31T18:30:39.793+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 951491 ont bien été récupérées.
+[2026-03-31T18:30:39.794+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 951491
+[2026-03-31T18:30:39.794+0000] {subprocess.py:106} INFO - Progression : 307/5445 films.
+[2026-03-31T18:30:39.795+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 614934 ont bien été récupérées.
+[2026-03-31T18:30:39.796+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 614934
+[2026-03-31T18:30:39.796+0000] {subprocess.py:106} INFO - Progression : 308/5445 films.
+[2026-03-31T18:30:39.797+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 525661 ont bien été récupérées.
+[2026-03-31T18:30:39.798+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 525661
+[2026-03-31T18:30:39.799+0000] {subprocess.py:106} INFO - Progression : 309/5445 films.
+[2026-03-31T18:30:39.800+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 558449 ont bien été récupérées.
+[2026-03-31T18:30:39.800+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 558449
+[2026-03-31T18:30:39.801+0000] {subprocess.py:106} INFO - Progression : 310/5445 films.
+[2026-03-31T18:30:39.801+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1407 ont bien été récupérées.
+[2026-03-31T18:30:39.802+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1407
+[2026-03-31T18:30:39.802+0000] {subprocess.py:106} INFO - Progression : 311/5445 films.
+[2026-03-31T18:30:39.803+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1443 ont bien été récupérées.
+[2026-03-31T18:30:39.804+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1443
+[2026-03-31T18:30:39.804+0000] {subprocess.py:106} INFO - Progression : 312/5445 films.
+[2026-03-31T18:30:39.805+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1487 ont bien été récupérées.
+[2026-03-31T18:30:39.805+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1487
+[2026-03-31T18:30:39.806+0000] {subprocess.py:106} INFO - Progression : 313/5445 films.
+[2026-03-31T18:31:10.779+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1493 ont bien été récupérées.
+[2026-03-31T18:31:10.781+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1493
+[2026-03-31T18:31:10.782+0000] {subprocess.py:106} INFO - Progression : 314/5445 films.
+[2026-03-31T18:31:10.783+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 624091 ont bien été récupérées.
+[2026-03-31T18:31:10.784+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 624091
+[2026-03-31T18:31:10.784+0000] {subprocess.py:106} INFO - Progression : 315/5445 films.
+[2026-03-31T18:31:10.785+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1562 ont bien été récupérées.
+[2026-03-31T18:31:10.785+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1562
+[2026-03-31T18:31:10.786+0000] {subprocess.py:106} INFO - Progression : 316/5445 films.
+[2026-03-31T18:31:10.787+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1593 ont bien été récupérées.
+[2026-03-31T18:31:10.787+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1593
+[2026-03-31T18:31:10.788+0000] {subprocess.py:106} INFO - Progression : 317/5445 films.
+[2026-03-31T18:31:10.788+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 8843 ont bien été récupérées.
+[2026-03-31T18:31:10.789+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 8843
+[2026-03-31T18:31:10.790+0000] {subprocess.py:106} INFO - Progression : 318/5445 films.
+[2026-03-31T18:31:10.790+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1824 ont bien été récupérées.
+[2026-03-31T18:31:10.791+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1824
+[2026-03-31T18:31:10.792+0000] {subprocess.py:106} INFO - Progression : 319/5445 films.
+[2026-03-31T18:31:10.792+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 558915 ont bien été récupérées.
+[2026-03-31T18:31:10.793+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 558915
+[2026-03-31T18:31:10.794+0000] {subprocess.py:106} INFO - Progression : 320/5445 films.
+[2026-03-31T18:31:10.794+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1895 ont bien été récupérées.
+[2026-03-31T18:31:10.795+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1895
+[2026-03-31T18:31:10.796+0000] {subprocess.py:106} INFO - Progression : 321/5445 films.
+[2026-03-31T18:31:10.796+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1985 ont bien été récupérées.
+[2026-03-31T18:31:10.797+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1985
+[2026-03-31T18:31:10.797+0000] {subprocess.py:106} INFO - Progression : 322/5445 films.
+[2026-03-31T18:31:10.798+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1991 ont bien été récupérées.
+[2026-03-31T18:31:10.799+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1991
+[2026-03-31T18:31:10.800+0000] {subprocess.py:106} INFO - Progression : 323/5445 films.
+[2026-03-31T18:31:10.800+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 493529 ont bien été récupérées.
+[2026-03-31T18:31:10.801+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 493529
+[2026-03-31T18:31:10.801+0000] {subprocess.py:106} INFO - Progression : 324/5445 films.
+[2026-03-31T18:31:10.802+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 2013 ont bien été récupérées.
+[2026-03-31T18:31:10.803+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 2013
+[2026-03-31T18:31:10.804+0000] {subprocess.py:106} INFO - Progression : 325/5445 films.
+[2026-03-31T18:31:10.804+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 2024 ont bien été récupérées.
+[2026-03-31T18:31:10.805+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 2024
+[2026-03-31T18:31:10.806+0000] {subprocess.py:106} INFO - Progression : 326/5445 films.
+[2026-03-31T18:31:10.806+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 2026 ont bien été récupérées.
+[2026-03-31T18:31:10.807+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 2026
+[2026-03-31T18:31:10.807+0000] {subprocess.py:106} INFO - Progression : 327/5445 films.
+[2026-03-31T18:31:10.808+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 2069 ont bien été récupérées.
+[2026-03-31T18:31:10.809+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 2069
+[2026-03-31T18:31:10.809+0000] {subprocess.py:106} INFO - Progression : 328/5445 films.
+[2026-03-31T18:31:10.810+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 2082 ont bien été récupérées.
+[2026-03-31T18:31:10.811+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 2082
+[2026-03-31T18:31:10.811+0000] {subprocess.py:106} INFO - Progression : 329/5445 films.
+[2026-03-31T18:31:10.812+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1214509 ont bien été récupérées.
+[2026-03-31T18:31:10.812+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1214509
+[2026-03-31T18:31:10.813+0000] {subprocess.py:106} INFO - Progression : 330/5445 films.
+[2026-03-31T18:31:10.813+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 2207 ont bien été récupérées.
+[2026-03-31T18:31:10.814+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 2207
+[2026-03-31T18:31:10.815+0000] {subprocess.py:106} INFO - Progression : 331/5445 films.
+[2026-03-31T18:31:10.815+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 2268 ont bien été récupérées.
+[2026-03-31T18:31:10.816+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 2268
+[2026-03-31T18:31:10.817+0000] {subprocess.py:106} INFO - Progression : 332/5445 films.
+[2026-03-31T18:31:10.818+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1182047 ont bien été récupérées.
+[2026-03-31T18:31:10.818+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1182047
+[2026-03-31T18:31:10.819+0000] {subprocess.py:106} INFO - Progression : 333/5445 films.
+[2026-03-31T18:31:10.820+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 493922 ont bien été récupérées.
+[2026-03-31T18:31:10.821+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 493922
+[2026-03-31T18:31:10.821+0000] {subprocess.py:106} INFO - Progression : 334/5445 films.
+[2026-03-31T18:31:10.822+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 526896 ont bien été récupérées.
+[2026-03-31T18:31:10.823+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 526896
+[2026-03-31T18:31:10.824+0000] {subprocess.py:106} INFO - Progression : 335/5445 films.
+[2026-03-31T18:31:10.824+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1280672 ont bien été récupérées.
+[2026-03-31T18:31:10.825+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1280672
+[2026-03-31T18:31:10.825+0000] {subprocess.py:106} INFO - Progression : 336/5445 films.
+[2026-03-31T18:31:10.826+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 2752 ont bien été récupérées.
+[2026-03-31T18:31:10.827+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 2752
+[2026-03-31T18:31:10.827+0000] {subprocess.py:106} INFO - Progression : 337/5445 films.
+[2026-03-31T18:31:10.828+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 395992 ont bien été récupérées.
+[2026-03-31T18:31:10.828+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 395992
+[2026-03-31T18:31:10.829+0000] {subprocess.py:106} INFO - Progression : 338/5445 films.
+[2026-03-31T18:31:10.829+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1084199 ont bien été récupérées.
+[2026-03-31T18:31:10.830+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1084199
+[2026-03-31T18:31:10.831+0000] {subprocess.py:106} INFO - Progression : 339/5445 films.
+[2026-03-31T18:31:10.831+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 985939 ont bien été récupérées.
+[2026-03-31T18:31:10.832+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 985939
+[2026-03-31T18:31:10.832+0000] {subprocess.py:106} INFO - Progression : 340/5445 films.
+[2026-03-31T18:31:10.833+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 822119 ont bien été récupérées.
+[2026-03-31T18:31:10.834+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 822119
+[2026-03-31T18:31:10.834+0000] {subprocess.py:106} INFO - Progression : 341/5445 films.
+[2026-03-31T18:31:10.835+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 560016 ont bien été récupérées.
+[2026-03-31T18:31:10.836+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 560016
+[2026-03-31T18:31:10.836+0000] {subprocess.py:106} INFO - Progression : 342/5445 films.
+[2026-03-31T18:31:10.837+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 625568 ont bien été récupérées.
+[2026-03-31T18:31:10.837+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 625568
+[2026-03-31T18:31:10.838+0000] {subprocess.py:106} INFO - Progression : 343/5445 films.
+[2026-03-31T18:31:10.839+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 592831 ont bien été récupérées.
+[2026-03-31T18:31:10.839+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 592831
+[2026-03-31T18:31:10.840+0000] {subprocess.py:106} INFO - Progression : 344/5445 films.
+[2026-03-31T18:31:10.841+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 592834 ont bien été récupérées.
+[2026-03-31T18:31:10.841+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 592834
+[2026-03-31T18:31:10.842+0000] {subprocess.py:106} INFO - Progression : 345/5445 films.
+[2026-03-31T18:31:10.843+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 986056 ont bien été récupérées.
+[2026-03-31T18:31:10.843+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 986056
+[2026-03-31T18:31:10.844+0000] {subprocess.py:106} INFO - Progression : 346/5445 films.
+[2026-03-31T18:31:10.844+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 265195 ont bien été récupérées.
+[2026-03-31T18:31:10.845+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 265195
+[2026-03-31T18:31:10.845+0000] {subprocess.py:106} INFO - Progression : 347/5445 films.
+[2026-03-31T18:31:10.846+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 560144 ont bien été récupérées.
+[2026-03-31T18:31:10.847+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 560144
+[2026-03-31T18:31:10.847+0000] {subprocess.py:106} INFO - Progression : 348/5445 films.
+[2026-03-31T18:31:10.848+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 3176 ont bien été récupérées.
+[2026-03-31T18:31:10.848+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 3176
+[2026-03-31T18:31:10.849+0000] {subprocess.py:106} INFO - Progression : 349/5445 films.
+[2026-03-31T18:31:10.850+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 68724 ont bien été récupérées.
+[2026-03-31T18:31:10.850+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 68724
+[2026-03-31T18:31:10.851+0000] {subprocess.py:106} INFO - Progression : 350/5445 films.
+[2026-03-31T18:31:10.852+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 429203 ont bien été récupérées.
+[2026-03-31T18:31:10.852+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 429203
+[2026-03-31T18:31:10.853+0000] {subprocess.py:106} INFO - Progression : 351/5445 films.
+[2026-03-31T18:31:10.853+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1051891 ont bien été récupérées.
+[2026-03-31T18:31:10.854+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1051891
+[2026-03-31T18:31:10.855+0000] {subprocess.py:106} INFO - Progression : 352/5445 films.
+[2026-03-31T18:31:10.855+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1084736 ont bien été récupérées.
+[2026-03-31T18:31:10.856+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1084736
+[2026-03-31T18:31:10.856+0000] {subprocess.py:106} INFO - Progression : 353/5445 films.
+[2026-03-31T18:31:10.857+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 724495 ont bien été récupérées.
+[2026-03-31T18:31:10.857+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 724495
+[2026-03-31T18:31:10.858+0000] {subprocess.py:106} INFO - Progression : 354/5445 films.
+[2026-03-31T18:31:10.859+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 36557 ont bien été récupérées.
+[2026-03-31T18:31:10.859+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 36557
+[2026-03-31T18:31:10.860+0000] {subprocess.py:106} INFO - Progression : 355/5445 films.
+[2026-03-31T18:31:10.861+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 593643 ont bien été récupérées.
+[2026-03-31T18:31:10.861+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 593643
+[2026-03-31T18:31:10.862+0000] {subprocess.py:106} INFO - Progression : 356/5445 films.
+[2026-03-31T18:31:10.863+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 36669 ont bien été récupérées.
+[2026-03-31T18:31:10.863+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 36669
+[2026-03-31T18:31:10.864+0000] {subprocess.py:106} INFO - Progression : 357/5445 films.
+[2026-03-31T18:31:10.864+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 102207 ont bien été récupérées.
+[2026-03-31T18:31:10.865+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 102207
+[2026-03-31T18:31:10.866+0000] {subprocess.py:106} INFO - Progression : 358/5445 films.
+[2026-03-31T18:31:10.866+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 3981 ont bien été récupérées.
+[2026-03-31T18:31:10.867+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 3981
+[2026-03-31T18:31:10.868+0000] {subprocess.py:106} INFO - Progression : 359/5445 films.
+[2026-03-31T18:31:10.868+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 823219 ont bien été récupérées.
+[2026-03-31T18:31:10.869+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 823219
+[2026-03-31T18:31:10.870+0000] {subprocess.py:106} INFO - Progression : 360/5445 films.
+[2026-03-31T18:31:10.870+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1249213 ont bien été récupérées.
+[2026-03-31T18:31:10.871+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1249213
+[2026-03-31T18:31:10.871+0000] {subprocess.py:106} INFO - Progression : 361/5445 films.
+[2026-03-31T18:31:10.872+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 1019939 ont bien été récupérées.
+[2026-03-31T18:31:10.873+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 1019939
+[2026-03-31T18:31:10.873+0000] {subprocess.py:106} INFO - Progression : 362/5445 films.
+[2026-03-31T18:31:10.874+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 4148 ont bien été récupérées.
+[2026-03-31T18:31:10.875+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 4148
+[2026-03-31T18:31:10.875+0000] {subprocess.py:106} INFO - Progression : 363/5445 films.
+[2026-03-31T18:31:10.876+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 921785 ont bien été récupérées.
+[2026-03-31T18:31:10.876+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 921785
+[2026-03-31T18:31:10.877+0000] {subprocess.py:106} INFO - Progression : 364/5445 films.
+[2026-03-31T18:31:10.878+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 856289 ont bien été récupérées.
+[2026-03-31T18:31:10.879+0000] {subprocess.py:106} INFO - Mise à jour terminée pour le film ID : 856289
+[2026-03-31T18:31:10.879+0000] {subprocess.py:106} INFO - Progression : 365/5445 films.
+[2026-03-31T18:31:10.880+0000] {subprocess.py:106} INFO - ✅ Les données à mettre à jour du film 4348 ont bien été récupérées.
+[2026-03-31T18:31:39.247+0000] {local_task_job_runner.py:346} WARNING - State of this instance has been externally set to restarting. Terminating instance.
+[2026-03-31T18:31:39.248+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-03-31T18:31:39.250+0000] {process_utils.py:132} INFO - Sending 15 to group 277. PIDs of all processes in the group: [279, 277]
+[2026-03-31T18:31:39.251+0000] {process_utils.py:87} INFO - Sending the signal 15 to group 277
+[2026-03-31T18:31:39.251+0000] {taskinstance.py:3094} ERROR - Received SIGTERM. Terminating subprocesses.
+[2026-03-31T18:31:39.261+0000] {taskinstance.py:3095} ERROR - Stacktrace: 
+  File "/home/***/.local/bin/***", line 8, in <module>
+    sys.exit(main())
+  File "/home/***/.local/lib/python3.11/site-packages/***/__main__.py", line 62, in main
+    args.func(args)
+  File "/home/***/.local/lib/python3.11/site-packages/***/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+  File "/home/***/.local/lib/python3.11/site-packages/***/utils/cli.py", line 116, in wrapper
+    return f(*args, **kwargs)
+  File "/home/***/.local/lib/python3.11/site-packages/***/utils/providers_configuration_loader.py", line 55, in wrapped_function
+    return func(*args, **kwargs)
+  File "/home/***/.local/lib/python3.11/site-packages/***/cli/commands/scheduler_command.py", line 56, in scheduler
+    run_command_with_daemon_option(
+  File "/home/***/.local/lib/python3.11/site-packages/***/cli/commands/daemon_utils.py", line 86, in run_command_with_daemon_option
+    callback()
+  File "/home/***/.local/lib/python3.11/site-packages/***/cli/commands/scheduler_command.py", line 59, in <lambda>
+    callback=lambda: _run_scheduler_job(args),
+  File "/home/***/.local/lib/python3.11/site-packages/***/cli/commands/scheduler_command.py", line 47, in _run_scheduler_job
+    run_job(job=job_runner.job, execute_callable=job_runner._execute)
+  File "/home/***/.local/lib/python3.11/site-packages/***/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+  File "/home/***/.local/lib/python3.11/site-packages/***/jobs/job.py", line 421, in run_job
+    return execute_job(job, execute_callable=execute_callable)
+  File "/home/***/.local/lib/python3.11/site-packages/***/jobs/job.py", line 450, in execute_job
+    ret = execute_callable()
+  File "/home/***/.local/lib/python3.11/site-packages/***/jobs/scheduler_job_runner.py", line 990, in _execute
+    executor.start()
+  File "/home/***/.local/lib/python3.11/site-packages/***/executors/local_executor.py", line 392, in start
+    self.impl.start()
+  File "/home/***/.local/lib/python3.11/site-packages/***/executors/local_executor.py", line 330, in start
+    worker.start()
+  File "/usr/local/lib/python3.11/multiprocessing/process.py", line 121, in start
+    self._popen = self._Popen(self)
+  File "/usr/local/lib/python3.11/multiprocessing/context.py", line 224, in _Popen
+    return _default_context.get_context().Process._Popen(process_obj)
+  File "/usr/local/lib/python3.11/multiprocessing/context.py", line 281, in _Popen
+    return Popen(process_obj)
+  File "/usr/local/lib/python3.11/multiprocessing/popen_fork.py", line 19, in __init__
+    self._launch(process_obj)
+  File "/usr/local/lib/python3.11/multiprocessing/popen_fork.py", line 71, in _launch
+    code = process_obj._bootstrap(parent_sentinel=child_r)
+  File "/usr/local/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/home/***/.local/lib/python3.11/site-packages/***/executors/local_executor.py", line 80, in run
+    return super().run()
+  File "/usr/local/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/***/.local/lib/python3.11/site-packages/***/traces/tracer.py", line 58, in wrapper
+    return func(*args, **kwargs)
+  File "/home/***/.local/lib/python3.11/site-packages/***/executors/local_executor.py", line 211, in do_work
+    self.execute_work(key=key, command=command)
+  File "/home/***/.local/lib/python3.11/site-packages/***/traces/tracer.py", line 58, in wrapper
+    return func(*args, **kwargs)
+  File "/home/***/.local/lib/python3.11/site-packages/***/executors/local_executor.py", line 100, in execute_work
+    state = self._execute_work_in_fork(command)
+  File "/home/***/.local/lib/python3.11/site-packages/***/traces/tracer.py", line 58, in wrapper
+    return func(*args, **kwargs)
+  File "/home/***/.local/lib/python3.11/site-packages/***/executors/local_executor.py", line 142, in _execute_work_in_fork
+    args.func(args)
+  File "/home/***/.local/lib/python3.11/site-packages/***/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+  File "/home/***/.local/lib/python3.11/site-packages/***/utils/cli.py", line 116, in wrapper
+    return f(*args, **kwargs)
+  File "/home/***/.local/lib/python3.11/site-packages/***/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+  File "/home/***/.local/lib/python3.11/site-packages/***/cli/commands/task_command.py", line 254, in _run_task_by_selected_method
+    return _run_task_by_local_task_job(args, ti)
+  File "/home/***/.local/lib/python3.11/site-packages/***/cli/commands/task_command.py", line 322, in _run_task_by_local_task_job
+    ret = run_job(job=job_runner.job, execute_callable=job_runner._execute)
+  File "/home/***/.local/lib/python3.11/site-packages/***/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+  File "/home/***/.local/lib/python3.11/site-packages/***/jobs/job.py", line 421, in run_job
+    return execute_job(job, execute_callable=execute_callable)
+  File "/home/***/.local/lib/python3.11/site-packages/***/jobs/job.py", line 450, in execute_job
+    ret = execute_callable()
+  File "/home/***/.local/lib/python3.11/site-packages/***/jobs/local_task_job_runner.py", line 171, in _execute
+    self.task_runner.start()
+  File "/home/***/.local/lib/python3.11/site-packages/***/task/task_runner/standard_task_runner.py", line 55, in start
+    self.process = self._start_by_fork()
+  File "/home/***/.local/lib/python3.11/site-packages/***/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+  File "/home/***/.local/lib/python3.11/site-packages/***/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+  File "/home/***/.local/lib/python3.11/site-packages/***/utils/cli.py", line 116, in wrapper
+    return f(*args, **kwargs)
+  File "/home/***/.local/lib/python3.11/site-packages/***/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+  File "/home/***/.local/lib/python3.11/site-packages/***/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+  File "/home/***/.local/lib/python3.11/site-packages/***/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+  File "/home/***/.local/lib/python3.11/site-packages/***/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+  File "/home/***/.local/lib/python3.11/site-packages/***/models/taskinstance.py", line 3006, in _run_raw_task
+    return _run_raw_task(
+  File "/home/***/.local/lib/python3.11/site-packages/***/models/taskinstance.py", line 274, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/***/.local/lib/python3.11/site-packages/***/models/taskinstance.py", line 3161, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+  File "/home/***/.local/lib/python3.11/site-packages/***/models/taskinstance.py", line 3185, in _execute_task
+    return _execute_task(self, context, task_orig)
+  File "/home/***/.local/lib/python3.11/site-packages/***/models/taskinstance.py", line 768, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/***/.local/lib/python3.11/site-packages/***/models/taskinstance.py", line 734, in _execute_callable
+    return ExecutionCallableRunner(
+  File "/home/***/.local/lib/python3.11/site-packages/***/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+  File "/home/***/.local/lib/python3.11/site-packages/***/models/baseoperator.py", line 424, in wrapper
+    return func(self, *args, **kwargs)
+  File "/home/***/.local/lib/python3.11/site-packages/***/operators/bash.py", line 257, in execute
+    result = self._run_inline_command(bash_path=bash_path, env=env)
+  File "/home/***/.local/lib/python3.11/site-packages/***/operators/bash.py", line 284, in _run_inline_command
+    return self.subprocess_hook.run_command(
+  File "/home/***/.local/lib/python3.11/site-packages/***/hooks/subprocess.py", line 104, in run_command
+    for raw_line in iter(self.sub_process.stdout.readline, b""):
+  File "/home/***/.local/lib/python3.11/site-packages/***/models/taskinstance.py", line 3095, in signal_handler
+    self.log.error("Stacktrace: \n%s", "".join(traceback.format_stack()))
+
+[2026-03-31T18:31:39.262+0000] {subprocess.py:117} INFO - Sending SIGTERM signal to process group
+[2026-03-31T18:31:39.278+0000] {taskinstance.py:3313} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 768, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 734, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/baseoperator.py", line 424, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/bash.py", line 257, in execute
+    result = self._run_inline_command(bash_path=bash_path, env=env)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/bash.py", line 284, in _run_inline_command
+    return self.subprocess_hook.run_command(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/hooks/subprocess.py", line 104, in run_command
+    for raw_line in iter(self.sub_process.stdout.readline, b""):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 3097, in signal_handler
+    raise AirflowTaskTerminated("Task received SIGTERM signal")
+airflow.exceptions.AirflowTaskTerminated: Task received SIGTERM signal
+[2026-03-31T18:31:39.284+0000] {taskinstance.py:1226} INFO - Marking task as UP_FOR_RETRY. dag_id=db_and_model_update, task_id=run_db_update, run_id=scheduled__2026-03-23T14:00:00+00:00, execution_date=20260323T140000, start_date=20260331T182728, end_date=20260331T183139
+[2026-03-31T18:31:39.325+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2026-03-31T18:31:39.345+0000] {process_utils.py:80} INFO - Process psutil.Process(pid=277, status='terminated', exitcode=2, started='18:27:27') (277) terminated with exit code 2
+[2026-03-31T18:31:39.347+0000] {process_utils.py:80} INFO - Process psutil.Process(pid=279, status='terminated', started='18:27:28') (279) terminated with exit code None

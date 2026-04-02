@@ -90,9 +90,17 @@ async def predict_movie_success(request: MoviePredictionRequest, user: dict = De
         raise HTTPException(status_code=404, detail="Film non trouvé dans la base de données")
     
     model = client.load_model(request.model, request.target)
+    if model is None:
+        raise HTTPException(status_code=500, detail=f"Impossible de charger le modèle '{request.model}' pour la cible '{request.target}'")
+
     metadata = client.load_metadata(request.model, request.target)
+    if metadata is None:
+        raise HTTPException(status_code=500, detail=f"Impossible de charger les métadonnées du modèle '{request.model}' pour la cible '{request.target}'")
     
-    prediction = ml_utils.predict_movie_target(movie_info, model, metadata)
+    try:
+        prediction = ml_utils.predict_movie_target(movie_info, model, metadata)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
     
     response = MoviePredictionResponse(
         movie_title=movie_info.get('title', 'N/A'),

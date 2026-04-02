@@ -5,6 +5,7 @@ import os
 import pandas as pd
 from sqlalchemy import create_engine, text
 from joblib import load
+from datetime import date
 
 # Import de la configuration centralisée
 from . import config
@@ -83,7 +84,8 @@ def get_model_performance(model: str, target: str) -> dict:
     
 def get_in_production_movies(engine) -> pd.DataFrame:
     """Récupérer les films actuellement en production depuis la base de données"""
-    query = ("""
+    today = date.today().isoformat()
+    query = (f"""
         SELECT
             title,
             popularity, 
@@ -91,7 +93,7 @@ def get_in_production_movies(engine) -> pd.DataFrame:
             status,
             release_date 
         FROM movies 
-        WHERE status like '%Production'
+        WHERE status like '%Production' AND release_date >= '{today}'
         ORDER BY popularity DESC
         LIMIT 10;
     """
